@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="color_text_selected">#FF1D1D</color>
+    <color name="daohang_clolor">#FFF</color>
+    <color name="my_login_color">#FF1D1D</color>
+    <color name="my_login_back_color">#FF1D1D</color>
+    <color name="color_text_normal">#777777</color>
+    <color name="color_text_ps">#FF1D1D</color>
+    <color name="red">#FF1D1D</color>
+    <color name="index_color">#B4AEAE</color>
+    <color name="home_recycler_back">#DCDCDC</color>
+    <color name="black">#000</color>
+    <color name="white">#fff</color>
+
+    <color name="login_edittext_color">#F8F8F8</color>
+    <color name="login_edittext_hintcolor">#F8F8F8</color>
+    <color name="index_my_color">#F3F1F1</color>
+    <color name="textcolor">#141414</color>
+    <color name="text_ps_back">#33FB5151</color>
+    <color name="webview_title">#26E6E8E7</color>
+    <color name="toumin">#00E6E8E7</color>
+    <color name="error_request">#222</color>
+    <color name="toolbar_head">#111111</color>
+    <color name="mine_menu_color">#222222</color>
+
+    <color name="frag_body_small_textcolor">#888888</color>
+
+  <!--  //#26E6E8E7-->
+    <color name="ban_toumin">#80000000</color>
+
+
+   <!-- //这个是推荐页面开始的颜色，以后还是根据界面分开吧-->
+    <color name="recommand_title_color">#111111</color>
+    <color name="recommand_text_color">#FF1D1D</color>
+    <color name="recommand_txlittel_color">#888888</color>
+    <color name="recommand_item">#000000</color>
+
+    <color name="recommand_selected_item_border">#FF1D1D</color>
+    <color name="recommand_selected_item_content">#33FB5151</color>
+    <color name="recommand_unselected_item_content">#F8F8F8</color>
+    <color name="recommand_button_next">#FF1D1D</color>
+    <color name="recommand_mine_warn">#FF1D1D</color>
+    <color name="recommand_mine_title">#222222</color>
+    <color name="recommand_mine_inteindex">#E6E6E6</color>
+    <color name="recommand_mine_service_info">#FF1D1D</color>
+    <color name="recommand_mine_isagree">#777777</color>
+    <color name="recommand_goods_background">#F7F7F7</color>
+    <color name="recommand_good_big_tx">#FF1D1D</color>
+    <color name="recommand_good_big_samlltx">#888888</color>
+    <color name="recommand_good_big_back_color">#F9F9F9</color>
+</resources>

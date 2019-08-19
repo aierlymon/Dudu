@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type">
+        <item>全部</item>
+        <item>新口子</item>
+        <item>闪电下款</item>
+        <item>高通过率</item>
+        <item>品牌大额</item>
+    </string-array>
+
+    <string-array name="loan_num">
+        <item>全部</item>
+        <item>5千以下</item>
+        <item>5千-1万</item>
+        <item>1万-2万</item>
+        <item>2万-3万</item>
+        <item>3万以上</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,99 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+    defaultConfig {
+        applicationId "com.linglong.huodai"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+        /*极光推送用到的so库*/
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
+            // 还可以添加 , 'mips', 'mips64'
+        }
+
+        /*极光推送的配置*/
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+               // JPUSH_APPKEY : "7b180b7f268faaf697bfcb8a", //JPush 上注册的包名对应的 Appkey.
+              //  JPUSH_APPKEY : "4f101278138ec612ecd2825d", //JPush 上注册的包名对应的 Appkey(我自己的云燕).
+                JPUSH_APPKEY : "cc448864b93ec440f79c761d", //JPush 上注册的包名对应的 Appkey(我自己的玲珑).
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
+
+    }
+
+    signingConfigs {
+        config {
+            storeFile file(KEY_PATH)
+            storePassword KEY_PASS
+            keyAlias ALIAS_NAME
+            keyPassword ALIAS_PASS
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            zipAlignEnabled true  //压缩优化
+            shrinkResources true  //移出无用资源
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+
+    aaptOptions {
+        additionalParameters "--no-version-vectors"
+        }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    /*apk名称修改*/
+    android.applicationVariants.all { variant ->
+        def appName
+        if (project.hasProperty("applicationName")){
+            appName = applicationName
+        }else{
+            appName = parent.name
+        }
+        variant.outputs.all { output ->
+            outputFileName = rootProject.ext.android.name+rootProject.ext.android.versionName+".apk"
+        }
+    }
+
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+        preDexLibraries = false
+        additionalParameters += '--multi-dex'
+        additionalParameters += '--set-max-idx-number=35000'//每个包内方法数上限（根据实际项目配置这个数，来适配4.0-4.4一些低端机型，因为拆分的dex太大，这些低端机型加载不了dex）
+        additionalParameters += '--minimal-main-dex'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //引用module的butterknife的时候要加这个，不然引用失败
+    annotationProcessor rootProject.ext.annotationProcessorList["butterknife-compiler"]
+    implementation project(':baselib')
+    implementation project(path: ':model')
+
+}

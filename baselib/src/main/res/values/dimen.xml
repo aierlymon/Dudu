@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="dp_7">8dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="my_text_marigin">20dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
+    <dimen name="dp_27">27dp</dimen>
+    <dimen name="dp_85">85dp</dimen>
+    <dimen name="dp_89">89dp</dimen>
+
+
+
+    <dimen name="frg_body_samll_text_y10">@dimen/y9</dimen>
+    <dimen name="sp_12">12sp</dimen>
+    <dimen name="sp_14">14sp</dimen>
+    <dimen name="sp_16">16sp</dimen>
+    <dimen name="sp_my_textsize">18sp</dimen>
+    <dimen name="sp_my_func_textsize">15sp</dimen>
+    <dimen name="sp_20">20sp</dimen>
+    <dimen name="toolbar_height">@dimen/y38</dimen>
+</resources>

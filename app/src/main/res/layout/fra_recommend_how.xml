@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--外部用来填充的颜色-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/daohang_clolor" />
+
+    <com.linglong.baselib.widget.StatusBarHeightView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        app:use_type="use_padding_top">
+        <!--这个就是头部的toolbar-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/myhead"
+                layout="@layout/toolbarhead"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/x20"
+                android:layout_marginRight="@dimen/x17"
+                android:orientation="vertical">
+
+                <!--大数据推荐-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y82">
+
+                    <TextView
+                        android:id="@+id/recommand_bigdata"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y18"
+                        android:text="@string/recommand_bigdata"
+                        android:textColor="@color/recommand_text_color"
+                        android:textSize="@dimen/x14"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/recommand_bigdata"
+                        android:layout_marginTop="@dimen/y5"
+                        android:text="@string/recommand_youneed"
+                        android:textColor="@color/recommand_txlittel_color"
+                        android:textSize="@dimen/x12" />
+
+                </RelativeLayout>
+
+                <!--你想借多少-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y113"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tx_howmuch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recommand_borrow"
+                        android:textColor="@color/recommand_item"
+                        android:textSize="@dimen/x14"
+                        android:textStyle="bold" />
+
+                    <!--你想借多少里面的选项卡-->
+                    <com.linglong.huodai.widget.FlowRadioGroup
+                        android:id="@+id/group_howmuch"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y75"
+                        android:layout_marginTop="@dimen/y11"
+                        android:checkedButton="@id/moneyFirst"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/moneyFirst"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginTop="1dp"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/money_limit_1"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+
+                        <RadioButton
+                            android:id="@+id/moneySecond"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginLeft="@dimen/x13"
+                            android:layout_marginTop="1dp"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/money_limit_2"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+
+                        <RadioButton
+                            android:id="@+id/moneyThird"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginLeft="@dimen/x13"
+                            android:layout_marginTop="1dp"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/money_limit_3"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+
+                        <RadioButton
+                            android:id="@+id/moneyFour"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginTop="@dimen/y11"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/money_limit_4"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+
+                        <RadioButton
+                            android:id="@+id/moneyFive"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginTop="@dimen/y11"
+                            android:layout_marginLeft="@dimen/x13"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/money_limit_5"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+                    </com.linglong.huodai.widget.FlowRadioGroup>
+
+                </LinearLayout>
+
+                <!--您想借多久-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y113"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tx_howlong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recommand_long"
+                        android:textColor="@color/recommand_item"
+                        android:textSize="@dimen/x14"
+                        android:textStyle="bold" />
+
+                    <com.linglong.huodai.widget.FlowRadioGroup
+                        android:id="@+id/group_howlong"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y75"
+                        android:layout_marginTop="@dimen/y11"
+                        android:checkedButton="@id/oneMonth"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/oneMonth"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginTop="1dp"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/date_limit_1"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+
+                        <RadioButton
+                            android:id="@+id/threeMonth"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginLeft="@dimen/x13"
+                            android:layout_marginTop="1dp"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/date_limit_2"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+
+                        <RadioButton
+                            android:id="@+id/sixMonth"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginLeft="@dimen/x13"
+                            android:layout_marginTop="1dp"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/date_limit_3"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+
+                        <RadioButton
+                            android:id="@+id/twiceMonth"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginTop="@dimen/y11"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/date_limit_4"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+
+                        <RadioButton
+                            android:id="@+id/eightMonth"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginLeft="@dimen/x13"
+                            android:layout_marginTop="@dimen/y11"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/date_limit_5"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+
+                        <RadioButton
+                            android:id="@+id/yearMonth"
+                            android:layout_width="@dimen/x85"
+                            android:layout_height="@dimen/y28"
+                            android:layout_marginLeft="@dimen/x13"
+                            android:layout_marginTop="@dimen/y11"
+                            android:background="@drawable/recommand_menu_state"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/date_limit_6"
+                            android:textSize="@dimen/x12"
+                            android:textAlignment="center" />
+                    </com.linglong.huodai.widget.FlowRadioGroup>
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/btn_next"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y30"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="@dimen/x5"
+                        android:layout_marginBottom="@dimen/y15"
+                        android:background="@drawable/recommand_button_next"
+                        android:text="下一步"
+                        android:textSize="@dimen/x14"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </com.linglong.baselib.widget.StatusBarHeightView>
+
+
+</RelativeLayout>

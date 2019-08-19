@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/x13"
+    android:layout_marginRight="@dimen/x13"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!--头部-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y252"
+        android:orientation="vertical">
+
+        <!--商品的信息那一栏-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y79"
+            android:layout_marginTop="@dimen/y12"
+            android:background="@color/recommand_good_big_back_color"
+            android:orientation="horizontal">
+
+            <!--左边的名称信息-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x8"
+                    android:layout_marginTop="@dimen/x8"
+                    android:text="3000-5000"
+                    android:textColor="@color/recommand_good_big_tx"
+                    android:textSize="@dimen/x19"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x7">
+
+
+                    <TextView
+                        android:id="@+id/tx_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x8"
+                        android:text="日息：0.01- 0.04%"
+                        android:textColor="@color/recommand_good_big_samlltx"
+                        android:textSize="@dimen/x12" />
+
+                    <TextView
+                        android:id="@+id/tx_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x8"
+                        android:layout_toRightOf="@+id/tx_rate"
+                        android:text="期限：10-12个月"
+                        android:textColor="@color/recommand_good_big_samlltx"
+                        android:textSize="@dimen/x12" />
+
+                </RelativeLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x8"
+                    android:layout_marginTop="@dimen/x7"
+                    android:text="小牛利息就是低"
+                    android:textColor="@color/recommand_good_big_tx"
+                    android:textSize="@dimen/x12" />
+            </LinearLayout>
+
+            <!--右边的图标信息-->
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.linglong.huodai.widget.CircleImageView
+                    android:id="@+id/circle_icon"
+                    android:layout_width="@dimen/x28"
+                    android:layout_height="@dimen/x28"
+                    android:layout_above="@+id/center_view"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/ic_launcher" />
+
+                <View
+                    android:id="@+id/center_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerInParent="true" />
+
+                <TextView
+                    android:id="@+id/circle_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/center_view"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/y5"
+                    android:text="小牛贷款"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/x14"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--申请条件-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y50">
+
+            <TextView
+                android:id="@+id/tx_condition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x8"
+                android:layout_marginTop="@dimen/x8"
+                android:text="@string/recommand_goods_condition_title"
+                android:textColor="@color/recommand_mine_warn"
+                android:textSize="@dimen/x14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tx_condition"
+                android:layout_marginLeft="@dimen/x8"
+                android:layout_marginTop="@dimen/x4"
+                android:text="@string/recommand_goods_condition_content"
+                android:textColor="@color/recommand_good_big_samlltx"
+                android:textSize="@dimen/x12" />
+
+        </RelativeLayout>
+
+        <!--申请流程-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y50">
+
+            <TextView
+                android:id="@+id/tx_step"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x8"
+                android:layout_marginTop="@dimen/x8"
+                android:text="@string/recommand_goods_step_title"
+                android:textColor="@color/recommand_mine_warn"
+                android:textSize="@dimen/x14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tx_step"
+                android:layout_marginLeft="@dimen/x8"
+                android:layout_marginTop="@dimen/x4"
+                android:text="@string/recommand_goods_step_content"
+                android:textColor="@color/recommand_good_big_samlltx"
+                android:textSize="@dimen/x12" />
+
+        </RelativeLayout>
+
+        <!--其他说明-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y50">
+
+            <TextView
+                android:id="@+id/tx_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x8"
+                android:layout_marginTop="@dimen/x8"
+                android:text="@string/recommand_goods_other_title"
+                android:textColor="@color/recommand_mine_warn"
+                android:textSize="@dimen/x14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tx_other"
+                android:layout_marginLeft="@dimen/x8"
+                android:layout_marginTop="@dimen/x4"
+                android:text="@string/recommand_goods_other_content"
+                android:textColor="@color/recommand_good_big_samlltx"
+                android:textSize="@dimen/x12" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!--分割线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y6"
+        android:background="@color/recommand_goods_background"/>
+
+    <!--第二部分-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y186"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/x8"
+            android:layout_marginRight="@dimen/x8"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/recommand_goods_realy_name"
+                android:textSize="@dimen/x17"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/check_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:button="@drawable/recommand_check_state" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_lin"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:layout_marginLeft="@dimen/x8"
+            android:layout_marginRight="@dimen/x8"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y31"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/recommand_goods_edittext"
+                    android:hint="@string/recommand_name"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:textSize="@dimen/x14" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y31"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/recommand_goods_edittext"
+                    android:hint="@string/recommand_phone_number"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:textSize="@dimen/x14" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y31"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/recommand_goods_edittext"
+                    android:hint="@string/recommand_who_number"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:textSize="@dimen/x14" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:id="@+id/isAgree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:button="@drawable/recommand_service_state"
+                    android:paddingLeft="2dp"
+                    android:text="@string/recommand_i_agree" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@+id/isAgree"
+                    android:text="@string/recommand_regist_servicr"
+                    android:textColor="@color/recommand_mine_service_info" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <!--提交申请-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y30"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/x5"
+            android:layout_marginBottom="@dimen/y39"
+            android:background="@drawable/recommand_button_next"
+            android:text="提交申请"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</LinearLayout>

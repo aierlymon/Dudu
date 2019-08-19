@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+
+
+
+
+        <com.linglong.baselib.widget.StatusBarHeightView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:use_type="use_padding_top">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                        <WebView
+                            android:id="@+id/webview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/progress_horizontal"
+                            android:layerType="software" />
+
+
+                        <include
+                            android:id="@+id/myweb_head"
+                            layout="@layout/toolbarhead"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/toolbar_height" />
+
+
+                        <ProgressBar
+                            android:id="@+id/progress_horizontal"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:layout_below="@+id/myweb_head"
+                            android:progressDrawable="@drawable/progressbar" />
+
+
+                </RelativeLayout>
+
+
+        </com.linglong.baselib.widget.StatusBarHeightView>
+
+
+
+
+
+</RelativeLayout>

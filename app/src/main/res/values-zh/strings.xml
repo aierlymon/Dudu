@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">中企创富</string>
+    <string name="home">首页</string>
+    <string name="recommand">推荐</string>
+    <string name="loan">贷款</string>
+    <string name="my">我的</string>
+    <string name="ps">温馨提示：申请3家以上产品，借款成功率提升90%</string>
+    <string name="quotaname">额度:</string>
+    <string name="rixi">日息:</string>
+    <string name="flag">起</string>
+    <string name="pre">最快 </string>
+    <string name="end">下款</string>
+    <string name="request_loan">申请贷款</string>
+    <string name="loan_num">货款</string>
+    <string name="exits">退出</string>
+    <string name="login">点击登录</string>
+    <string name="all">全部</string>
+
+
+    <string name="logintxt">登录</string>
+    <string name="history">查看记录</string>
+    <string name="any_question">常见问题</string>
+    <string name="about_us">关于我们</string>
+    <string name="serice_content">服务协议</string>
+    <string name="mine">我的</string>
+    <string name="logo">LOGO</string>
+    <string name="phone_num">请输入手机号码</string>
+    <string name="chek_num">输入验证码</string>
+    <string name="getcheck">获取验证码</string>
+
+    <string name="number_error">手机号码输入格式不正确</string>
+    <string name="numberorcheck_error"> 手机号码或验证吗输入格式不正确</string>
+
+    <string name="back">返回</string>
+    <string name="nonet">当前没有网络</string>
+    <string name="error_requwt">访问服务器失败,请刷新重试</string>
+
+    <string name="loan_all">全部</string>
+    <string name="type">类型</string>
+    <string name="money">金额</string>
+    <string name="order">综合排序</string>
+
+    <!--推荐页面-->
+    <string name="recommand_title">智能推荐</string>
+    <string name="recommand_bigdata">大数据推荐</string>
+    <string name="recommand_youneed">为您推荐最适合的贷款产品</string>
+    <string name="recommand_borrow">您想借多少？</string>
+    <string name="recommand_long">您想借多久？</string>
+    <string name="recommand_mine_warn">*填写借款人本人信息，所填信息仅做预审认证使用</string>
+    <string name="recommand_mine_title">个人信息</string>
+    <string name="recommand_phone_number">手机号</string>
+    <string name="recommand_name">姓名</string>
+    <string name="recommand_who_number">身份证</string>
+    <string name="recommand_phone_number_hint">请输入手机号</string>
+    <string name="recommand_name_hint">请输入姓名</string>
+    <string name="recommand_who_number_hint">身份证号</string>
+    <string name="recommand_who_mine_service">我已阅读并同意</string>
+    <string name="recommand_who_mine_service_info">《用户注册服务协议》</string>
+    <string name="recommand_goods_condition_title">申请条件</string>
+    <string name="recommand_goods_condition_content">手机实名，运营商验证即可申请。</string>
+    <string name="recommand_goods_step_title">申请流程</string>
+    <string name="recommand_goods_step_content">下载APP-填写申请资料-等待审核。</string>
+    <string name="recommand_goods_other_title">其他说明</string>
+    <string name="recommand_goods_other_content">需要验证相关其他事项，请准确填写。</string>
+    <string name="recommand_goods_realy_name">实名认证</string>
+    <string name="recommand_i_agree">我同意</string>
+    <string name="recommand_regist_servicr">《注册用户服务协议》</string>
+
+    <string name="money_limit_1">5千以下</string>
+    <string name="money_limit_2">5千-1万</string>
+    <string name="money_limit_3">1万-2万</string>
+    <string name="money_limit_4">2万-3万</string>
+    <string name="money_limit_5">3万以上</string>
+
+    <string name="date_limit_1">1-3月</string>
+    <string name="date_limit_2">3-6月</string>
+    <string name="date_limit_3">6-12月</string>
+    <string name="date_limit_4">12-18月</string>
+    <string name="date_limit_5">18-24月</string>
+    <string name="date_limit_6">24-36月</string>
+</resources>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:splitMotionEvents="false">
+    <!--添加防止多点触摸-->
+
+    <!--外部用来填充的颜色-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/daohang_clolor" />
+
+    <com.linglong.baselib.widget.StatusBarHeightView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        app:use_type="use_padding_top">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/noOnline"
+                layout="@layout/refrsh_request"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--这个就是头部的toolbar-->
+                <include
+                    android:id="@+id/myhead"
+                    layout="@layout/toolbarhead"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/toolbar_height" />
+
+
+                <LinearLayout
+                    android:id="@+id/spinner_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y31"
+                    android:orientation="horizontal">
+
+                    <!--这个就是spinner的那一栏-->
+                    <!--如果内部要设置id要与里面的根控件id一致-->
+
+                    <include
+                        android:id="@+id/banner_type"
+                        layout="@layout/fra_loan_spinnerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#fff">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y30"
+                        android:background="@color/text_ps_back">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:text="@string/ps"
+                            android:textAlignment="center"
+                            android:textColor="@color/color_text_selected"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff">
+
+                <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srlAccentColor="#000"
+                    android:background="#fff"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recv_loan"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/index_my_color" />
+
+
+                <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srlPrimaryColor="#fff" />
+
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        </LinearLayout>
+    </com.linglong.baselib.widget.StatusBarHeightView>
+</RelativeLayout>

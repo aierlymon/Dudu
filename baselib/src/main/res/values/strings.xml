@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">baselib</string>
+    <string name="power_ps">权限提醒</string>
+</resources>

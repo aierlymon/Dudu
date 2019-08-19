@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--外部用来填充的颜色-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/daohang_clolor" />
+
+    <com.linglong.baselib.widget.StatusBarHeightView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        app:use_type="use_padding_top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/myhead"
+                layout="@layout/toolbarhead"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/x20"
+                android:layout_marginRight="@dimen/x17"
+                android:orientation="vertical">
+
+                <!--大数据推荐-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y82">
+
+                    <TextView
+                        android:id="@+id/recommand_bigdata"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y18"
+                        android:text="@string/recommand_bigdata"
+                        android:textColor="@color/recommand_text_color"
+                        android:textSize="@dimen/x14"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tx_ps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/recommand_bigdata"
+                        android:layout_marginTop="@dimen/y5"
+                        android:text="@string/recommand_youneed"
+                        android:textColor="@color/recommand_txlittel_color"
+                        android:textSize="@dimen/x12" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tx_ps"
+                        android:layout_marginTop="@dimen/y12"
+                        android:text="@string/recommand_mine_warn"
+                        android:textColor="@color/recommand_mine_warn"
+                        android:textSize="@dimen/x12" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y192"
+                    android:layout_marginTop="@dimen/y20"
+                    android:orientation="vertical">
+
+                    <!--头部个人信息标题-->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <View
+                            android:id="@+id/icon"
+                            android:layout_width="6dp"
+                            android:layout_height="0dp"
+                            android:background="@color/recommand_button_next"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintHeight_percent="0.5"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/recommand_goods_realy_name"
+                            android:textColor="@color/recommand_mine_title"
+                            android:textSize="@dimen/x14"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintHeight_percent="0.5"
+                            app:layout_constraintLeft_toRightOf="@+id/icon"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!--手机号-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                 <!--       <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/recommand_phone_number"
+                            android:textColor="@color/recommand_mine_title"
+                            android:textSize="@dimen/x14" />-->
+
+                        <EditText
+                            android:id="@+id/edit_phone_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/y28"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/recommand_goods_edittext"
+                            android:paddingLeft="5dp"
+                            android:inputType="phone"
+                            android:hint="@string/recommand_phone_number_hint"
+                            android:textSize="@dimen/x12" />
+
+                      <!--  <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/recommand_mine_inteindex" />-->
+                    </RelativeLayout>
+
+                    <!--姓名-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+<!--
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/recommand_phone_number"
+                            android:textColor="@color/recommand_mine_title"
+                            android:textSize="@dimen/x14" />-->
+
+                        <EditText
+                            android:id="@+id/edit_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/y28"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/recommand_goods_edittext"
+                            android:paddingLeft="5dp"
+                            android:hint="@string/recommand_name"
+                            android:textSize="@dimen/x12" />
+
+                  <!--      <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/recommand_mine_inteindex" />-->
+                    </RelativeLayout>
+
+                    <!--身份证号码-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                   <!--     <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/recommand_who_number"
+                            android:textColor="@color/recommand_mine_title"
+                            android:textSize="@dimen/x14" />
+-->
+                        <EditText
+                            android:id="@+id/edit_whonum"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/y28"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/recommand_goods_edittext"
+                            android:paddingLeft="5dp"
+                            android:hint="@string/recommand_who_number_hint"
+                            android:textSize="@dimen/x12" />
+
+<!--
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/recommand_mine_inteindex" />-->
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <CheckBox
+                            android:id="@+id/isAgree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:button="@drawable/recommand_service_state"
+                            android:paddingLeft="2dp"
+                            android:checked="true"
+                            android:text="@string/recommand_who_mine_service" />
+
+                        <TextView
+                            android:id="@+id/tx_mine_service"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="2dp"
+                            android:layout_toRightOf="@+id/isAgree"
+                            android:text="@string/recommand_who_mine_service_info"
+                            android:textColor="@color/recommand_mine_service_info" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/btn_mine_next"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y30"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="@dimen/x5"
+                        android:layout_marginBottom="@dimen/y39"
+                        android:background="@drawable/recommand_button_next"
+                        android:text="下一步"
+                        android:textSize="@dimen/x14"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </com.linglong.baselib.widget.StatusBarHeightView>
+
+
+</RelativeLayout>
