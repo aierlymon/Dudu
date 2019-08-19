@@ -7,7 +7,7 @@
 
 
 
-    <com.linglong.huodai.widget.CustomScrollViewPager
+    <com.dudu.huodai.widget.CustomScrollViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -82,7 +82,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <com.linglong.huodai.widget.CircleImageView
+                <com.dudu.huodai.widget.CircleImageView
                     android:id="@+id/circle_icon"
                     android:layout_width="@dimen/x28"
                     android:layout_height="@dimen/x28"

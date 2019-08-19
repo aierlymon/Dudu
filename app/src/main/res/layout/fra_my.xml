@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:background="@color/daohang_clolor"/>
 
-    <com.linglong.baselib.widget.StatusBarHeightView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.dudu.baselib.widget.StatusBarHeightView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -38,7 +38,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/white">
 
-                <com.linglong.huodai.widget.CircleImageView
+                <com.dudu.huodai.widget.CircleImageView
                     android:id="@+id/user_icon"
                     android:layout_width="@dimen/x40"
                     android:layout_height="@dimen/x40"
@@ -90,6 +90,6 @@
                 android:layout_below="@+id/top"
                 android:background="@color/index_my_color" />
         </RelativeLayout>
-    </com.linglong.baselib.widget.StatusBarHeightView>
+    </com.dudu.baselib.widget.StatusBarHeightView>
 
 </RelativeLayout>

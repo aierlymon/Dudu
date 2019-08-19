@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="@color/daohang_clolor" />
 
-    <com.linglong.baselib.widget.StatusBarHeightView
+    <com.dudu.baselib.widget.StatusBarHeightView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusableInTouchMode="true"
@@ -111,5 +111,5 @@
 
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         </LinearLayout>
-    </com.linglong.baselib.widget.StatusBarHeightView>
+    </com.dudu.baselib.widget.StatusBarHeightView>
 </RelativeLayout>

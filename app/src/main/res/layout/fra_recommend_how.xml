@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:background="@color/daohang_clolor" />
 
-    <com.linglong.baselib.widget.StatusBarHeightView
+    <com.dudu.baselib.widget.StatusBarHeightView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusableInTouchMode="true"
@@ -77,7 +77,7 @@
                         android:textStyle="bold" />
 
                     <!--你想借多少里面的选项卡-->
-                    <com.linglong.huodai.widget.FlowRadioGroup
+                    <com.dudu.huodai.widget.FlowRadioGroup
                         android:id="@+id/group_howmuch"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/y75"
@@ -148,7 +148,7 @@
                             android:text="@string/money_limit_5"
                             android:textSize="@dimen/x12"
                             android:textAlignment="center" />
-                    </com.linglong.huodai.widget.FlowRadioGroup>
+                    </com.dudu.huodai.widget.FlowRadioGroup>
 
                 </LinearLayout>
 
@@ -167,7 +167,7 @@
                         android:textSize="@dimen/x14"
                         android:textStyle="bold" />
 
-                    <com.linglong.huodai.widget.FlowRadioGroup
+                    <com.dudu.huodai.widget.FlowRadioGroup
                         android:id="@+id/group_howlong"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/y75"
@@ -251,7 +251,7 @@
                             android:text="@string/date_limit_6"
                             android:textSize="@dimen/x12"
                             android:textAlignment="center" />
-                    </com.linglong.huodai.widget.FlowRadioGroup>
+                    </com.dudu.huodai.widget.FlowRadioGroup>
 
 
                 </LinearLayout>
@@ -276,7 +276,7 @@
         </LinearLayout>
 
 
-    </com.linglong.baselib.widget.StatusBarHeightView>
+    </com.dudu.baselib.widget.StatusBarHeightView>
 
 
 </RelativeLayout>

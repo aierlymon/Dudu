@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.linglong.baselib.widget.StatusBarHeightView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.dudu.baselib.widget.StatusBarHeightView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,7 +24,7 @@
                 />
 
 
-            <com.linglong.huodai.widget.CircleImageView
+            <com.dudu.huodai.widget.CircleImageView
                 android:layout_width="@dimen/x80"
                 android:layout_height="@dimen/x80"
                 android:layout_below="@+id/myloginhead"
@@ -121,7 +121,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </RelativeLayout>
 
-    </com.linglong.baselib.widget.StatusBarHeightView>
+    </com.dudu.baselib.widget.StatusBarHeightView>
 
 
 

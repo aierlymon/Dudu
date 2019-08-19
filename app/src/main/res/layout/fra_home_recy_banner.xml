@@ -4,7 +4,7 @@
     android:layout_height="@dimen/y132"
     android:orientation="vertical">
 
-    <com.linglong.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager
+    <com.dudu.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager
         android:id="@+id/banner_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
