@@ -4,16 +4,18 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="color_text_selected">#FF946E</color>
-    <color name="daohang_clolor">#FFF</color>
+    <color name="daohang_clolor">#F6F6F6</color>
     <color name="my_login_color">#FF1D1D</color>
     <color name="my_login_back_color">#FF1D1D</color>
-    <color name="color_text_normal">#777777</color>
+
     <color name="color_text_ps">#FF1D1D</color>
     <color name="red">#FF1D1D</color>
     <color name="index_color">#B4AEAE</color>
     <color name="home_recycler_back">#DCDCDC</color>
     <color name="black">#000</color>
     <color name="white">#fff</color>
+
+    <color name="toolbar_background_color">#F6F6F6</color>
 
     <color name="login_edittext_color">#F8F8F8</color>
     <color name="login_edittext_hintcolor">#F8F8F8</color>
@@ -24,7 +26,7 @@
     <color name="toumin">#00E6E8E7</color>
     <color name="error_request">#222</color>
     <color name="toolbar_head">#111111</color>
-    <color name="mine_menu_color">#222222</color>
+
 
     <color name="frag_body_small_textcolor">#888888</color>
 
@@ -51,4 +53,12 @@
     <color name="recommand_good_big_tx">#FF1D1D</color>
     <color name="recommand_good_big_samlltx">#888888</color>
     <color name="recommand_good_big_back_color">#F9F9F9</color>
+
+    <!--嘟嘟故事的颜色-->
+    <color name="mine_menu_color">#222222</color>
+    <color name="recyclerview_space_item">#F7F7F7</color>
+    <color name="zhuzi">#FF946E</color>
+    <color name="color_text_normal">#777777</color>
+    <color name="label_back_color">#f8f8f8</color>
+    <color name="label_color">#888</color>
 </resources>

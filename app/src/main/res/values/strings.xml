@@ -78,4 +78,8 @@
     <string name="date_limit_4">12-18月</string>
     <string name="date_limit_5">18-24月</string>
     <string name="date_limit_6">24-36月</string>
+
+    <!--嘟嘟故事的文本-->
+    <string name="recommendedtopics">推荐专题</string>
+    <string name="recommendationstory">推荐故事</string>
 </resources>

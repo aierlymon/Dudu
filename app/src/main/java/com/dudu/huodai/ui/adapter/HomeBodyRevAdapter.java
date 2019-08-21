@@ -54,7 +54,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
     @Override
     public BodyItemHold onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new BodyItemHold(LayoutInflater.from(mContext)
-                .inflate(R.layout.home_body_item, parent, false), this);
+                .inflate(R.layout.common_body_item, parent, false), this);
     }
 
     @Override
@@ -62,31 +62,22 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         NewHomeBodyBean.LoanProductBean  loanProductBean= homeBodyBeanList.get(position);
         String icon_url = HttpConstant.BASE_URL + homeBodyBeanList.get(position).getIcon();
 
-        RequestOptions options = new RequestOptions();
-        int size = (int) mContext.getResources().getDimension(R.dimen.x30);
-        options.override(size, size); //设置加载的图片大小
-        MyLog.i("body item icon: " + icon_url);
-        Glide.with(mContext).load(icon_url).apply(options).into(holder.icon);
+        Glide.with(mContext).load(icon_url).into(holder.icon);
 
         //标题名字
         holder.title.setText(loanProductBean.getName());
 
-        holder.limit.setText(""+loanProductBean.getLimitL());
+        holder.info.setText(""+loanProductBean.getProfile());
 
-        holder.max.setText("" + loanProductBean.getLimitH());
-
-        holder.rate.setText(loanProductBean.getInterest());
-        holder.date.setText(loanProductBean.getPeriod());
-        holder.finaltext.setText(loanProductBean.getProfile());
-        holder.time.setText(loanProductBean.getSpeed());
-        holder.btn_request.setOnClickListener(view -> {
+        holder.itemView.setTag(position);
+        holder.icon.setOnClickListener(view -> {
             if (mOnItemClickListener != null) {
                 //注意这里使用getTag方法获取position
                 mOnItemClickListener.onItemClick(view, position);
             }
         });
-        holder.itemView.setOnClickListener(this);
-        holder.itemView.setTag(position);
+
+
 
     }
 
@@ -96,28 +87,17 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
     }
 
     class BodyItemHold extends RecyclerView.ViewHolder {
-        private CircleImageView icon;
-        private TextView title;
-        private TextView limit;
-        private TextView max;
-        private TextView rate;
-        private TextView finaltext;
-        private TextView time;
-        private ImageView btn_request;
-        private TextView date;
+        ImageView icon;
+        TextView title;
+        TextView info;
 
         public BodyItemHold(@NonNull View itemView, View.OnClickListener listener) {
             super(itemView);
 
-            icon = itemView.findViewById(R.id.icon);
-            title = ((TextView) itemView.findViewById(R.id.title));
-            limit = ((TextView) itemView.findViewById(R.id.limit));
-            max = ((TextView) itemView.findViewById(R.id.max));
-            rate = ((TextView) itemView.findViewById(R.id.rate));
-            finaltext = ((TextView) itemView.findViewById(R.id.finaltext));
-            time = ((TextView) itemView.findViewById(R.id.time));
-            btn_request = itemView.findViewById(R.id.btn_request);
-            date = ((TextView) itemView.findViewById(R.id.date));
+            itemView.setOnClickListener(listener);
+            icon = itemView.findViewById(R.id.menu_icon);
+            title = itemView.findViewById(R.id.tx_menu_title);
+            info=itemView.findViewById(R.id.tx_menu_info);
         }
     }
 }

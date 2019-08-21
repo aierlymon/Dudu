@@ -21,5 +21,5 @@
     <dimen name="sp_my_textsize">18sp</dimen>
     <dimen name="sp_my_func_textsize">15sp</dimen>
     <dimen name="sp_20">20sp</dimen>
-    <dimen name="toolbar_height">@dimen/y38</dimen>
+    <dimen name="toolbar_height">@dimen/y37</dimen>
 </resources>

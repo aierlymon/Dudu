@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.dudu.baselib.http.HttpConstant;
+import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.R;
 import com.dudu.model.bean.NewHomeMenuBean;
 
@@ -53,16 +54,17 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
     @Override
     public MenuItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MenuItemHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.home_menu_item, parent, false), this);
+                .inflate(R.layout.common_body_item, parent, false), this);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MenuItemHolder holder, int position) {
-        Glide.with(mContext).load(HttpConstant.BASE_URL + mulDataModelList.get(position).getIcon()).into(holder.image);
+        MyLog.i("HomeMenuRevAdapter 执行次数: "+position+"  mulDataModelList.size: "+mulDataModelList.size());
+        Glide.with(mContext).load(HttpConstant.BASE_URL + mulDataModelList.get(position).getIcon()).into(holder.icon);
         // holder.name.setTypeface(ApplicationPrams.typeface);
-        holder.name.setText(mulDataModelList.get(position).getName());
+        holder.title.setText(mulDataModelList.get(position).getName());
         holder.itemView.setTag(position);
-        holder.image.setOnClickListener(view -> {
+        holder.icon.setOnClickListener(view -> {
             if (mOnItemClickListener != null) {
                 //注意这里使用getTag方法获取position
                 mOnItemClickListener.onItemClick(view, position);
@@ -77,15 +79,17 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
     }
 
     class MenuItemHolder extends RecyclerView.ViewHolder {
-        ImageView image;
 
-        TextView name;
+        ImageView icon;
+        TextView title;
+        TextView info;
 
         public MenuItemHolder(View itemView, View.OnClickListener listener) {
             super(itemView);
             itemView.setOnClickListener(listener);
-            image = itemView.findViewById(R.id.menu_icon);
-            name = itemView.findViewById(R.id.menu_text);
+            icon = itemView.findViewById(R.id.menu_icon);
+            title = itemView.findViewById(R.id.tx_menu_title);
+            info=itemView.findViewById(R.id.tx_menu_info);
         }
 
     }

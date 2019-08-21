@@ -14,6 +14,7 @@ import com.dudu.huodai.mvp.presenters.HomeFrgPresenter;
 import com.dudu.huodai.mvp.view.HomeFrgViewImpl;
 import com.dudu.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
+import com.dudu.huodai.ui.adapter.decoration.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
@@ -66,6 +67,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
 
         fragRevAdapyer = new HomeFragRevAdapyer(getActivity(), mPresenter.getList());
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0,0,(int) getResources().getDimension(R.dimen.y10)));
         mRecyclerView.setAdapter(fragRevAdapyer);
 
         //刷新设置
