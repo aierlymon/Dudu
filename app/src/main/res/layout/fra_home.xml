@@ -6,7 +6,11 @@
     android:focusableInTouchMode="true">
 
 
-
+    <!--外部用来填充的颜色-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/daohang_clolor" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"

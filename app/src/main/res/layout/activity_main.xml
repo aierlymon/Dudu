@@ -65,17 +65,6 @@
             android:text="@string/loan"
             android:textColor="@drawable/rb_color_state" />
 
-        <RadioButton
-            android:id="@+id/rb_recommand"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/recommand_state"
-            android:drawablePadding="@dimen/x4"
-            android:gravity="center"
-            android:text="@string/recommand"
-            android:textColor="@drawable/rb_color_state" />
 
         <RadioButton
             android:id="@+id/rb_my"

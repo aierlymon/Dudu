@@ -67,12 +67,6 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
-            /*     Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
-                 Manifest.permission.READ_PHONE_NUMBERS*/
-            /*   Manifest.permission.REQUEST_INSTALL_PACKAGES,
-               Manifest.permission.ACCESS_WIFI_STATE,
-               Manifest.permission.CHANGE_NETWORK_STATE,
-               Manifest.permission.CHANGE_WIFI_STATE,*/
     };
 
 
@@ -169,7 +163,6 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance("home"));
         fragments.add(LoanFragment.newInstance("loan"));
-        fragments.add(RecommandFragment.newInstance("recommand"));
         fragments.add(MyFragment.newInstance("mine"));
         MainVPAdapter mainVPagerAdapter = new MainVPAdapter(fragments, getSupportFragmentManager());
 
@@ -189,7 +182,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     }
 
 
-    @OnCheckedChanged({R.id.rb_home, R.id.rb_loan, R.id.rb_recommand, R.id.rb_my})
+    @OnCheckedChanged({R.id.rb_home, R.id.rb_loan,R.id.rb_my})
     public void onCheckChange(CompoundButton view, boolean ischanged) {
         switch (view.getId()) {
             case R.id.rb_home:
@@ -210,17 +203,13 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                     mViewPager.setCurrentItem(1, false);
                 }
                 break;
-            case R.id.rb_recommand:
-                if (ischanged) {
-                    mViewPager.setCurrentItem(2, false);
-                }
-                break;
+
             case R.id.rb_my:
                 if (ischanged) {
                     //   StatusBarUtil.setStatusBarDarkTheme(this,true);
                     MyLog.i("我拿去到了颜色:触发 R.id.rb_myn");
                     //      setStatusBarColor(getResources().getColor(R.color.my_login_color));
-                    mViewPager.setCurrentItem(3, false);
+                    mViewPager.setCurrentItem(2, false);
                 }
                 break;
             default:
