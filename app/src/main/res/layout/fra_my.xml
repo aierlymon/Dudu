@@ -77,7 +77,7 @@
                     android:layout_width="@dimen/x146"
                     android:layout_height="@dimen/y25"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/my_button"
+                    android:background="@drawable/dudu_oppen_button"
                     android:text="@string/login"
                     android:textColor="@color/my_login_color"
                     android:textSize="@dimen/x12" />

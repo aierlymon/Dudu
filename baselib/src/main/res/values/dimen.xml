@@ -22,4 +22,13 @@
     <dimen name="sp_my_func_textsize">15sp</dimen>
     <dimen name="sp_20">20sp</dimen>
     <dimen name="toolbar_height">@dimen/y37</dimen>
+
+    <!--嘟嘟故事-->
+    <dimen name="common_item_marigin">@dimen/x5</dimen>
+    <dimen name="double_common_item_marigin">@dimen/x10</dimen>
+    <dimen name="font_px18">@dimen/x16</dimen>
+    <dimen name="font_px16">@dimen/x14</dimen>
+    <dimen name="font_px14">@dimen/x12</dimen>
+    <dimen name="font_px12">@dimen/x10</dimen>
+    <dimen name="left_right_marigin">@dimen/x8</dimen>
 </resources>

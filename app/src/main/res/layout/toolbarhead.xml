@@ -35,7 +35,7 @@
               android:id="@+id/tx_title"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:textSize="@dimen/x16"
+              android:textSize="@dimen/font_px18"
               android:layout_centerInParent="true"
               android:textColor="@color/mine_menu_color"
               android:textStyle="bold"

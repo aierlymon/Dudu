@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/common_title"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/x6"
+        android:layout_height="@dimen/x14"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/left_right_marigin"
+        android:background="@color/zhuzi" />
+
+    <TextView
+        android:id="@+id/tx_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/x4"
+        android:layout_toRightOf="@+id/view"
+        android:textColor="@color/mine_menu_color"
+        android:textSize="@dimen/font_px18"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/share"
+        android:layout_width="@dimen/x75"
+        android:layout_height="@dimen/y21"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/left_right_marigin"
+        android:background="@drawable/dudu_titleshare_button_next"
+        android:text="分享赚钱"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_px14" />
+
+</RelativeLayout>

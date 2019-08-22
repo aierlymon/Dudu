@@ -40,10 +40,10 @@
     <color name="recommand_txlittel_color">#888888</color>
     <color name="recommand_item">#000000</color>
 
-    <color name="recommand_selected_item_border">#FF1D1D</color>
+
     <color name="recommand_selected_item_content">#33FB5151</color>
     <color name="recommand_unselected_item_content">#F8F8F8</color>
-    <color name="recommand_button_next">#FF1D1D</color>
+
     <color name="recommand_mine_warn">#FF1D1D</color>
     <color name="recommand_mine_title">#222222</color>
     <color name="recommand_mine_inteindex">#E6E6E6</color>
@@ -61,4 +61,7 @@
     <color name="color_text_normal">#777777</color>
     <color name="label_back_color">#f8f8f8</color>
     <color name="label_color">#888</color>
+    <color name="recommand_selected_item_border">#FF946E</color>
+    <color name="recommand_button_next">#FF946E</color>
+    <color name="content_color">#222222</color>
 </resources>

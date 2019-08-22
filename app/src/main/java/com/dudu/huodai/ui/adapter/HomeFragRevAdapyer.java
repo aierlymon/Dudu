@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,10 +13,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.ApplicationPrams;
 import com.dudu.huodai.R;
+import com.dudu.huodai.mvp.model.HomeFRAdvertHolder;
 import com.dudu.huodai.mvp.model.HomeFRBannerHolder;
 import com.dudu.huodai.mvp.model.HomeFRBodyHolder;
 import com.dudu.huodai.mvp.model.HomeFRBodyHolderFH;
@@ -26,9 +30,12 @@ import com.dudu.huodai.mvp.model.postbean.RecordBean;
 import com.dudu.huodai.mvp.model.postbean.WebViewBean;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import com.dudu.huodai.ui.adapter.base.BaseMulViewHolder;
+import com.dudu.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
+import com.dudu.model.bean.NewHomeBannerBean;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,6 +47,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     private static final int MENU = 1;
     private static final int BODY = 2;
     private static final int HISTORY = 3;
+    private static final int ADVERT=4;
     private Activity mContext;
     private WebViewBean webViewBean;//EventBus进行WebActivity页面跳转的实体类
     private BannerHolder bannerHolder;
@@ -81,6 +89,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             case HISTORY:
                 return new BodyHolderFH(LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.fra_home_recy_body, null));
+            case ADVERT:
+                return new AdvertHolder(LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.advert, viewGroup, false));
         }
         return null;
     }
@@ -105,7 +116,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             return MENU;
         } else if (modelList.get(position) instanceof HomeFRBodyHolder) {
             return BODY;
-        } else {
+        } else if(modelList.get(position) instanceof HomeFRAdvertHolder){
+            return ADVERT;
+        }else {
             return HISTORY;
         }
     }
@@ -215,6 +228,50 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         }
     }
 
+    class AdvertHolder extends BaseMulViewHolder<HomeFRAdvertHolder>{
+        @BindView(R.id.advert_loopviewpager)
+        LoopViewPager loopViewPager;
+
+        //http://pic33.nipic.com/20131007/13639685_123501617185_2.jpg
+        private List<String> dataList;
+        public AdvertHolder(View itemView) {
+            super(itemView);
+            dataList=new ArrayList<>();
+            dataList.add("http://pic33.nipic.com/20131007/13639685_123501617185_2.jpg");
+        }
+
+        @Override
+        public void bindData(HomeFRAdvertHolder dataModel, int position) {
+
+
+            if (dataList.size() > 1) {
+                loopViewPager.showIndicator(true);
+                if(!isBannerStart){
+                    loopViewPager.startBanner();
+                }else{
+                    loopViewPager.setCurrentItem(0);
+                }
+                isBannerStart=true;
+                loopViewPager.setIndicatorGravity(LoopViewPager.IndicatorGravity.RIGHT);
+            }
+
+            if (dataList.size() == 0) return;
+
+            loopViewPager.setData(mContext, dataList, (view, position1, item) -> {
+                view.setScaleType(ImageView.ScaleType.FIT_XY);
+                view.setOnClickListener(view1 -> {
+                    //记录点击
+                    if (ApplicationPrams.loginCallBackBean != null) {
+                        MyLog.i("执行了提交后台服务器请求的请求");
+                    }
+                });
+                MyLog.i("banner item icon: " + item);
+                //加载图片，如gide
+                Glide.with(mContext).load(item).into(view);
+            });
+        }
+    }
+
     class BodyHolderFH extends BaseMulViewHolder<HomeFRBodyHolderFH> {
 
         @BindView(R.id.recv_body)
@@ -256,7 +313,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     }
 
     public <T> void go(View view, int pos, T object) {
-        if (Utils.isFastClick()) {
+      /*  if (Utils.isFastClick()) {
             if (ApplicationPrams.loginCallBackBean == null) {
                 MyLog.i("点击了go");
                 EventBus.getDefault().post(false);
@@ -274,7 +331,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             if (object instanceof LoanFraTypeBean) {
                 EventBus.getDefault().post(((LoanFraTypeBean) object));
             }
-        }
+        }*/
     }
 
 

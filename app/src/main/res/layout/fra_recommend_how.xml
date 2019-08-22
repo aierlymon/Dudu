@@ -267,7 +267,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginRight="@dimen/x5"
                         android:layout_marginBottom="@dimen/y15"
-                        android:background="@drawable/recommand_button_next"
+                        android:background="@drawable/dudu_titleshare_button_next"
                         android:text="下一步"
                         android:textSize="@dimen/x14"
                         android:textColor="@color/white" />

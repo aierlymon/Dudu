@@ -49,7 +49,7 @@ public class MyReceiver extends BroadcastReceiver {
                 mainAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
                 context.startActivity(mainAct);
                 //打开自定义的Activity
-                //  Intent i = new Intent(context, TestActivity.class);
+                //  Intent i = new Intent(context, StoryActivity.class);
                 // i.putExtras(bundle);
                 //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 //  i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );

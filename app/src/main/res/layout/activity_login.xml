@@ -107,7 +107,7 @@
                     android:id="@+id/btn_login"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/my_button"
+                    android:background="@drawable/dudu_oppen_button"
                     android:text="@string/logintxt"
                     android:textColor="@color/my_login_color"
                     android:textSize="@dimen/x14"

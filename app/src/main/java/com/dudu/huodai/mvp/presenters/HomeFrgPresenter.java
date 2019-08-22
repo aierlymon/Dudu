@@ -4,6 +4,7 @@ import com.dudu.baselib.http.HttpMethod;
 import com.dudu.baselib.http.myrxsubcribe.MySubscriber;
 import com.dudu.baselib.mvp.BasePresenter;
 import com.dudu.baselib.utils.MyLog;
+import com.dudu.huodai.mvp.model.HomeFRAdvertHolder;
 import com.dudu.huodai.mvp.model.HomeFRBannerHolder;
 import com.dudu.huodai.mvp.model.HomeFRBodyHolder;
 import com.dudu.huodai.mvp.model.HomeFRMenuHolder;
@@ -20,6 +21,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -27,6 +29,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
+    private int count=4;
 
     @Override
     public void showError(String msg) {
@@ -67,10 +70,12 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                             NewHomeBannerBean homeHeadBean = httpResult.getData();
                             HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
                             homeFRBannerHolder.setNewHomeBannerBean(homeHeadBean);//这个预留出来的page,pageCout而已，其实都一样最好的
-                            if(list.size()>=3){
+                            if(list.size()>=count){
                                 list.clear();
                             }
+
                             list.add(homeFRBannerHolder);
+
                             MyLog.i("list.size: "+list.size());
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
@@ -155,7 +160,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
                             homeFRMenuHolder.setLoanCategoriesBean(httpResult.getData().getLoanCategories());
                             homeFRMenuHolder.setNewHomeMenuBean(httpResult.getData());//这个预留出来的page,pageCout而已，其实都只要上面那个就够了这个
-                            if(list.size()>=3){
+                            if(list.size()>=count){
                                 list.clear();
                             }
                             list.add(homeFRMenuHolder);
@@ -188,9 +193,10 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                         if (httpResult.getStatusCode() == 200) {
                             HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
                             homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
-                            if(list.size()>=3){
+                            if(list.size()>=count){
                                 list.clear();
                             }
+                            list.add(new HomeFRAdvertHolder());
                             list.add(homeFRBodyHolder);
                             MyLog.i("list.size: "+list.size());
                             getView().refreshHome(list);
