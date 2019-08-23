@@ -79,7 +79,7 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
         //   showLoading();
         mPresenter.requestHead();//请求banner
         mPresenter.requestMenu();//请求菜单
-        mPresenter.requestBody();//请求body
+       // mPresenter.requestBody();//请求body
     }
 
     private void init() {
@@ -102,7 +102,7 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
                 currentPage = 1;
                 mPresenter.requestHead();//请求banner
                 mPresenter.requestMenu();//请求菜单
-                mPresenter.requestBody();//请求body
+               // mPresenter.requestBody();//请求body
             }else{
                 if (this.refreshLayout.isRefreshing()) {
                     showError("没有网络");

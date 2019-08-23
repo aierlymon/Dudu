@@ -10,6 +10,9 @@ import com.dudu.model.bean.NewHomeBodyBean;
 import com.dudu.model.bean.NewHomeMenuBean;
 import com.dudu.model.bean.RecommandStateBean;
 import com.dudu.model.bean.SplashBean;
+import com.dudu.model.bean.StoryInfo;
+import com.dudu.model.bean.StoryTable;
+import com.dudu.model.bean.SubjectTable;
 import com.dudu.model.bean.UpdateBean;
 import com.google.gson.JsonObject;
 
@@ -204,5 +207,25 @@ public class HttpMethod {
 
     public  Observable<HttpResult<List<HistoryBean>>> userApplyRecordsList(int id){
         return mMovieService.userApplyRecordsList(1,id);
+    }
+
+    //请求故事列表
+    public  Observable<HttpResult<List<StoryTable>>> requestStotyTable(){
+        return mMovieService.requestStory();
+    }
+
+    //请求故事详情
+    public  Observable<StoryInfo> requestStotyInfo(int id){
+        return mMovieService.requestStoryInfo(id);
+    }
+
+    //请求专题列表
+    public  Observable<HttpResult<List<SubjectTable>>> requestSubject(){
+        return mMovieService.requestSubject();
+    }
+
+    //请求专题详情
+    public  Observable<StoryInfo> requestSubjectInfo(int id,int page,int count){
+        return mMovieService.requestSubjectInfo(id,page,count);
     }
 }

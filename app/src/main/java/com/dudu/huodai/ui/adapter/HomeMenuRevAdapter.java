@@ -15,12 +15,13 @@ import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.R;
 import com.dudu.model.bean.NewHomeMenuBean;
+import com.dudu.model.bean.SubjectTable;
 
 import java.util.List;
 
 public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.MenuItemHolder> implements View.OnClickListener {
 
-    List<NewHomeMenuBean.LoanCategoriesBean> mulDataModelList;
+    List<SubjectTable> mulDataModelList;
     private Context mContext;
     private OnItemClickListener mOnItemClickListener;
 
@@ -41,12 +42,12 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
         this.mOnItemClickListener = onItemClickListener;
     }
 
-    public HomeMenuRevAdapter(Context mContext, List<NewHomeMenuBean.LoanCategoriesBean> mulDataModelList) {
+    public HomeMenuRevAdapter(Context mContext, List<SubjectTable> mulDataModelList) {
         this.mulDataModelList = mulDataModelList;
         this.mContext = mContext;
     }
 
-    public void setMulDataModelList(List<NewHomeMenuBean.LoanCategoriesBean> mulDataModelList) {
+    public void setMulDataModelList(List<SubjectTable> mulDataModelList) {
         this.mulDataModelList = mulDataModelList;
     }
 
@@ -60,9 +61,11 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
     @Override
     public void onBindViewHolder(@NonNull MenuItemHolder holder, int position) {
         MyLog.i("HomeMenuRevAdapter 执行次数: "+position+"  mulDataModelList.size: "+mulDataModelList.size());
-        Glide.with(mContext).load(HttpConstant.BASE_URL + mulDataModelList.get(position).getIcon()).into(holder.icon);
+        Glide.with(mContext).load(HttpConstant.PIC_BASE_URL + mulDataModelList.get(position).getPicture()).into(holder.icon);
         // holder.name.setTypeface(ApplicationPrams.typeface);
-        holder.title.setText(mulDataModelList.get(position).getName());
+        holder.title.setText(mulDataModelList.get(position).getTitle());
+        holder.info.setText(mulDataModelList.get(position).getGuide());
+        holder.labelSpecial.setText(mulDataModelList.get(position).getNum_stories()+"个故事");
         holder.itemView.setTag(position);
         holder.icon.setOnClickListener(view -> {
             if (mOnItemClickListener != null) {
@@ -83,6 +86,7 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
         ImageView icon;
         TextView title;
         TextView info;
+        TextView labelSpecial;
 
         public MenuItemHolder(View itemView, View.OnClickListener listener) {
             super(itemView);
@@ -90,6 +94,7 @@ public class HomeMenuRevAdapter extends RecyclerView.Adapter<HomeMenuRevAdapter.
             icon = itemView.findViewById(R.id.menu_icon);
             title = itemView.findViewById(R.id.tx_menu_title);
             info=itemView.findViewById(R.id.tx_menu_info);
+            labelSpecial=itemView.findViewById(R.id.label_special);
         }
 
     }

@@ -4,6 +4,8 @@ import com.dudu.baselib.http.HttpMethod;
 import com.dudu.baselib.http.myrxsubcribe.MySubscriber;
 import com.dudu.baselib.mvp.BasePresenter;
 import com.dudu.baselib.utils.MyLog;
+import com.dudu.huodai.mvp.model.DDHomeFRBodyHolder;
+import com.dudu.huodai.mvp.model.DDHomeFRMenuHolder;
 import com.dudu.huodai.mvp.model.HomeFRAdvertHolder;
 import com.dudu.huodai.mvp.model.HomeFRBannerHolder;
 import com.dudu.huodai.mvp.model.HomeFRBigBackHoder;
@@ -15,6 +17,9 @@ import com.dudu.model.bean.HttpResult;
 import com.dudu.model.bean.NewHomeBannerBean;
 import com.dudu.model.bean.NewHomeBodyBean;
 import com.dudu.model.bean.NewHomeMenuBean;
+import com.dudu.model.bean.StoryTable;
+import com.dudu.model.bean.SubjectInfo;
+import com.dudu.model.bean.SubjectTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,19 +137,18 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
 
     //请求清单选项卡
     public void requestMenu() {
-        HttpMethod.getInstance().loadHomeMenu()
+        HttpMethod.getInstance().requestSubject()
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<NewHomeMenuBean>>(this) {
+                .subscribe(new MySubscriber<HttpResult<List<SubjectTable>>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<NewHomeMenuBean> httpResult) {
-                        if (httpResult.getStatusCode() == 200) {
+                    public void onSuccess(HttpResult<List<SubjectTable>> httpResult) {
+                        if (httpResult.getResult().equals("success")) {
                             MyLog.i("requestMenuc成功了");
-                            HomeFRMenuHolder homeFRMenuHolder = new HomeFRMenuHolder();
+                            DDHomeFRMenuHolder homeFRMenuHolder = new DDHomeFRMenuHolder();
                             //这个地方因为和商品的筛选是动态的，所以这个也要是动态
 
-                            homeFRMenuHolder.setLoanCategoriesBean(httpResult.getData().getLoanCategories());
-                            homeFRMenuHolder.setNewHomeMenuBean(httpResult.getData());//这个预留出来的page,pageCout而已，其实都只要上面那个就够了这个
+                            homeFRMenuHolder.setLoanCategoriesBean(httpResult.getData());
                             if(list.size()>=count){
                                 list.clear();
                             }
@@ -168,16 +172,19 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
     }
 
     //请求Body内容的
-    public void requestBody() {
-        HttpMethod.getInstance().loadBody()
+    //请求Body内容的
+    public void requestBody(int id,int page,int pagecount) {
+        HttpMethod.getInstance().requestSubjectInfo(id,page,pagecount)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
+                .subscribe(new MySubscriber<SubjectInfo>(this) {
                     @Override
-                    public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
-                        if (httpResult.getStatusCode() == 200) {
-                            HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
-                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
+                    public void onSuccess(SubjectInfo httpResult) {
+                        if (httpResult.getResult().equals("success")) {
+                            MyLog.i("我来到了请求DD内容: "+httpResult.toString());
+                            DDHomeFRBodyHolder homeFRBodyHolder = new DDHomeFRBodyHolder();
+
+                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData());
                             if(list.size()>=count){
                                 list.clear();
                             }
@@ -186,7 +193,7 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
                             MyLog.i("list.size: "+list.size());
                             getView().refreshHome(list);
                         } else {
-                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+                            showError(httpResult.getResult());
                         }
                     }
 
@@ -240,4 +247,30 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
     public void clear() {
         list.clear();
     }
+
+
+    /*
+    *    List<SubjectInfo.DataBean> subscribe=httpResult.getData();
+                            List<StoryTable> storyTables=new ArrayList<>();
+                            for(int i=0;i<subscribe.size();i++){
+                                StoryTable storyTable=new StoryTable();
+                                storyTable.setAudio(subscribe.get(i).getAudio());
+                                storyTable.setGuide(subscribe.get(i).getGuide());
+                                storyTable.setId(subscribe.get(i).getId());
+                                storyTable.setLike_num(subscribe.get(i).getLike_num());
+                                storyTable.setPicture(subscribe.get(i).getPicture());
+                                List<SubjectInfo.DataBean.TagsBean> tagsBeans=subscribe.get(i).getTags();
+                                List<StoryTable.TagsBean> tagsBeanList=new ArrayList<>();
+                                for(int j=0;j<tagsBeans.size();j++){
+                                    StoryTable.TagsBean tagsBean=new StoryTable.TagsBean();
+                                    tagsBean.setName(tagsBeans.get(i).getName());
+                                    tagsBean.setId(tagsBeans.get(i).getId());
+                                    tagsBeanList.add(tagsBean);
+                                }
+                                storyTable.setTags(tagsBeanList);
+                                storyTable.setTitle(subscribe.get(i).getTitle());
+                                storyTables.add(storyTable);
+                            }
+    * */
+
 }

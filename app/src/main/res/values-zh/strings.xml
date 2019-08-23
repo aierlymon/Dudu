@@ -82,4 +82,8 @@
     <!--嘟嘟故事的文本-->
     <string name="recommendedtopics">推荐专题</string>
     <string name="recommendationstory">推荐故事</string>
+    <string name="story_state">故事概要</string>
+    <string name="story_userful">教育意义</string>
+    <string name="story_content">故事全文</string>
+    <string name="story_resource">故事来源</string>
 </resources>

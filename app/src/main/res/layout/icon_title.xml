@@ -29,6 +29,7 @@
         android:layout_centerVertical="true"
         android:background="@drawable/dudu_titleshare_button_next"
         android:text="分享赚钱"
+        android:visibility="gone"
         android:textColor="@color/white"
         android:textSize="@dimen/font_px14" />
 

@@ -4,10 +4,10 @@ import com.dudu.baselib.http.HttpMethod;
 import com.dudu.baselib.http.myrxsubcribe.MySubscriber;
 import com.dudu.baselib.mvp.BasePresenter;
 import com.dudu.baselib.utils.MyLog;
+import com.dudu.huodai.mvp.model.DDHomeFRBodyHolder;
+import com.dudu.huodai.mvp.model.DDHomeFRMenuHolder;
 import com.dudu.huodai.mvp.model.HomeFRAdvertHolder;
 import com.dudu.huodai.mvp.model.HomeFRBannerHolder;
-import com.dudu.huodai.mvp.model.HomeFRBodyHolder;
-import com.dudu.huodai.mvp.model.HomeFRMenuHolder;
 import com.dudu.huodai.mvp.model.postbean.BannerBean;
 import com.dudu.huodai.mvp.model.postbean.RecordBean;
 import com.dudu.huodai.mvp.view.HomeFrgViewImpl;
@@ -15,13 +15,13 @@ import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import com.dudu.model.bean.HttpResult;
 import com.dudu.model.bean.NewHomeBannerBean;
 import com.dudu.model.bean.NewHomeBodyBean;
-import com.dudu.model.bean.NewHomeMenuBean;
+import com.dudu.model.bean.StoryTable;
+import com.dudu.model.bean.SubjectTable;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -85,6 +85,15 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     @Override
                     public void onFail(Throwable e) {
                         MyLog.i("失败了: " + e.getMessage());
+                        //测试用的
+                        /*---------------------------------------------------*/
+                        HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
+                        homeFRBannerHolder.setNewHomeBannerBean(null);//这个预留出来的page,pageCout而已，其实都一样最好的
+                        if(list.size()>=count){
+                            list.clear();
+                        }
+                        list.add(homeFRBannerHolder);
+                        /*---------------------------------------------------*/
                         showError(e.getMessage());
                     }
 
@@ -147,19 +156,18 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
     //请求清单选项卡
     public void requestMenu() {
-        HttpMethod.getInstance().loadHomeMenu()
+        HttpMethod.getInstance().requestSubject()
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<NewHomeMenuBean>>(this) {
+                .subscribe(new MySubscriber<HttpResult<List<SubjectTable>>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<NewHomeMenuBean> httpResult) {
-                        if (httpResult.getStatusCode() == 200) {
+                    public void onSuccess(HttpResult<List<SubjectTable>> httpResult) {
+                        if (httpResult.getResult().equals("success")) {
                             MyLog.i("requestMenuc成功了");
-                            HomeFRMenuHolder homeFRMenuHolder = new HomeFRMenuHolder();
+                            DDHomeFRMenuHolder homeFRMenuHolder = new DDHomeFRMenuHolder();
                             //这个地方因为和商品的筛选是动态的，所以这个也要是动态
 
-                            homeFRMenuHolder.setLoanCategoriesBean(httpResult.getData().getLoanCategories());
-                            homeFRMenuHolder.setNewHomeMenuBean(httpResult.getData());//这个预留出来的page,pageCout而已，其实都只要上面那个就够了这个
+                            homeFRMenuHolder.setLoanCategoriesBean(httpResult.getData());
                             if(list.size()>=count){
                                 list.clear();
                             }
@@ -184,15 +192,16 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
     //请求Body内容的
     public void requestBody() {
-        HttpMethod.getInstance().loadBody()
+        HttpMethod.getInstance().requestStotyTable()
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
+                .subscribe(new MySubscriber<HttpResult<List<StoryTable>>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
-                        if (httpResult.getStatusCode() == 200) {
-                            HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
-                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
+                    public void onSuccess(HttpResult<List<StoryTable>> httpResult) {
+                        if (httpResult.getResult().equals("success")) {
+                            MyLog.i("我来到了请求DD内容: "+httpResult.toString());
+                            DDHomeFRBodyHolder homeFRBodyHolder = new DDHomeFRBodyHolder();
+                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData());
                             if(list.size()>=count){
                                 list.clear();
                             }
@@ -201,7 +210,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                             MyLog.i("list.size: "+list.size());
                             getView().refreshHome(list);
                         } else {
-                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+                            showError(httpResult.getResult() + ":" + httpResult.getStatusCode());
                         }
                     }
 
@@ -217,6 +226,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                 });
     }
 
+
     public void requestBodyPage(int id,int min,int max,int page){
 
         HttpMethod.getInstance().loadBodyMintoMaxToPage(id,min,max,page)
@@ -226,17 +236,9 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     @Override
                     public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
-                            HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
-                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
-                            for(int i=0;i<list.size();i++){
-                                if(list.get(i) instanceof HomeFRBodyHolder){
-                                    ((HomeFRBodyHolder) list.get(i)).getHomeBodyBeanList().addAll(homeFRBodyHolder.getHomeBodyBeanList());
-                                }
-                            }
-                            getView().addPage(list);
-                            MyLog.i("requestBody(x) end : "+list.size());
+
                         } else {
-                            showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
+                            showError(httpResult.getResult()+":"+httpResult.getStatusCode());
                         }
                     }
 

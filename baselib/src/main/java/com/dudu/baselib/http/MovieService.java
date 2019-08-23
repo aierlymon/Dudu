@@ -9,6 +9,9 @@ import com.dudu.model.bean.NewHomeBodyBean;
 import com.dudu.model.bean.NewHomeMenuBean;
 import com.dudu.model.bean.RecommandStateBean;
 import com.dudu.model.bean.SplashBean;
+import com.dudu.model.bean.StoryInfo;
+import com.dudu.model.bean.StoryTable;
+import com.dudu.model.bean.SubjectTable;
 import com.dudu.model.bean.UpdateBean;
 import com.google.gson.JsonObject;
 
@@ -20,6 +23,7 @@ import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
@@ -103,4 +107,27 @@ public interface MovieService {
     //或取home页内容最多的body内容
     @GET("userApplyRecordsList")
     Observable<HttpResult<List<HistoryBean>>> userApplyRecordsList(@Query("allowClient") int index, @Query("userId") int id);
+
+
+
+    /*嘟嘟讲故事*/
+
+    //获取专题信息
+
+    //故事列表
+    @GET("story/recommendation/")
+    Observable<HttpResult<List<StoryTable>>> requestStory();
+
+    //故事详情
+    @GET("story/{id}/")
+    Observable<StoryInfo> requestStoryInfo(@Path("id") int storyId);
+
+    //专题列表
+    @GET("subject/")
+    Observable<HttpResult<List<SubjectTable>>> requestSubject();
+
+    //专题内容详情
+    //故事详情
+    @GET("subject/{id}/story/")
+    Observable<StoryInfo> requestSubjectInfo(@Path("id") int storyId,@Query("page") int cpage, @Query("count") int count);
 }

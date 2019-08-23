@@ -67,4 +67,6 @@
     <color name="dialog_content_color">#FF0909</color>
     <color name="dialog_understand_button_color">#FF4887</color>
     <color name="dialog_dobule_buttopn_color">#FF6B09</color>
+    source_color
+    <color name="source_color">#B3B1B1</color>
 </resources>

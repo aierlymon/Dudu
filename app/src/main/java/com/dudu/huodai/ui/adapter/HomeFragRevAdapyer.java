@@ -24,6 +24,8 @@ import com.dudu.huodai.LabelActivity;
 import com.dudu.huodai.R;
 import com.dudu.huodai.SpecialActivity;
 import com.dudu.huodai.StoryActivity;
+import com.dudu.huodai.mvp.model.DDHomeFRBodyHolder;
+import com.dudu.huodai.mvp.model.DDHomeFRMenuHolder;
 import com.dudu.huodai.mvp.model.HomeFRAdvertHolder;
 import com.dudu.huodai.mvp.model.HomeFRBannerHolder;
 import com.dudu.huodai.mvp.model.HomeFRBigBackHoder;
@@ -124,9 +126,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         if (modelList.get(position) instanceof HomeFRBannerHolder) {
             MyLog.i("检测到HomeFRBannerHolder");
             return BANNER;
-        } else if (modelList.get(position) instanceof HomeFRMenuHolder) {
+        } else if (modelList.get(position) instanceof DDHomeFRMenuHolder) {
             return MENU;
-        } else if (modelList.get(position) instanceof HomeFRBodyHolder) {
+        } else if (modelList.get(position) instanceof DDHomeFRBodyHolder) {
             return BODY;
         } else if(modelList.get(position) instanceof HomeFRAdvertHolder){
             return ADVERT;
@@ -173,7 +175,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
     }
 
-    class MenuHolder extends BaseMulViewHolder<HomeFRMenuHolder> {
+    class MenuHolder extends BaseMulViewHolder<DDHomeFRMenuHolder> {
         private LoanFraTypeBean loanFraTypeBean = new LoanFraTypeBean();
         @BindView(R.id.recv_menu)
         RecyclerView recyclerView;
@@ -197,7 +199,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         }
 
         @Override
-        public void bindData(HomeFRMenuHolder dataModel, int position) {
+        public void bindData(DDHomeFRMenuHolder dataModel, int position) {
             homeMenuRevAdapter.setMulDataModelList(dataModel.getLoanCategoriesBean());
             homeMenuRevAdapter.notifyDataSetChanged();
             homeMenuRevAdapter.setOnItemClickListener((view, position1) -> {
@@ -213,7 +215,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         }
     }
 
-    class BodyHolder extends BaseMulViewHolder<HomeFRBodyHolder> {
+    class BodyHolder extends BaseMulViewHolder<DDHomeFRBodyHolder> {
 
         @BindView(R.id.recv_menu)
         RecyclerView recyclerView;
@@ -228,13 +230,10 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         }
 
         @Override
-        public void bindData(HomeFRBodyHolder dataModel, int position) {
+        public void bindData(DDHomeFRBodyHolder dataModel, int position) {
             MyLog.i("BodyHolder new");
             HomeBodyRevAdapter homeBodyRevAdapter = new HomeBodyRevAdapter(mContext, dataModel.getHomeBodyBeanList());
             homeBodyRevAdapter.setOnItemClickListener((view, position1) -> {
-
-                webViewBean.setUrl(dataModel.getHomeBodyBeanList().get(position1).getUrl());
-                webViewBean.setTag(null);
 
                 //这里出发了两次
                 if (ApplicationPrams.loginCallBackBean != null) {
@@ -243,9 +242,10 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     recordBean.setUserId(ApplicationPrams.loginCallBackBean.getId());
                     EventBus.getDefault().post(recordBean);
                 }
-                go(view, position1, webViewBean);
+
 
                 Intent intent=new Intent(mContext, StoryActivity.class);
+                intent.putExtra("id",dataModel.getHomeBodyBeanList().get(position1).getId());
                 mContext.startActivity(intent);
 
             });

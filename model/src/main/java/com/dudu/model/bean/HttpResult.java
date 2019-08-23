@@ -16,7 +16,24 @@ public class HttpResult<T> {
     private T data;
     private int statusCode;
     private String msg;
+    private String result;
+    private T story_list;
 
+    public T getStory_list() {
+        return story_list;
+    }
+
+    public void setStory_list(T story_list) {
+        this.story_list = story_list;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
 
     public int getStatusCode() {
         return statusCode;
@@ -40,5 +57,16 @@ public class HttpResult<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "HttpResult{" +
+                "data=" + data +
+                ", statusCode=" + statusCode +
+                ", msg='" + msg + '\'' +
+                ", result='" + result + '\'' +
+                ", story_list=" + story_list +
+                '}';
     }
 }
