@@ -26,70 +26,107 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/toolbar_height" />
 
-
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/story_myhead"
                 android:layout_margin="@dimen/left_right_marigin"
-                android:background="#0ff"
-                android:orientation="vertical">
+                android:scrollbars="none"
+                android:background="#0ff">
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/y162"
-                    android:background="#00f" />
+                    android:layout_height="match_parent"
 
-                <include
-                    layout="@layout/icon_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/y30" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/common_item_marigin"
-                    android:text="神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。"
-                    android:textColor="@color/content_color"
-                    android:textSize="@dimen/font_px12" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y162"
+                        android:background="#00f" />
 
-                <include
-                    layout="@layout/icon_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/y30"
-                    android:layout_marginTop="@dimen/double_common_item_marigin" />
+                    <include
+                        layout="@layout/icon_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y30" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/common_item_marigin"
-                    android:text="神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。"
-                    android:textColor="@color/content_color"
-                    android:textSize="@dimen/font_px12" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_item_marigin"
+                        android:lineSpacingExtra="@dimen/y5"
+                        android:text="神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+"
+                        android:textColor="@color/content_color"
+                        android:textSize="@dimen/font_px12" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/y85"
-                    android:background="#ff0" />
+                    <include
+                        layout="@layout/icon_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y30"
+                        android:layout_marginTop="@dimen/double_common_item_marigin" />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/y43"
-                    android:text="展开全文"
-                    android:layout_marginTop="@dimen/double_common_item_marigin"
-                    android:background="@drawable/dudu_oppen_button"
-                    android:textSize="@dimen/font_px18"
-                    android:textColor="@color/recommand_button_next" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/common_item_marigin"
+                        android:text="神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。
+神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。神话中不是思念团聚的意思，而是为了纪念桓景铲除瘟魔、为民除害。"
+                        android:textColor="@color/content_color"
+                        android:lineSpacingExtra="@dimen/y5"
+                        android:textSize="@dimen/font_px12" />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/y43"
-                    android:text="分享赚现金"
-                    android:layout_marginTop="@dimen/x15"
-                    android:background="@drawable/dudu_sharemoney_button"
-                    android:textSize="@dimen/font_px18"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y85"
+                        android:background="#ff0" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y40"
+                        android:text="展开全文"
+                        android:layout_marginTop="@dimen/double_common_item_marigin"
+                        android:background="@drawable/dudu_oppen_button"
+                        android:textSize="@dimen/font_px18"
+                        android:textColor="@color/recommand_button_next" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y40"
+                        android:text="分享赚现金"
+                        android:layout_marginTop="@dimen/x15"
+                        android:layout_marginBottom="@dimen/double_common_item_marigin"
+                        android:background="@drawable/dudu_sharemoney_button"
+                        android:textSize="@dimen/font_px18"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </ScrollView>
+
+
 
 
         </RelativeLayout>

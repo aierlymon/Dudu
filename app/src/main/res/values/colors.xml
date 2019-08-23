@@ -64,4 +64,7 @@
     <color name="recommand_selected_item_border">#FF946E</color>
     <color name="recommand_button_next">#FF946E</color>
     <color name="content_color">#222222</color>
+    <color name="dialog_content_color">#FF0909</color>
+    <color name="dialog_understand_button_color">#FF4887</color>
+    <color name="dialog_dobule_buttopn_color">#FF6B09</color>
 </resources>

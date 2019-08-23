@@ -72,6 +72,8 @@
                 android:layout_below="@+id/tx_menu_title"
                 android:layout_marginLeft="@dimen/common_item_marigin"
                 android:layout_marginRight="@dimen/common_item_marigin"
+                android:lineSpacingExtra="@dimen/y3"
+                android:layout_marginTop="@dimen/y2"
                 android:textSize="@dimen/font_px12"/>
 
             <LinearLayout

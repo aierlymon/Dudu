@@ -35,11 +35,11 @@
         android:theme="@style/AppTheme">
 
         <activity android:name="com.dudu.huodai.StoryActivity">
-            <intent-filter>
+          <!--  <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <activity
@@ -64,16 +64,23 @@
         <activity
             android:name="com.dudu.huodai.MainActivity"
             android:launchMode="singleTop">
-             <!-- <intent-filter>
+              <intent-filter>
                   <action android:name="android.intent.action.MAIN" />
 
                   <category android:name="android.intent.category.LAUNCHER" />
-              </intent-filter>-->
+              </intent-filter>
         </activity>
 
         <activity
             android:name="com.dudu.huodai.LoginActivity"
             android:launchMode="singleTop"></activity>
+
+        <activity android:name=".LabelActivity"
+            android:launchMode="singleTop">
+
+        </activity>
+
+        <activity android:name=".SpecialActivity"></activity>
 
         <activity
             android:name="com.dudu.huodai.WebActivity"

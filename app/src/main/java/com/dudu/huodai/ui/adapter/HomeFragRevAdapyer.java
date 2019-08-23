@@ -1,10 +1,12 @@
 package com.dudu.huodai.ui.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +20,13 @@ import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.ApplicationPrams;
+import com.dudu.huodai.LabelActivity;
 import com.dudu.huodai.R;
+import com.dudu.huodai.SpecialActivity;
+import com.dudu.huodai.StoryActivity;
 import com.dudu.huodai.mvp.model.HomeFRAdvertHolder;
 import com.dudu.huodai.mvp.model.HomeFRBannerHolder;
+import com.dudu.huodai.mvp.model.HomeFRBigBackHoder;
 import com.dudu.huodai.mvp.model.HomeFRBodyHolder;
 import com.dudu.huodai.mvp.model.HomeFRBodyHolderFH;
 import com.dudu.huodai.mvp.model.HomeFRMenuHolder;
@@ -30,6 +36,7 @@ import com.dudu.huodai.mvp.model.postbean.RecordBean;
 import com.dudu.huodai.mvp.model.postbean.WebViewBean;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import com.dudu.huodai.ui.adapter.base.BaseMulViewHolder;
+import com.dudu.huodai.widget.MoneyDialog;
 import com.dudu.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
 import com.dudu.model.bean.NewHomeBannerBean;
 
@@ -43,11 +50,13 @@ import butterknife.BindView;
 public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> {
 
     List<BaseMulDataModel> modelList;
-    private static final int BANNER = 0;
-    private static final int MENU = 1;
-    private static final int BODY = 2;
-    private static final int HISTORY = 3;
-    private static final int ADVERT=4;
+    private static final int BANNER = 0;//头部
+    private static final int MENU = 1;//主题
+    private static final int BODY = 2;//正文最多的内容
+    private static final int HISTORY = 3;//历史
+    private static final int ADVERT=4;//广告
+    private static final int BIGBACK=5;//大标题
+
     private Activity mContext;
     private WebViewBean webViewBean;//EventBus进行WebActivity页面跳转的实体类
     private BannerHolder bannerHolder;
@@ -92,6 +101,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             case ADVERT:
                 return new AdvertHolder(LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.advert, viewGroup, false));
+            case BIGBACK:
+                return new BigBackHolder(LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.fra_home_bigback, viewGroup, false));
         }
         return null;
     }
@@ -118,6 +130,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             return BODY;
         } else if(modelList.get(position) instanceof HomeFRAdvertHolder){
             return ADVERT;
+        } else if(modelList.get(position) instanceof HomeFRBigBackHoder){
+            return BIGBACK;
         }else {
             return HISTORY;
         }
@@ -149,6 +163,11 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         @Override
         public void bindData(HomeFRBannerHolder dataModel, int position) {
             //因为不是网上获取。所以暂时不处理
+            homeBannerRevAdapter.setOnItemClickListener((view, position1) -> {
+                MyLog.i("标签选中: "+position1);
+                Intent intent=new Intent(mContext, LabelActivity.class);
+                mContext.startActivity(intent);
+            });
         }
 
 
@@ -184,9 +203,12 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             homeMenuRevAdapter.setOnItemClickListener((view, position1) -> {
                 MyLog.i("MenuHolder id: " + dataModel.getLoanCategoriesBean().get(position1).getId());
 
-                loanFraTypeBean.setId(dataModel.getLoanCategoriesBean().get(position1).getId());
+             /*   loanFraTypeBean.setId(dataModel.getLoanCategoriesBean().get(position1).getId());
                 loanFraTypeBean.setName(dataModel.getLoanCategoriesBean().get(position1).getName());
-                go(view, position1, loanFraTypeBean);
+                go(view, position1, loanFraTypeBean);*/
+
+             Intent intent=new Intent(mContext, SpecialActivity.class);
+             mContext.startActivity(intent);
             });
         }
     }
@@ -210,6 +232,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             MyLog.i("BodyHolder new");
             HomeBodyRevAdapter homeBodyRevAdapter = new HomeBodyRevAdapter(mContext, dataModel.getHomeBodyBeanList());
             homeBodyRevAdapter.setOnItemClickListener((view, position1) -> {
+
                 webViewBean.setUrl(dataModel.getHomeBodyBeanList().get(position1).getUrl());
                 webViewBean.setTag(null);
 
@@ -221,6 +244,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     EventBus.getDefault().post(recordBean);
                 }
                 go(view, position1, webViewBean);
+
+                Intent intent=new Intent(mContext, StoryActivity.class);
+                mContext.startActivity(intent);
 
             });
             //  recyclerView.addItemDecoration(new SpaceItemDecoration(20,20,1));
@@ -269,6 +295,29 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 //加载图片，如gide
                 Glide.with(mContext).load(item).into(view);
             });
+        }
+    }
+
+    class BigBackHolder extends BaseMulViewHolder<HomeFRBigBackHoder>{
+
+
+        Button btnBigshare;
+
+        public BigBackHolder(View itemView) {
+            super(itemView);
+            btnBigshare= itemView.findViewById(R.id.button_bigshare);
+            btnBigshare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MyLog.i("点击了大的分享了");
+                    MoneyDialog.Builder(mContext).setMessage("感谢分享").setTitle("+45").build().shown();
+                }
+            });
+        }
+
+        @Override
+        public void bindData(HomeFRBigBackHoder dataModel, int position) {
+
         }
     }
 

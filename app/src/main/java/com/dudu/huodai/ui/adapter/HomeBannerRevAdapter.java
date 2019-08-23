@@ -22,6 +22,16 @@ public class HomeBannerRevAdapter extends RecyclerView.Adapter<HomeBannerRevAdap
 
     private Context mContext;
 
+    private OnItemClickListener mOnItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
     public HomeBannerRevAdapter( Context context,String[] iconNames, int[] icons) {
         this.iconNames = iconNames;
         this.icons = icons;
@@ -30,7 +40,10 @@ public class HomeBannerRevAdapter extends RecyclerView.Adapter<HomeBannerRevAdap
 
     @Override
     public void onClick(View view) {
-
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            mOnItemClickListener.onItemClick(view, (int) view.getTag());
+        }
     }
 
     @NonNull
@@ -47,6 +60,7 @@ public class HomeBannerRevAdapter extends RecyclerView.Adapter<HomeBannerRevAdap
         int size = (int) mContext.getResources().getDimension(R.dimen.x37);
         options.override(size, size); //设置加载的图片大小
         Glide.with(mContext).load(icons[position]).apply(options).into(holder.icon);
+        holder.itemView.setTag(position);
     }
 
     @Override
