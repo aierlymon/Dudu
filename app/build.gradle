@@ -46,6 +46,12 @@ android {
         }
     }
 
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -90,10 +96,14 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     //引用module的butterknife的时候要加这个，不然引用失败
     annotationProcessor rootProject.ext.annotationProcessorList["butterknife-compiler"]
     implementation project(':baselib')
     implementation project(path: ':model')
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation files('libs/open_sdk_r6137_lite.jar')
 
 }

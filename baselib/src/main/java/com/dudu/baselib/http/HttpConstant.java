@@ -10,7 +10,7 @@ import android.content.Context;
 public abstract class HttpConstant {
     public static int DEFAULT_TIME_OUT = 8;//超时时间 单位（s）秒
 
-    //http://ihoufeng.com/
+    //https://www.dudugushi.com/anonymous/story/recommendation/
     public static String BASE_URL = "https://www.dudugushi.com/";
     // public static String BASE_URL = "http://47.112.217.160/";
 

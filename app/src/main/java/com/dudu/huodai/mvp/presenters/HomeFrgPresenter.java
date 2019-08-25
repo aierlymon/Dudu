@@ -201,7 +201,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                         if (httpResult.getResult().equals("success")) {
                             MyLog.i("我来到了请求DD内容: "+httpResult.toString());
                             DDHomeFRBodyHolder homeFRBodyHolder = new DDHomeFRBodyHolder();
-                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData());
+                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getStory_list());
                             if(list.size()>=count){
                                 list.clear();
                             }

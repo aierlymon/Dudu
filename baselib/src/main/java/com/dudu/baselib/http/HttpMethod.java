@@ -12,6 +12,7 @@ import com.dudu.model.bean.RecommandStateBean;
 import com.dudu.model.bean.SplashBean;
 import com.dudu.model.bean.StoryInfo;
 import com.dudu.model.bean.StoryTable;
+import com.dudu.model.bean.SubjectInfo;
 import com.dudu.model.bean.SubjectTable;
 import com.dudu.model.bean.UpdateBean;
 import com.google.gson.JsonObject;
@@ -225,7 +226,7 @@ public class HttpMethod {
     }
 
     //请求专题详情
-    public  Observable<StoryInfo> requestSubjectInfo(int id,int page,int count){
+    public  Observable<SubjectInfo> requestSubjectInfo(int id, int page, int count){
         return mMovieService.requestSubjectInfo(id,page,count);
     }
 }

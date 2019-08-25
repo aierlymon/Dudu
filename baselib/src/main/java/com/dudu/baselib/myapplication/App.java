@@ -8,6 +8,8 @@ import androidx.multidex.MultiDex;
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
 import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.utils.Utils;
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.auth.AuthInfo;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -21,6 +23,14 @@ public class App extends Application {
 
     private RefWatcher mRefWatcher;
     public static String token="";
+
+    public static final String APP_ID = "wxd930ea5d5a258f4f";
+    public static  final  String APP_WB_KEY="wxd930ea5d5a258f4f";
+
+    public static final String SCOPE =
+            "email,direct_messages_read,direct_messages_write,"
+                    + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+                    + "follow_app_official_microblog," + "invitation_write";
 
     @Override
     public void onCreate() {
@@ -41,6 +51,8 @@ public class App extends Application {
         HttpConstant.context = this.getApplicationContext();
         NetWorkStateBroadcast.isOnline.set(Utils.isNetworkConnected(this));
 
+        //微博
+        WbSdk.install(this,new AuthInfo(this, APP_WB_KEY, "http://www.sina.com", SCOPE));
 
     }
 

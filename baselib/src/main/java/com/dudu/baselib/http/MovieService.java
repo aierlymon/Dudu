@@ -11,6 +11,7 @@ import com.dudu.model.bean.RecommandStateBean;
 import com.dudu.model.bean.SplashBean;
 import com.dudu.model.bean.StoryInfo;
 import com.dudu.model.bean.StoryTable;
+import com.dudu.model.bean.SubjectInfo;
 import com.dudu.model.bean.SubjectTable;
 import com.dudu.model.bean.UpdateBean;
 import com.google.gson.JsonObject;
@@ -129,5 +130,5 @@ public interface MovieService {
     //专题内容详情
     //故事详情
     @GET("subject/{id}/story/")
-    Observable<StoryInfo> requestSubjectInfo(@Path("id") int storyId,@Query("page") int cpage, @Query("count") int count);
+    Observable<SubjectInfo> requestSubjectInfo(@Path("id") int storyId, @Query("page") int cpage, @Query("count") int count);
 }

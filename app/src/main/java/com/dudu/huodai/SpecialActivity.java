@@ -1,6 +1,9 @@
 package com.dudu.huodai;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dudu.baselib.base.BaseMvpActivity;
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
+import com.dudu.baselib.myapplication.App;
 import com.dudu.baselib.utils.CustomToast;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.StatusBarUtil;
@@ -19,6 +23,9 @@ import com.dudu.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import com.dudu.huodai.ui.adapter.decoration.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.List;
 
@@ -37,6 +44,7 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
 
     //body的当前刷新页面
     private int currentPage = 1;
+
 
     @Override
     protected SpecialPresenter createPresenter() {
@@ -71,15 +79,17 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
             return;
         }
 
-        initRequest();
+        Intent intent=getIntent();
+        int id=intent.getIntExtra("id",-1);
+        initRequest(id,currentPage,10);
         init();
     }
 
-    private void initRequest() {
+    private void initRequest(int id, int currentPage, int i) {
         //   showLoading();
         mPresenter.requestHead();//请求banner
         mPresenter.requestMenu();//请求菜单
-       // mPresenter.requestBody();//请求body
+        mPresenter.requestBody(id,currentPage,i);//请求body
     }
 
     private void init() {
@@ -169,4 +179,6 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
         fragRevAdapyer.notifyDataSetChanged();
         refreshLayout.finishLoadMore();
     }
+
+
 }

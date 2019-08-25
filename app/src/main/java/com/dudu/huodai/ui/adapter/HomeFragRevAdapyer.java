@@ -210,6 +210,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 go(view, position1, loanFraTypeBean);*/
 
              Intent intent=new Intent(mContext, SpecialActivity.class);
+                intent.putExtra("id",dataModel.getLoanCategoriesBean().get(position1).getId());
              mContext.startActivity(intent);
             });
         }

@@ -20,6 +20,7 @@ import com.dudu.model.bean.NewHomeMenuBean;
 import com.dudu.model.bean.StoryTable;
 import com.dudu.model.bean.SubjectInfo;
 import com.dudu.model.bean.SubjectTable;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,8 +184,14 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
                         if (httpResult.getResult().equals("success")) {
                             MyLog.i("我来到了请求DD内容: "+httpResult.toString());
                             DDHomeFRBodyHolder homeFRBodyHolder = new DDHomeFRBodyHolder();
-
-                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData());
+                            List<StoryTable> tableArrayList=new ArrayList<>();
+                            for(int i=0;i<httpResult.getData().size();i++){
+                                String str=new Gson().toJson(httpResult.getData().get(i));
+                                MyLog.i("json： "+str);
+                                tableArrayList.add(new Gson().fromJson(str,StoryTable.class));
+                            }
+                            MyLog.i("tableArrayList.size: "+tableArrayList.size());
+                            homeFRBodyHolder.setHomeBodyBeanList(tableArrayList);
                             if(list.size()>=count){
                                 list.clear();
                             }
