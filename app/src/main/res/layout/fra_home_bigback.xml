@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    
-    <ImageView
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y156"
-        android:background="#0ff"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/special_bigicon"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y156"
+            android:background="#0ff"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:layout_width="@dimen/y60"
+            android:layout_height="@dimen/y60"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/media_pause"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 
     <Button
         android:id="@+id/button_bigshare"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y40"
-        android:background="@drawable/dudu_bigsharemoney_button"
         android:layout_marginTop="@dimen/double_common_item_marigin"
+        android:background="@drawable/dudu_bigsharemoney_button"
+        android:text="分享赚现金"
         android:textColor="@color/white"
-        android:textSize="@dimen/font_px18"
-        android:text="分享赚现金"/>
+        android:textSize="@dimen/font_px18" />
 </LinearLayout>

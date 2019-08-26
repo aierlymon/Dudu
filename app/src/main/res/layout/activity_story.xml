@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--外部用来填充的颜色-->
@@ -26,11 +27,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/toolbar_height" />
 
+            <include
+                android:id="@+id/story_media"
+                layout="@layout/media_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y45"
+                android:layout_below="@+id/story_myhead"
+                android:visibility="gone"/>
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/story_myhead"
-                android:layout_margin="@dimen/left_right_marigin"
+                android:layout_below="@+id/story_media"
+                android:layout_marginLeft="@dimen/left_right_marigin"
+                android:layout_marginRight="@dimen/left_right_marigin"
                 android:scrollbars="none">
 
                 <LinearLayout
@@ -38,39 +48,25 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/y160">
+                        android:layout_height="@dimen/y190">
 
                         <ImageView
                             android:id="@+id/story_bigback"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="@dimen/y160"
                             android:scaleType="fitXY" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+
+                        <ImageView
+                            android:id="@+id/story_control"
+                            android:layout_width="@dimen/y60"
+                            android:layout_height="@dimen/y60"
+                            android:layout_alignParentRight="true"
                             android:layout_alignParentBottom="true"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <SeekBar
-                                android:id="@+id/seekbar_story"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="8"/>
-
-                            <Button
-                                android:id="@+id/button_story_mp3"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:text="播放" />
-
-                        </LinearLayout>
-
-
+                            android:src="@drawable/media_pause" />
                     </RelativeLayout>
 
 

@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 
 public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresenter> implements SpecialImpl {
 
+
     @BindView(R.id.special_recyclerview)
     RecyclerView mRecyclerView;
     private List<BaseMulDataModel> baseMulDataModels;
@@ -45,6 +46,7 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
     //body的当前刷新页面
     private int currentPage = 1;
 
+    private int id;
 
     @Override
     protected SpecialPresenter createPresenter() {
@@ -80,14 +82,14 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
         }
 
         Intent intent=getIntent();
-        int id=intent.getIntExtra("id",-1);
+        id =intent.getIntExtra("id",-1);
         initRequest(id,currentPage,10);
         init();
     }
 
     private void initRequest(int id, int currentPage, int i) {
         //   showLoading();
-        mPresenter.requestHead();//请求banner
+        //mPresenter.requestHead();//请求banner
         mPresenter.requestMenu();//请求菜单
         mPresenter.requestBody(id,currentPage,i);//请求body
     }
@@ -110,9 +112,9 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             if(NetWorkStateBroadcast.isOnline.get()){
                 currentPage = 1;
-                mPresenter.requestHead();//请求banner
+              //  mPresenter.requestHead();//请求banner
                 mPresenter.requestMenu();//请求菜单
-               // mPresenter.requestBody();//请求body
+                mPresenter.requestBody(id,currentPage,10);//请求body//请求body
             }else{
                 if (this.refreshLayout.isRefreshing()) {
                     showError("没有网络");
@@ -167,6 +169,7 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
         if(mRecyclerView.getVisibility()== View.GONE){
             mRecyclerView.setVisibility(View.VISIBLE);
         }
+        fragRevAdapyer.setActivityTheme(ApplicationPrams.SpecialActivity);
         fragRevAdapyer.setModelList(list);
         fragRevAdapyer.notifyDataSetChanged();
         if (refreshLayout.isRefreshing()) {
@@ -179,6 +182,7 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
         fragRevAdapyer.notifyDataSetChanged();
         refreshLayout.finishLoadMore();
     }
+
 
 
 }

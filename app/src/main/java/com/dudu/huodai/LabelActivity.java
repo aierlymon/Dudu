@@ -38,6 +38,7 @@ public class LabelActivity extends BaseMvpActivity<LabelImpl, LabelPresenter> im
     //body的当前刷新页面
     private int currentPage = 1;
 
+
     @Override
     protected LabelPresenter createPresenter() {
         return new LabelPresenter();
@@ -77,10 +78,13 @@ public class LabelActivity extends BaseMvpActivity<LabelImpl, LabelPresenter> im
         init();
     }
 
+    private int id;
     private void initRequest() {
+        Intent intent=getIntent();
+        id=intent.getIntExtra("id",-1);
         //   showLoading();
         mPresenter.requestMenu();//请求菜单
-        mPresenter.requestBody();//请求body
+        mPresenter.requestBody(id,currentPage,10);//请求body
     }
 
     private void init() {
@@ -103,7 +107,7 @@ public class LabelActivity extends BaseMvpActivity<LabelImpl, LabelPresenter> im
                 currentPage = 1;
                 mPresenter.requestHead();//请求banner
                 mPresenter.requestMenu();//请求菜单
-                mPresenter.requestBody();//请求body
+                mPresenter.requestBody(id,currentPage,10);//请求body
             }else{
                 if (this.refreshLayout.isRefreshing()) {
                     showError("没有网络");
@@ -159,6 +163,7 @@ public class LabelActivity extends BaseMvpActivity<LabelImpl, LabelPresenter> im
             mRecyclerView.setVisibility(View.VISIBLE);
         }
         fragRevAdapyer.setModelList(list);
+        fragRevAdapyer.setActivityTheme(ApplicationPrams.LabelActivity);
         fragRevAdapyer.notifyDataSetChanged();
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();

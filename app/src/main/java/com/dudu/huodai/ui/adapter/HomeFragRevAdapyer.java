@@ -56,12 +56,14 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     private static final int MENU = 1;//主题
     private static final int BODY = 2;//正文最多的内容
     private static final int HISTORY = 3;//历史
-    private static final int ADVERT=4;//广告
-    private static final int BIGBACK=5;//大标题
+    private static final int ADVERT = 4;//广告
+    private static final int BIGBACK = 5;//大标题
+
 
     private Activity mContext;
     private WebViewBean webViewBean;//EventBus进行WebActivity页面跳转的实体类
     private BannerHolder bannerHolder;
+    private int ActivityType;//判断是哪个activity
 
     public HomeFragRevAdapyer(Activity mContext, List<BaseMulDataModel> modelList) {
         this.modelList = modelList;
@@ -130,11 +132,11 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             return MENU;
         } else if (modelList.get(position) instanceof DDHomeFRBodyHolder) {
             return BODY;
-        } else if(modelList.get(position) instanceof HomeFRAdvertHolder){
+        } else if (modelList.get(position) instanceof HomeFRAdvertHolder) {
             return ADVERT;
-        } else if(modelList.get(position) instanceof HomeFRBigBackHoder){
+        } else if (modelList.get(position) instanceof HomeFRBigBackHoder) {
             return BIGBACK;
-        }else {
+        } else {
             return HISTORY;
         }
     }
@@ -143,6 +145,11 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     private BannerBean bannerBean = new BannerBean();
 
     private boolean isBannerStart;//防止定时器多发
+
+    //type=1 SpecialActivity 专题页面的调用
+    public void setActivityTheme(int type) {
+        this.ActivityType = type;
+    }
 
     class BannerHolder extends BaseMulViewHolder<HomeFRBannerHolder> {
         @BindView(R.id.banner_recyclerview)
@@ -157,8 +164,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
         public BannerHolder(View itemView) {
             super(itemView);
-            recyclerView.setLayoutManager(new GridLayoutManager(mContext,4));
-            homeBannerRevAdapter=new HomeBannerRevAdapter(mContext,iconNames,icons);
+            recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
+            homeBannerRevAdapter = new HomeBannerRevAdapter(mContext, iconNames, icons);
             recyclerView.setAdapter(homeBannerRevAdapter);
         }
 
@@ -166,8 +173,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         public void bindData(HomeFRBannerHolder dataModel, int position) {
             //因为不是网上获取。所以暂时不处理
             homeBannerRevAdapter.setOnItemClickListener((view, position1) -> {
-                MyLog.i("标签选中: "+position1);
-                Intent intent=new Intent(mContext, LabelActivity.class);
+                MyLog.i("标签选中: " + position1);
+                Intent intent = new Intent(mContext, LabelActivity.class);
+                intent.putExtra("id", position1);
                 mContext.startActivity(intent);
             });
         }
@@ -183,6 +191,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         @BindView(R.id.tx_title)
         TextView txTitle;
 
+        @BindView(R.id.common_title)
+        View view;
 
         private HomeMenuRevAdapter homeMenuRevAdapter;
 
@@ -195,7 +205,20 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             homeMenuRevAdapter = new HomeMenuRevAdapter(mContext, null);
 
             recyclerView.setAdapter(homeMenuRevAdapter);
-            txTitle.setText(mContext.getResources().getString(R.string.recommendedtopics));
+
+            switch (ActivityType) {
+                case ApplicationPrams.SpecialActivity:
+                    view.setVisibility(View.GONE);
+                    break;
+                case ApplicationPrams.LabelActivity:
+                    txTitle.setText(mContext.getResources().getString(R.string.story_before_sleep));
+                    break;
+                default:
+                    txTitle.setText(mContext.getResources().getString(R.string.recommendedtopics));
+                    break;
+            }
+
+
         }
 
         @Override
@@ -209,9 +232,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 loanFraTypeBean.setName(dataModel.getLoanCategoriesBean().get(position1).getName());
                 go(view, position1, loanFraTypeBean);*/
 
-             Intent intent=new Intent(mContext, SpecialActivity.class);
-                intent.putExtra("id",dataModel.getLoanCategoriesBean().get(position1).getId());
-             mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, SpecialActivity.class);
+                intent.putExtra("id", dataModel.getLoanCategoriesBean().get(position1).getId());
+                mContext.startActivity(intent);
             });
         }
     }
@@ -223,11 +246,25 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
         @BindView(R.id.tx_title)
         TextView txTitle;
+
+        @BindView(R.id.common_title)
+        View view;
+
         public BodyHolder(View itemView) {
             super(itemView);
             LinearLayoutManager manager = new LinearLayoutManager(mContext);
             recyclerView.setLayoutManager(manager);
             txTitle.setText(mContext.getResources().getString(R.string.recommendationstory));
+
+            switch (ActivityType) {
+                case ApplicationPrams.SpecialActivity:
+                case ApplicationPrams.LabelActivity:
+                    view.setVisibility(View.GONE);
+                    break;
+                default:
+                    txTitle.setText(mContext.getResources().getString(R.string.recommendedtopics));
+                    break;
+            }
         }
 
         @Override
@@ -245,8 +282,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 }
 
 
-                Intent intent=new Intent(mContext, StoryActivity.class);
-                intent.putExtra("id",dataModel.getHomeBodyBeanList().get(position1).getId());
+                Intent intent = new Intent(mContext, StoryActivity.class);
+                intent.putExtra("id", dataModel.getHomeBodyBeanList().get(position1).getId());
                 mContext.startActivity(intent);
 
             });
@@ -255,15 +292,16 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         }
     }
 
-    class AdvertHolder extends BaseMulViewHolder<HomeFRAdvertHolder>{
+    class AdvertHolder extends BaseMulViewHolder<HomeFRAdvertHolder> {
         @BindView(R.id.advert_loopviewpager)
         LoopViewPager loopViewPager;
 
         //http://pic33.nipic.com/20131007/13639685_123501617185_2.jpg
         private List<String> dataList;
+
         public AdvertHolder(View itemView) {
             super(itemView);
-            dataList=new ArrayList<>();
+            dataList = new ArrayList<>();
             dataList.add("http://pic33.nipic.com/20131007/13639685_123501617185_2.jpg");
         }
 
@@ -273,12 +311,12 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
             if (dataList.size() > 1) {
                 loopViewPager.showIndicator(true);
-                if(!isBannerStart){
+                if (!isBannerStart) {
                     loopViewPager.startBanner();
-                }else{
+                } else {
                     loopViewPager.setCurrentItem(0);
                 }
-                isBannerStart=true;
+                isBannerStart = true;
                 loopViewPager.setIndicatorGravity(LoopViewPager.IndicatorGravity.RIGHT);
             }
 
@@ -299,14 +337,15 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         }
     }
 
-    class BigBackHolder extends BaseMulViewHolder<HomeFRBigBackHoder>{
+    class BigBackHolder extends BaseMulViewHolder<HomeFRBigBackHoder> {
 
 
         Button btnBigshare;
+        ImageView specialBigicon;
 
         public BigBackHolder(View itemView) {
             super(itemView);
-            btnBigshare= itemView.findViewById(R.id.button_bigshare);
+            btnBigshare = itemView.findViewById(R.id.button_bigshare);
             btnBigshare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -314,11 +353,12 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     MoneyDialog.Builder(mContext).setMessage("感谢分享").setTitle("+45").build().shown();
                 }
             });
+            specialBigicon = itemView.findViewById(R.id.special_bigicon);
         }
 
         @Override
         public void bindData(HomeFRBigBackHoder dataModel, int position) {
-
+            Glide.with(mContext).load(dataModel.getBigIcon()).into(specialBigicon);
         }
     }
 

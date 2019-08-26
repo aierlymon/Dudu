@@ -1,5 +1,6 @@
 package com.dudu.huodai.mvp.presenters;
 
+import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.http.HttpMethod;
 import com.dudu.baselib.http.myrxsubcribe.MySubscriber;
 import com.dudu.baselib.mvp.BasePresenter;
@@ -153,6 +154,7 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
                             if(list.size()>=count){
                                 list.clear();
                             }
+
                             list.add(homeFRMenuHolder);
                             MyLog.i("list.size: "+list.size());
                         } else {
@@ -195,6 +197,7 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
                             if(list.size()>=count){
                                 list.clear();
                             }
+                            list.add(0,new HomeFRBigBackHoder(HttpConstant.PIC_BASE_URL+httpResult.getPicture()));
                             list.add(new HomeFRAdvertHolder());
                             list.add(homeFRBodyHolder);
                             MyLog.i("list.size: "+list.size());

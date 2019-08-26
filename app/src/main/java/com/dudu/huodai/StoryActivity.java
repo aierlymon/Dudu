@@ -4,18 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -24,21 +21,24 @@ import com.bumptech.glide.Glide;
 import com.dudu.baselib.base.BaseMvpActivity;
 import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.myapplication.App;
+import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.StatusBarUtil;
+import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.mvp.presenters.StoryPresenter;
 import com.dudu.huodai.mvp.view.StoryImpl;
-import com.dudu.huodai.utils.WXUtil;
+import com.dudu.huodai.widget.CircleImageView;
+import com.dudu.huodai.widget.SharePopWindow;
 import com.dudu.model.bean.StoryInfo;
 import com.tencent.connect.share.QQShare;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,10 +77,30 @@ public class StoryActivity extends BaseMvpActivity<StoryImpl, StoryPresenter> im
     @BindView(R.id.tx_story_resource)
     TextView txStoryReSource;
 
-    @BindView(R.id.seekbar_story)
-    SeekBar seekBar;
+
+    @BindView(R.id.story_media)
+    View view;
+
+    @BindView(R.id.story_control)
+    ImageView storyControl;
+
+    @BindView(R.id.tx_title)
+    TextView txTitle;
+
+    @BindView(R.id.img_back)
+    ImageView imgBack;
 
     private IWXAPI api;
+
+    private static MediaPlayer player;
+
+    @BindView(R.id.media_prgress)
+    ProgressBar mediaProgress;
+    private CircleImageView mediaPlayIcon;
+    private TextView refreshTime;
+    private TextView countTime;
+    private CircleImageView littleControl;
+    private TextView txTitleMedia;
 
 
     @Override
@@ -92,6 +112,7 @@ public class StoryActivity extends BaseMvpActivity<StoryImpl, StoryPresenter> im
     public boolean isUseLayoutRes() {
         return true;
     }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,6 +136,7 @@ public class StoryActivity extends BaseMvpActivity<StoryImpl, StoryPresenter> im
             return;
         }
 
+
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", -1);
         initRequest(id);
@@ -132,6 +154,7 @@ public class StoryActivity extends BaseMvpActivity<StoryImpl, StoryPresenter> im
         regToWx();
 
         ButterKnife.bind(this);
+        imgBack.setVisibility(View.VISIBLE);
 
         //设置故事名称
         ((TextView) viewState.findViewById(R.id.tx_title)).setText(getResources().getString(R.string.story_state));
@@ -140,7 +163,12 @@ public class StoryActivity extends BaseMvpActivity<StoryImpl, StoryPresenter> im
         //设置分享按钮可见
         btnShare.setVisibility(View.VISIBLE);
 
-
+        //这个是故事播放器的控件名称
+        mediaPlayIcon = ((CircleImageView) view.findViewById(R.id.title_icon));
+        refreshTime = ((TextView) view.findViewById(R.id.refresh_time));
+        countTime = ((TextView) view.findViewById(R.id.count_time));
+        littleControl = ((CircleImageView) view.findViewById(R.id.story_littel_control));
+        txTitleMedia = ((TextView) view.findViewById(R.id.tx_title_media));
     }
 
     @Override
@@ -163,7 +191,13 @@ public class StoryActivity extends BaseMvpActivity<StoryImpl, StoryPresenter> im
 
     }
 
-    @OnClick({R.id.button_showcontent, R.id.button_story_bigshare,R.id.button_story_mp3})
+
+    private int currentTime;//这个是当前播放时间
+    private Timer timer;//播放音频的定时器
+    private int duration;//音频时长
+    private boolean isPlay;//当前的播放状态
+
+    @OnClick({R.id.button_showcontent, R.id.button_story_bigshare, R.id.share, R.id.story_control,R.id.story_littel_control,R.id.story_little_close})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_showcontent:
@@ -192,8 +226,8 @@ public class StoryActivity extends BaseMvpActivity<StoryImpl, StoryPresenter> im
 //调用api接口，发送数据到微信
                 api.sendReq(req);*/
 
-             //qq分享
-                Tencent mTencent=Tencent.createInstance("1109804834",StoryActivity.this);
+                //qq分享
+                Tencent mTencent = Tencent.createInstance("1109804834", StoryActivity.this);
                 final Bundle params = new Bundle();
                 params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
                 params.putString(QQShare.SHARE_TO_QQ_TITLE, "要分享的标题");
@@ -203,27 +237,116 @@ public class StoryActivity extends BaseMvpActivity<StoryImpl, StoryPresenter> im
                 params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "测试应用222222");
                 params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
                 mTencent.shareToQQ(StoryActivity.this, params, this);
-                break;
-            case R.id.button_story_mp3:
-                if(!TextUtils.isEmpty(url)){
-                    MediaPlayer player= MediaPlayer.create(StoryActivity.this, Uri.parse(HttpConstant.PIC_BASE_URL+url));
-                    int max = player.getDuration();//获取音乐的播放时间  单位是毫秒
-                    player.start();
-                    seekBar.setMax(max);
-                }
 
+
+                break;
+            case R.id.share:
+                SharePopWindow sharePopWindow = new SharePopWindow(this);
+                sharePopWindow.showAtLocation(findViewById(R.id.parent_view), Gravity.BOTTOM, 0, 0);
+                break;
+            case R.id.story_littel_control:
+            case R.id.story_control:
+                startAutioPlay();
+                break;
+            case R.id.story_little_close:
+                stopAutioPlay();
                 break;
         }
     }
 
+    private void stopAutioPlay() {
+        //关闭定时器
+        if(timer!=null){
+            timer.cancel();
+            timer=null;
+        }
+        //定制播放音频
+        if(player!=null){
+            player.stop();
+            player=null;
+        }
+        ////图片变为初始化状态
+        Glide.with(this).load(R.drawable.media_pause).into(littleControl);
+        Glide.with(this).load(R.drawable.media_pause).into(storyControl);
+        //隐藏播放列表
+        view.setVisibility(View.GONE);
+        //把当前是否启动播放设置为false
+        isPlay=false;
+        //当前的进度条currentTime
+        currentTime=0;
+        mediaProgress.setProgress(0);
+    }
+
+    //是否播放音频
+    private void startAutioPlay() {
+        isPlay = !isPlay;
+        if (isPlay) {
+            //点击之后,第一次启动的时候
+            if (view.getVisibility() == View.GONE) {
+                if (player == null)
+                    player = MediaPlayer.create(StoryActivity.this.getApplicationContext(), Uri.parse(HttpConstant.PIC_BASE_URL + url));
+                //启动播放音频
+                duration = player.getDuration();//获取音乐的播放时间  单位是毫秒
+                mediaProgress.setMax(duration);
+                countTime.setText(Utils.generateTime(duration));
+                view.setVisibility(View.VISIBLE);
+                //设置图片为播放
+                Glide.with(this).load(R.drawable.media_open).into(littleControl);
+                Glide.with(this).load(R.drawable.media_open).into(storyControl);
+                //开启定时器
+                timer = new Timer();
+                timer.schedule(new MyTimerClass(), 10, 1000);
+                player.start();
+                return;
+            } else {
+                //设置图片为播放
+                Glide.with(this).load(R.drawable.media_open).into(littleControl);
+                Glide.with(this).load(R.drawable.media_open).into(storyControl);
+                //启动定时器
+                timer = new Timer();
+                timer.schedule(new MyTimerClass(), 10, 1000);
+                //继续播放
+                if (player != null) {
+                    player.start();
+                }
+            }
+        } else {
+            //暂停播放，但是不回收
+            if (player != null && player.isPlaying()) {
+                //取消定时器
+                if (timer != null) {
+                    timer.cancel();
+                    timer = null;
+                }
+                //暂停播放
+                player.pause();
+                //图片显示暂停
+                Glide.with(this).load(R.drawable.media_pause).into(littleControl);
+                Glide.with(this).load(R.drawable.media_pause).into(storyControl);
+            }
+        }
+
+    }
+
     private String url;
+
     @Override
     public void refreshUi(StoryInfo.StoryBean storyBean) {
+        //故事的概括
         txStoryState.setText(storyBean.getDescription());
+        //故事的意义
         txStoryUserful.setText(storyBean.getSignificance());
+        //故事的内容
         txStoryContent.setText(storyBean.getContent());
+        //故事的来源
         txStoryReSource.setText(storyBean.getSource());
-        url= storyBean.getAudio();
+        //音频播放器的图标
+        Glide.with(this).load(HttpConstant.PIC_BASE_URL+storyBean.getPicture()).into(mediaPlayIcon);
+        //音频播放器的标题
+        txTitleMedia.setText(storyBean.getTitle());
+        //头标题
+        txTitle.setText(storyBean.getTitle());
+        url = storyBean.getAudio();
         Glide.with(this).load(HttpConstant.PIC_BASE_URL + storyBean.getPicture()).into(imageView);
     }
 
@@ -264,4 +387,21 @@ public class StoryActivity extends BaseMvpActivity<StoryImpl, StoryPresenter> im
     public void onCancel() {
 
     }
+
+    class MyTimerClass extends TimerTask {
+        @Override
+        public void run() {
+            if (currentTime >= duration) {
+                //播放完毕
+                player.stop();
+                player = null;
+                this.cancel();
+            } else {
+                currentTime += 1000;
+                runOnUiThread(() -> refreshTime.setText(Utils.generateTime(currentTime)));
+            }
+            mediaProgress.setProgress(currentTime);
+        }
+    }
+
 }

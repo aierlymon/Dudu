@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/ban_toumin" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/rg_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:id="@+id/tx_friend_circle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/friend_circle"
+                    android:gravity="center"
+                    android:text="@string/friend_circle"
+                    android:textAlignment="center"
+                    android:textColor="@color/content_color"
+                    android:button="@null"
+                    android:textSize="@dimen/font_px14"
+                    android:drawablePadding="@dimen/y7"/>
+
+                <RadioButton
+                    android:id="@+id/tx_wx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/wx_icon"
+                    android:gravity="center"
+                    android:text="@string/wx"
+                    android:textAlignment="center"
+                    android:textColor="@color/content_color"
+                    android:button="@null"
+                    android:textSize="@dimen/font_px14"
+                    android:drawablePadding="@dimen/y7"/>
+
+                <RadioButton
+                    android:id="@+id/tx_qq"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/qq_icon"
+                    android:gravity="center"
+                    android:text="@string/qq"
+                    android:textAlignment="center"
+                    android:button="@null"
+                    android:textColor="@color/content_color"
+                    android:textSize="@dimen/font_px14"
+                    android:drawablePadding="@dimen/y7"/>
+
+                <RadioButton
+                    android:id="@+id/tx_wb"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/wb_icon"
+                    android:gravity="center"
+                    android:text="@string/wb"
+                    android:textAlignment="center"
+                    android:button="@null"
+                    android:textColor="@color/content_color"
+                    android:textSize="@dimen/font_px14"
+                    android:drawablePadding="@dimen/y7"
+                  />
+
+            </RadioGroup>
+
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6.5"
+            android:background="#0f3" />
+
+        <TextView
+            android:id="@+id/tx_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textAlignment="center"
+            android:textColor="@color/content_color"
+            android:textSize="@dimen/font_px14" />
+
+    </LinearLayout>
+
+</LinearLayout>

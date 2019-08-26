@@ -4,6 +4,7 @@ import com.dudu.model.bean.HistoryBean;
 import com.dudu.model.bean.HttpResult;
 import com.dudu.baselib.http.interrceptorebean.LoggingInterceptor;
 import com.dudu.baselib.http.interrceptorebean.RetryInterceptor;
+import com.dudu.model.bean.LabelInfo;
 import com.dudu.model.bean.LoginCallBackBean;
 import com.dudu.model.bean.NewHomeBannerBean;
 import com.dudu.model.bean.NewHomeBodyBean;
@@ -228,5 +229,10 @@ public class HttpMethod {
     //请求专题详情
     public  Observable<SubjectInfo> requestSubjectInfo(int id, int page, int count){
         return mMovieService.requestSubjectInfo(id,page,count);
+    }
+
+    //请求专题详情
+    public  Observable<LabelInfo> requestLabelInfo(int id, int page, int count){
+        return mMovieService.requestLabelInfo(id,page,count);
     }
 }

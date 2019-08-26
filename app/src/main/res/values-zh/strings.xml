@@ -86,4 +86,10 @@
     <string name="story_userful">教育意义</string>
     <string name="story_content">故事全文</string>
     <string name="story_resource">故事来源</string>
+    <string name="story_before_sleep">睡前故事</string>
+    <string name="friend_circle">朋友圈</string>
+    <string name="qq">QQ</string>
+    <string name="wx">微信</string>
+    <string name="wb">微博</string>
+    <string name="cancel">取消</string>
 </resources>

@@ -76,6 +76,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
             lab.setBackgroundColor(mContext.getResources().getColor(R.color.label_back_color));
             lab.setTextColor(mContext.getResources().getColor(R.color.label_color));
             lab.setTextSize(Utils.px2dip(mContext.getApplicationContext(), mContext.getResources().getDimension(R.dimen.font_px12)));
+            lab.setPadding(3,3,3,3);
             holder.info_label_layout.addView(lab);
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) lab.getLayoutParams();

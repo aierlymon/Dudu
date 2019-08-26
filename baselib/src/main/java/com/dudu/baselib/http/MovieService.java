@@ -3,6 +3,7 @@ package com.dudu.baselib.http;
 
 import com.dudu.model.bean.HistoryBean;
 import com.dudu.model.bean.HttpResult;
+import com.dudu.model.bean.LabelInfo;
 import com.dudu.model.bean.LoginCallBackBean;
 import com.dudu.model.bean.NewHomeBannerBean;
 import com.dudu.model.bean.NewHomeBodyBean;
@@ -131,4 +132,9 @@ public interface MovieService {
     //故事详情
     @GET("subject/{id}/story/")
     Observable<SubjectInfo> requestSubjectInfo(@Path("id") int storyId, @Query("page") int cpage, @Query("count") int count);
+
+    //专题内容详情
+    //故事详情
+    @GET("tag/{id}/story/")
+    Observable<LabelInfo> requestLabelInfo(@Path("id") int storyId, @Query("page") int cpage, @Query("count") int count);
 }
