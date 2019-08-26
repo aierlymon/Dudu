@@ -198,7 +198,7 @@ public class LabelPresenter extends BasePresenter<LabelImpl> {
                             if(list.size()>=count){
                                 list.clear();
                             }
-                            list.add(new HomeFRAdvertHolder());
+                          //  list.add(new HomeFRAdvertHolder());
                             list.add(homeFRBodyHolder);
                             MyLog.i("list.size: "+list.size());
                             getView().refreshHome(list);

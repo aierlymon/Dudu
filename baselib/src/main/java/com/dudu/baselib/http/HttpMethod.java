@@ -1,5 +1,6 @@
 package com.dudu.baselib.http;
 
+import com.dudu.model.bean.AllStoryBean;
 import com.dudu.model.bean.HistoryBean;
 import com.dudu.model.bean.HttpResult;
 import com.dudu.baselib.http.interrceptorebean.LoggingInterceptor;
@@ -226,6 +227,12 @@ public class HttpMethod {
         return mMovieService.requestSubject();
     }
 
+
+    //请求连载专题列表
+    public  Observable<HttpResult<List<SubjectTable>>> requestSeries(){
+        return mMovieService.requestSeries();
+    }
+
     //请求专题详情
     public  Observable<SubjectInfo> requestSubjectInfo(int id, int page, int count){
         return mMovieService.requestSubjectInfo(id,page,count);
@@ -235,4 +242,10 @@ public class HttpMethod {
     public  Observable<LabelInfo> requestLabelInfo(int id, int page, int count){
         return mMovieService.requestLabelInfo(id,page,count);
     }
+
+    //请求专题详情
+    public  Observable<AllStoryBean> requestAllStory(){
+        return mMovieService.requestAllStory();
+    }
+
 }

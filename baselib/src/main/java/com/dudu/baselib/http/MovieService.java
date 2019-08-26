@@ -1,6 +1,7 @@
 package com.dudu.baselib.http;
 
 
+import com.dudu.model.bean.AllStoryBean;
 import com.dudu.model.bean.HistoryBean;
 import com.dudu.model.bean.HttpResult;
 import com.dudu.model.bean.LabelInfo;
@@ -137,4 +138,12 @@ public interface MovieService {
     //故事详情
     @GET("tag/{id}/story/")
     Observable<LabelInfo> requestLabelInfo(@Path("id") int storyId, @Query("page") int cpage, @Query("count") int count);
+
+    @GET("tag/classification/")
+    Observable<AllStoryBean> requestAllStory();
+
+
+    //专题连载故事列表
+    @GET("series/")
+    Observable<HttpResult<List<SubjectTable>>> requestSeries();
 }

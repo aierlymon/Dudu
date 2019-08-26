@@ -41,6 +41,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
         </activity>
+        
+        <activity android:name=".AllStoryActivity"></activity>
+
+        <activity android:name=".SubjectActivity"></activity>
 
         <activity
             android:name="com.dudu.huodai.RecomMineActivity"
@@ -50,6 +54,8 @@
             android:launchMode="singleTop">
 
         </activity>
+        
+        
 
         <activity android:name="com.dudu.huodai.HistoryActivity"
             android:launchMode="singleTop"></activity>

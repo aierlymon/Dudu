@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
+import com.dudu.huodai.AllStoryActivity;
 import com.dudu.huodai.ApplicationPrams;
 import com.dudu.huodai.LabelActivity;
 import com.dudu.huodai.R;
@@ -174,9 +175,16 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             //因为不是网上获取。所以暂时不处理
             homeBannerRevAdapter.setOnItemClickListener((view, position1) -> {
                 MyLog.i("标签选中: " + position1);
-                Intent intent = new Intent(mContext, LabelActivity.class);
-                intent.putExtra("id", position1);
-                mContext.startActivity(intent);
+                if(position1!=3){
+                    Intent intent = new Intent(mContext, LabelActivity.class);
+                    intent.putExtra("id", position1);
+                    mContext.startActivity(intent);
+                }else{
+                    Intent intent = new Intent(mContext, AllStoryActivity.class);
+                    intent.putExtra("id", position1);
+                    mContext.startActivity(intent);
+                }
+
             });
         }
 
@@ -208,6 +216,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
             switch (ActivityType) {
                 case ApplicationPrams.SpecialActivity:
+                case ApplicationPrams.SubjctActivity:
                     view.setVisibility(View.GONE);
                     break;
                 case ApplicationPrams.LabelActivity:
@@ -254,7 +263,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             super(itemView);
             LinearLayoutManager manager = new LinearLayoutManager(mContext);
             recyclerView.setLayoutManager(manager);
-            txTitle.setText(mContext.getResources().getString(R.string.recommendationstory));
+           // txTitle.setText(mContext.getResources().getString(R.string.recommendationstory));
 
             switch (ActivityType) {
                 case ApplicationPrams.SpecialActivity:
@@ -262,7 +271,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     view.setVisibility(View.GONE);
                     break;
                 default:
-                    txTitle.setText(mContext.getResources().getString(R.string.recommendedtopics));
+                    txTitle.setText(mContext.getResources().getString(R.string.recommendationstory));
                     break;
             }
         }
