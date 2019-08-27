@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/daohang_clolor" />
+
+    <com.dudu.baselib.widget.StatusBarHeightView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        app:use_type="use_padding_top">
+
+        <LinearLayout
+            android:id="@+id/base_content_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--head_标题-->
+            <include
+                android:id="@+id/myhead"
+                layout="@layout/toolbarhead"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height" />
+
+            <include
+                android:id="@+id/story_media"
+                layout="@layout/media_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y45"
+                android:layout_below="@+id/story_myhead"
+                />
+
+
+        </LinearLayout>
+
+    </com.dudu.baselib.widget.StatusBarHeightView>
+
+</RelativeLayout>
