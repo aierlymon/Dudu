@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/y137"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:layout_height="@dimen/y147"
+    android:background="@color/white">
 
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/banner_recyclerview"
        android:layout_width="match_parent"
-       android:layout_height="match_parent"/>
-</LinearLayout>
+       android:layout_height="@dimen/y137"/>
+
+   <View
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/y10"
+       android:background="@color/daohang_clolor"
+       android:layout_alignParentBottom="true"
+       android:layout_below="@+id/banner_recyclerview"/>
+</RelativeLayout>

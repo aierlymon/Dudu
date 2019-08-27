@@ -14,7 +14,6 @@ import com.dudu.huodai.mvp.presenters.HomeFrgPresenter;
 import com.dudu.huodai.mvp.view.HomeFrgViewImpl;
 import com.dudu.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
-import com.dudu.huodai.ui.adapter.decoration.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
@@ -33,6 +32,10 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     //body的当前刷新页面
     private int currentPage = 1;
+
+    private int pageCount;
+
+    private int count=10;//请求数据个数
 
     public static HomeFragment newInstance(String info) {
         HomeFragment fragment = new HomeFragment();
@@ -56,7 +59,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
         //   showLoading();
         mPresenter.requestHead();//请求banner
         mPresenter.requestMenu();//请求菜单
-        mPresenter.requestBody();//请求body
+        mPresenter.requestBody(currentPage,count);//请求body
     }
 
     @Override
@@ -67,7 +70,6 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
 
         fragRevAdapyer = new HomeFragRevAdapyer(getActivity(), mPresenter.getList());
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0,0,(int) getResources().getDimension(R.dimen.y10)));
         mRecyclerView.setAdapter(fragRevAdapyer);
 
         //刷新设置
@@ -75,9 +77,10 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             if(NetWorkStateBroadcast.isOnline.get()){
                 currentPage = 1;
+                refreshLayout.setEnableLoadMore(true);
                 mPresenter.requestHead();//请求banner
                 mPresenter.requestMenu();//请求菜单
-                mPresenter.requestBody();//请求body
+                mPresenter.requestBody(currentPage,count);//请求body
             }else{
                 if (this.refreshLayout.isRefreshing()) {
                     showError("没有网络");
@@ -88,10 +91,11 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
         });
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
-            MyLog.i("我触发了2");
+            MyLog.i("我触发了2   currentPage: "+currentPage+"   pageCount: "+pageCount);
+            isNoMore();
             if(NetWorkStateBroadcast.isOnline.get()){
                 currentPage++;
-                mPresenter.requestBodyPage(0, 0, 0, currentPage);
+                mPresenter.requestBodyPage(currentPage, count);
             }else{
                 if (refreshLayout.isLoading()) {
                     refreshLayout.finishLoadMore();
@@ -124,7 +128,9 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
     }
 
     @Override
-    public void refreshHome(List<BaseMulDataModel> list) {
+    public void refreshHome(List<BaseMulDataModel> list, int total_pages) {
+        pageCount=total_pages;
+        isNoMore();
         MyLog.i("刷新界面: "+list.size()+"  visable: "+mRecyclerView.getVisibility());
         if(mRecyclerView.getVisibility()==View.GONE){
             mRecyclerView.setVisibility(View.VISIBLE);
@@ -138,8 +144,16 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     public void addPage(List<BaseMulDataModel> list) {
+        isNoMore();
         fragRevAdapyer.notifyDataSetChanged();
         refreshLayout.finishLoadMore();
+    }
+
+    public void isNoMore(){
+        if(currentPage>=pageCount){
+            refreshLayout.setEnableLoadMore(false);
+            return;
+        }
     }
 
 }

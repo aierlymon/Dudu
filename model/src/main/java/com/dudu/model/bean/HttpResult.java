@@ -18,6 +18,15 @@ public class HttpResult<T> {
     private String msg;
     private String result;
     private T story_list;
+    private int total_pages;
+
+    public int getTotal_pages() {
+        return total_pages;
+    }
+
+    public void setTotal_pages(int total_pages) {
+        this.total_pages = total_pages;
+    }
 
     public T getStory_list() {
         return story_list;

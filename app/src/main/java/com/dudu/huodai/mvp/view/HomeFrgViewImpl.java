@@ -6,7 +6,7 @@ import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import java.util.List;
 
 public interface HomeFrgViewImpl extends IView {
-    void refreshHome(List<BaseMulDataModel> list);
+    void refreshHome(List<BaseMulDataModel> list, int total_pages);
 
     void addPage(List<BaseMulDataModel> list);
 }

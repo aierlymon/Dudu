@@ -39,6 +39,10 @@ public class SubjectActivity extends BaseMvpActivity<SubjectImpl, SubjectPresent
     //body的当前刷新页面
     private int currentPage = 1;
 
+    private int pageCount;
+
+    private int count=10;//请求数据个数
+
     @Override
     protected SubjectPresenter createPresenter() {
         return new SubjectPresenter();

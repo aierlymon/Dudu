@@ -22,4 +22,6 @@
         android:text="图片名称"
         android:layout_alignParentBottom="true"
         android:textSize="@dimen/x12"/>
+
+
 </RelativeLayout>

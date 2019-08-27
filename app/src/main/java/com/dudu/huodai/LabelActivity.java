@@ -38,6 +38,10 @@ public class LabelActivity extends BaseMvpActivity<LabelImpl, LabelPresenter> im
     //body的当前刷新页面
     private int currentPage = 1;
 
+    private int pageCount;
+
+    private int count=10;//请求数据个数
+
 
     @Override
     protected LabelPresenter createPresenter() {
@@ -84,7 +88,7 @@ public class LabelActivity extends BaseMvpActivity<LabelImpl, LabelPresenter> im
         id=intent.getIntExtra("id",-1);
         //   showLoading();
         //mPresenter.requestMenu();//请求菜单
-        mPresenter.requestBody(id,currentPage,10);//请求body
+        mPresenter.requestBody(id,currentPage,count);//请求body
     }
 
     private void init() {
@@ -101,13 +105,15 @@ public class LabelActivity extends BaseMvpActivity<LabelImpl, LabelPresenter> im
         mRecyclerView.setAdapter(fragRevAdapyer);
 
         //刷新设置
+        //刷新设置
         refreshLayout.setEnableAutoLoadMore(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
             if(NetWorkStateBroadcast.isOnline.get()){
                 currentPage = 1;
+                refreshLayout.setEnableLoadMore(true);
                 mPresenter.requestHead();//请求banner
                 mPresenter.requestMenu();//请求菜单
-                mPresenter.requestBody(id,currentPage,10);//请求body
+                mPresenter.requestBody(id,currentPage,count);//请求body
             }else{
                 if (this.refreshLayout.isRefreshing()) {
                     showError("没有网络");
@@ -118,10 +124,11 @@ public class LabelActivity extends BaseMvpActivity<LabelImpl, LabelPresenter> im
         });
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
-            MyLog.i("我触发了2");
+            MyLog.i("我触发了2   currentPage: "+currentPage+"   pageCount: "+pageCount);
+            isNoMore();
             if(NetWorkStateBroadcast.isOnline.get()){
                 currentPage++;
-                mPresenter.requestBodyPage(0, 0, 0, currentPage);
+                mPresenter.requestBodyPage(id,currentPage, count);
             }else{
                 if (refreshLayout.isLoading()) {
                     refreshLayout.finishLoadMore();
@@ -157,8 +164,10 @@ public class LabelActivity extends BaseMvpActivity<LabelImpl, LabelPresenter> im
     }
 
     @Override
-    public void refreshHome(List<BaseMulDataModel> list) {
-        MyLog.i("刷新界面: "+list.size()+"  visable: "+mRecyclerView.getVisibility());
+    public void refreshHome(List<BaseMulDataModel> list, int total_pages) {
+        pageCount=total_pages;
+        isNoMore();
+        MyLog.i("刷新界面: "+list.size()+"  visable: "+mRecyclerView.getVisibility()+" pageCount: "+pageCount);
         if(mRecyclerView.getVisibility()== View.GONE){
             mRecyclerView.setVisibility(View.VISIBLE);
         }
@@ -174,5 +183,13 @@ public class LabelActivity extends BaseMvpActivity<LabelImpl, LabelPresenter> im
     public void addPage(List<BaseMulDataModel> list) {
         fragRevAdapyer.notifyDataSetChanged();
         refreshLayout.finishLoadMore();
+        isNoMore();
+    }
+
+    public void isNoMore(){
+        if(currentPage>=pageCount){
+            refreshLayout.setEnableLoadMore(false);
+            return;
+        }
     }
 }

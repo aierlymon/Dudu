@@ -217,6 +217,11 @@ public class HttpMethod {
         return mMovieService.requestStory();
     }
 
+    //根据页数请求故事列表
+    public  Observable<HttpResult<List<StoryTable>>> requestStoryOnPage(int page,int count){
+        return mMovieService.requestStoryOnPage(page,count);
+    }
+
     //请求故事详情
     public  Observable<StoryInfo> requestStotyInfo(int id){
         return mMovieService.requestStoryInfo(id);

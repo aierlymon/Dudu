@@ -146,4 +146,8 @@ public interface MovieService {
     //专题连载故事列表
     @GET("series/")
     Observable<HttpResult<List<SubjectTable>>> requestSeries();
+
+    //https://www.dudugushi.com/anonymous/story/recommendation/history/?page=2&count=10 故事列表扩张
+    @GET("story/recommendation/history/")
+    Observable<HttpResult<List<StoryTable>>> requestStoryOnPage( @Query("page") int cpage, @Query("count") int count);
 }

@@ -8,6 +8,7 @@ import com.dudu.huodai.mvp.model.DDHomeFRBodyHolder;
 import com.dudu.huodai.mvp.model.DDHomeFRMenuHolder;
 import com.dudu.huodai.mvp.model.HomeFRAdvertHolder;
 import com.dudu.huodai.mvp.model.HomeFRBannerHolder;
+import com.dudu.huodai.mvp.model.HomeFRBodyHolder;
 import com.dudu.huodai.mvp.model.postbean.BannerBean;
 import com.dudu.huodai.mvp.model.postbean.RecordBean;
 import com.dudu.huodai.mvp.view.HomeFrgViewImpl;
@@ -191,8 +192,8 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
     }
 
     //请求Body内容的
-    public void requestBody() {
-        HttpMethod.getInstance().requestStotyTable()
+    public void requestBody(int page,int count) {
+        HttpMethod.getInstance().requestStoryOnPage(page,count)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<List<StoryTable>>>(this) {
@@ -208,7 +209,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                             list.add(new HomeFRAdvertHolder());
                             list.add(homeFRBodyHolder);
                             MyLog.i("list.size: "+list.size());
-                            getView().refreshHome(list);
+                            getView().refreshHome(list,httpResult.getTotal_pages());
                         } else {
                             showError(httpResult.getResult() + ":" + httpResult.getStatusCode());
                         }
@@ -227,18 +228,27 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
     }
 
 
-    public void requestBodyPage(int id,int min,int max,int page){
+    public void requestBodyPage(int page,int count){
 
-        HttpMethod.getInstance().loadBodyMintoMaxToPage(id,min,max,page)
+        HttpMethod.getInstance().requestStoryOnPage(page,count)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
+                .subscribe(new MySubscriber<HttpResult<List<StoryTable>>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
-                        if (httpResult.getStatusCode() == 200) {
-
+                    public void onSuccess(HttpResult<List<StoryTable>> httpResult) {
+                        if (httpResult.getResult().equals("success")) {
+                            MyLog.i("我来到了请求DD内容: "+httpResult.toString());
+                            DDHomeFRBodyHolder homeFRBodyHolder = new DDHomeFRBodyHolder();
+                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getStory_list());
+                            for(int i=0;i<list.size();i++){
+                                if(list.get(i) instanceof DDHomeFRBodyHolder){
+                                    ((DDHomeFRBodyHolder) list.get(i)).getHomeBodyBeanList().addAll(homeFRBodyHolder.getHomeBodyBeanList());
+                                }
+                            }
+                            MyLog.i("list.size: "+list.size());
+                            getView().addPage(list);
                         } else {
-                            showError(httpResult.getResult()+":"+httpResult.getStatusCode());
+                            showError(httpResult.getResult() + ":" + httpResult.getStatusCode());
                         }
                     }
 

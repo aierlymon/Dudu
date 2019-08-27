@@ -175,11 +175,21 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             //因为不是网上获取。所以暂时不处理
             homeBannerRevAdapter.setOnItemClickListener((view, position1) -> {
                 MyLog.i("标签选中: " + position1);
-                if(position1!=3){
+                if (position1 != 3) {
                     Intent intent = new Intent(mContext, LabelActivity.class);
-                    intent.putExtra("id", position1);
+                    switch (position1) {
+                        case 0:
+                            intent.putExtra("id", 28);
+                            break;
+                        case 1:
+                            intent.putExtra("id", 73);
+                            break;
+                        case 2:
+                            intent.putExtra("id", 9);
+                            break;
+                    }
                     mContext.startActivity(intent);
-                }else{
+                } else {
                     Intent intent = new Intent(mContext, AllStoryActivity.class);
                     intent.putExtra("id", position1);
                     mContext.startActivity(intent);
@@ -259,11 +269,15 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         @BindView(R.id.common_title)
         View view;
 
+        @BindView(R.id.bottom_inditator)
+        View bottom;
+
         public BodyHolder(View itemView) {
             super(itemView);
+            bottom.setVisibility(View.GONE);
             LinearLayoutManager manager = new LinearLayoutManager(mContext);
             recyclerView.setLayoutManager(manager);
-           // txTitle.setText(mContext.getResources().getString(R.string.recommendationstory));
+            // txTitle.setText(mContext.getResources().getString(R.string.recommendationstory));
 
             switch (ActivityType) {
                 case ApplicationPrams.SpecialActivity:

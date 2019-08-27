@@ -1,9 +1,6 @@
 package com.dudu.huodai;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dudu.baselib.base.BaseMvpActivity;
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
-import com.dudu.baselib.myapplication.App;
 import com.dudu.baselib.utils.CustomToast;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.StatusBarUtil;
@@ -23,9 +19,6 @@ import com.dudu.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import com.dudu.huodai.ui.adapter.decoration.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.tencent.mm.opensdk.constants.ConstantsAPI;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.List;
 
@@ -45,6 +38,10 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
 
     //body的当前刷新页面
     private int currentPage = 1;
+
+    private int pageCount;//总页数
+
+    private int count = 10;//请求数据个数
 
     private int id;
 
@@ -69,7 +66,7 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
         if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
             //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
             //这样半透明+白=灰, 状态栏的文字能看得清
-            StatusBarUtil.setStatusBarColor(this,0x55000000);
+            StatusBarUtil.setStatusBarColor(this, 0x55000000);
         }
 
         //这个就是设施沉浸式状态栏的主要方法了
@@ -81,17 +78,17 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
             return;
         }
 
-        Intent intent=getIntent();
-        id =intent.getIntExtra("id",-1);
-        initRequest(id,currentPage,10);
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", -1);
+        initRequest();
         init();
     }
 
-    private void initRequest(int id, int currentPage, int i) {
+    private void initRequest() {
         //   showLoading();
         //mPresenter.requestHead();//请求banner
         mPresenter.requestMenu();//请求菜单
-        mPresenter.requestBody(id,currentPage,i);//请求body
+        mPresenter.requestBody(id, currentPage, count);//请求body
     }
 
     private void init() {
@@ -104,18 +101,20 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
 
 
         fragRevAdapyer = new HomeFragRevAdapyer(this, mPresenter.getList());
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0,0,(int) getResources().getDimension(R.dimen.y10)));
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 0, (int) getResources().getDimension(R.dimen.y10)));
         mRecyclerView.setAdapter(fragRevAdapyer);
 
         //刷新设置
+        //刷新设置
         refreshLayout.setEnableAutoLoadMore(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-            if(NetWorkStateBroadcast.isOnline.get()){
+            if (NetWorkStateBroadcast.isOnline.get()) {
                 currentPage = 1;
-              //  mPresenter.requestHead();//请求banner
+                refreshLayout.setEnableLoadMore(true);
+                mPresenter.requestHead();//请求banner
                 mPresenter.requestMenu();//请求菜单
-                mPresenter.requestBody(id,currentPage,10);//请求body//请求body
-            }else{
+                mPresenter.requestBody(id, currentPage, count);//请求body
+            } else {
                 if (this.refreshLayout.isRefreshing()) {
                     showError("没有网络");
                     refreshLayout.finishRefresh();
@@ -125,11 +124,12 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
         });
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
-            MyLog.i("我触发了2");
-            if(NetWorkStateBroadcast.isOnline.get()){
+            MyLog.i("我触发了2   currentPage: " + currentPage + "   pageCount: " + pageCount);
+            isNoMore();
+            if (NetWorkStateBroadcast.isOnline.get()) {
                 currentPage++;
-                mPresenter.requestBodyPage(0, 0, 0, currentPage);
-            }else{
+                mPresenter.requestBodyPage(id, currentPage, count);
+            } else {
                 if (refreshLayout.isLoading()) {
                     refreshLayout.finishLoadMore();
                 }
@@ -154,19 +154,21 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
 
     @Override
     public void showError(String msg) {
-        if (refreshLayout!=null&&refreshLayout.isRefreshing()) {
+        if (refreshLayout != null && refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
         }
-        if(refreshLayout!=null&&refreshLayout.isLoading()){
+        if (refreshLayout != null && refreshLayout.isLoading()) {
             refreshLayout.finishLoadMore();
         }
         CustomToast.showToast(getApplicationContext(), msg, 2000);
     }
 
     @Override
-    public void refreshHome(List<BaseMulDataModel> list) {
-        MyLog.i("刷新界面: "+list.size()+"  visable: "+mRecyclerView.getVisibility());
-        if(mRecyclerView.getVisibility()== View.GONE){
+    public void refreshHome(List<BaseMulDataModel> list, int total_pages) {
+        pageCount = total_pages;
+        isNoMore();
+        MyLog.i("刷新界面: " + list.size() + "  visable: " + mRecyclerView.getVisibility() + " pageCount: " + pageCount);
+        if (mRecyclerView.getVisibility() == View.GONE) {
             mRecyclerView.setVisibility(View.VISIBLE);
         }
         fragRevAdapyer.setActivityTheme(ApplicationPrams.SpecialActivity);
@@ -181,8 +183,15 @@ public class SpecialActivity extends BaseMvpActivity<SpecialImpl, SpecialPresent
     public void addPage(List<BaseMulDataModel> list) {
         fragRevAdapyer.notifyDataSetChanged();
         refreshLayout.finishLoadMore();
+        isNoMore();
     }
 
+    public void isNoMore(){
+        if(currentPage>=pageCount){
+            refreshLayout.setEnableLoadMore(false);
+            return;
+        }
+    }
 
 
 }
