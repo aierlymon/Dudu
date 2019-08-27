@@ -4,30 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--外部用来填充的颜色-->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/daohang_clolor" />
 
-    <com.dudu.baselib.widget.StatusBarHeightView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusableInTouchMode="true"
-        app:use_type="use_padding_top">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/special_myhead"
-                layout="@layout/toolbarhead"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height" />
-
-            
             <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:id="@+id/special_refreshLayout"
                 android:layout_width="match_parent"
@@ -53,10 +31,5 @@
                     app:srlPrimaryColor="#fff" />
 
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-        </LinearLayout>
-
-
-    </com.dudu.baselib.widget.StatusBarHeightView>
-
 
 </RelativeLayout>

@@ -4,186 +4,150 @@
     android:id="@+id/parent_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--外部用来填充的颜色-->
-    <ImageView
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/daohang_clolor" />
+        android:layout_below="@+id/story_media"
+        android:layout_marginLeft="@dimen/left_right_marigin"
+        android:layout_marginRight="@dimen/left_right_marigin"
+        android:scrollbars="none">
 
-    <com.dudu.baselib.widget.StatusBarHeightView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusableInTouchMode="true"
-        app:use_type="use_padding_top">
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y190">
+
+                <ImageView
+                    android:id="@+id/story_bigback"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y160"
+                    android:scaleType="fitXY" />
+
+
+                <ImageView
+                    android:id="@+id/story_control"
+                    android:layout_width="@dimen/y60"
+                    android:layout_height="@dimen/y60"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/media_pause" />
+            </RelativeLayout>
+
 
             <include
-                android:id="@+id/story_myhead"
-                layout="@layout/toolbarhead"
+                android:id="@+id/story_state"
+                layout="@layout/icon_title"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height" />
+                android:layout_height="@dimen/y30" />
+
+            <TextView
+                android:id="@+id/tx_story_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_item_marigin"
+                android:lineSpacingExtra="@dimen/y5"
+                android:textColor="@color/content_color"
+                android:textSize="@dimen/font_px12" />
 
             <include
-                android:id="@+id/story_media"
-                layout="@layout/media_layout"
+                android:id="@+id/story_useful"
+                layout="@layout/icon_title"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/y45"
-                android:layout_below="@+id/story_myhead"
-                android:visibility="gone"/>
+                android:layout_height="@dimen/y30"
+                android:layout_marginTop="@dimen/double_common_item_marigin" />
 
-            <ScrollView
+            <TextView
+                android:id="@+id/tx_story_userful"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/story_media"
-                android:layout_marginLeft="@dimen/left_right_marigin"
-                android:layout_marginRight="@dimen/left_right_marigin"
-                android:scrollbars="none">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_item_marigin"
+                android:lineSpacingExtra="@dimen/y5"
+                android:textColor="@color/content_color"
+                android:textSize="@dimen/font_px12" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y85"
+                android:layout_marginTop="@dimen/double_common_item_marigin"
+                android:background="#ff0" />
+
+            <Button
+                android:id="@+id/button_showcontent"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y40"
+                android:layout_marginTop="@dimen/double_common_item_marigin"
+                android:background="@drawable/dudu_oppen_button"
+                android:text="展开全文"
+                android:textColor="@color/recommand_button_next"
+                android:textSize="@dimen/font_px18" />
+
+            <LinearLayout
+                android:id="@+id/parent_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include
+                    android:id="@+id/story_content"
+                    layout="@layout/icon_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y30"
+                    android:layout_marginTop="@dimen/double_common_item_marigin" />
+
+                <TextView
+                    android:id="@+id/tx_story_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_item_marigin"
+                    android:lineSpacingExtra="@dimen/y5"
+                    android:textColor="@color/content_color"
+                    android:textSize="@dimen/font_px12" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/y190">
-
-                        <ImageView
-                            android:id="@+id/story_bigback"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/y160"
-                            android:scaleType="fitXY" />
-
-
-                        <ImageView
-                            android:id="@+id/story_control"
-                            android:layout_width="@dimen/y60"
-                            android:layout_height="@dimen/y60"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentBottom="true"
-                            android:src="@drawable/media_pause" />
-                    </RelativeLayout>
-
-
-                    <include
-                        android:id="@+id/story_state"
-                        layout="@layout/icon_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/y30" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x15"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tx_story_state"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/common_item_marigin"
                         android:lineSpacingExtra="@dimen/y5"
-                        android:textColor="@color/content_color"
+                        android:text="@string/story_resource"
+                        android:textColor="@color/source_color"
                         android:textSize="@dimen/font_px12" />
-
-                    <include
-                        android:id="@+id/story_useful"
-                        layout="@layout/icon_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/y30"
-                        android:layout_marginTop="@dimen/double_common_item_marigin" />
 
                     <TextView
-                        android:id="@+id/tx_story_userful"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tx_story_resource"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/common_item_marigin"
                         android:lineSpacingExtra="@dimen/y5"
-                        android:textColor="@color/content_color"
+                        android:text="@string/story_resource"
+                        android:textColor="@color/source_color"
                         android:textSize="@dimen/font_px12" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/y85"
-                        android:layout_marginTop="@dimen/double_common_item_marigin"
-                        android:background="#ff0" />
-
-                    <Button
-                        android:id="@+id/button_showcontent"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/y40"
-                        android:layout_marginTop="@dimen/double_common_item_marigin"
-                        android:background="@drawable/dudu_oppen_button"
-                        android:text="展开全文"
-                        android:textColor="@color/recommand_button_next"
-                        android:textSize="@dimen/font_px18" />
-
-                    <LinearLayout
-                        android:id="@+id/parent_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <include
-                            android:id="@+id/story_content"
-                            layout="@layout/icon_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/y30"
-                            android:layout_marginTop="@dimen/double_common_item_marigin" />
-
-                        <TextView
-                            android:id="@+id/tx_story_content"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/common_item_marigin"
-                            android:lineSpacingExtra="@dimen/y5"
-                            android:textColor="@color/content_color"
-                            android:textSize="@dimen/font_px12" />
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/x15"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:lineSpacingExtra="@dimen/y5"
-                                android:text="@string/story_resource"
-                                android:textColor="@color/source_color"
-                                android:textSize="@dimen/font_px12" />
-
-                            <TextView
-                                android:id="@+id/tx_story_resource"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:lineSpacingExtra="@dimen/y5"
-                                android:text="@string/story_resource"
-                                android:textColor="@color/source_color"
-                                android:textSize="@dimen/font_px12" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-
-                    <Button
-                        android:id="@+id/button_story_bigshare"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/y40"
-                        android:layout_marginTop="@dimen/x15"
-                        android:layout_marginBottom="@dimen/double_common_item_marigin"
-                        android:background="@drawable/dudu_sharemoney_button"
-                        android:text="分享赚现金"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_px18" />
                 </LinearLayout>
-            </ScrollView>
+
+            </LinearLayout>
 
 
-        </RelativeLayout>
-
-
-    </com.dudu.baselib.widget.StatusBarHeightView>
+            <Button
+                android:id="@+id/button_story_bigshare"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y40"
+                android:layout_marginTop="@dimen/x15"
+                android:layout_marginBottom="@dimen/double_common_item_marigin"
+                android:background="@drawable/dudu_sharemoney_button"
+                android:text="分享赚现金"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_px18" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

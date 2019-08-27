@@ -1,6 +1,7 @@
 package com.dudu.huodai.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
+import com.dudu.huodai.LabelActivity;
 import com.dudu.huodai.R;
 import com.dudu.huodai.widget.CircleImageView;
 import com.dudu.model.bean.NewHomeBodyBean;
@@ -68,15 +70,23 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
         List<StoryTable.TagsBean> tagsBeans = homeBodyBeanList.get(position).getTags();
 
         int i = 0;
-        if (tagsBeans.size() > 3) i = 1;
         for (; i < tagsBeans.size(); i++) {
             TextView lab = new TextView(mContext);
 
             lab.setText(tagsBeans.get(i).getName());
+            lab.setTag(tagsBeans.get(i).getId());
             lab.setBackgroundColor(mContext.getResources().getColor(R.color.label_back_color));
             lab.setTextColor(mContext.getResources().getColor(R.color.label_color));
             lab.setTextSize(Utils.px2dip(mContext.getApplicationContext(), mContext.getResources().getDimension(R.dimen.font_px12)));
             lab.setPadding(3,3,3,3);
+            lab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(mContext, LabelActivity.class);
+                    intent.putExtra("id", ((int) lab.getTag()));
+                    mContext.startActivity(intent);
+                }
+            });
             holder.info_label_layout.addView(lab);
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) lab.getLayoutParams();

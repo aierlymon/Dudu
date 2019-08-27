@@ -27,11 +27,13 @@
     <dimen name="common_item_marigin">@dimen/x5</dimen>
     <dimen name="double_common_item_marigin">@dimen/x10</dimen>
     <dimen name="font_px20">@dimen/x18</dimen>
+    <dimen name="font_px28">@dimen/x26</dimen>
     <dimen name="font_px18">@dimen/x16</dimen>
     <dimen name="font_px16">@dimen/x14</dimen>
     <dimen name="font_px14">@dimen/x13</dimen>
     <dimen name="font_px12">@dimen/x12</dimen>
     <dimen name="font_px10">@dimen/x11</dimen>
+    <dimen name="font_px9">@dimen/x10</dimen>
     <dimen name="left_right_marigin">@dimen/x8</dimen>
 
     <dimen name="font_px40">@dimen/x38</dimen>

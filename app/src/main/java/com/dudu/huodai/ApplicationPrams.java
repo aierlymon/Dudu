@@ -12,4 +12,6 @@ public class ApplicationPrams {
     public static final int LabelActivity=21;
     public static final int SubjctActivity=22;
 
+    public static MediaPlayer player = null;
+
 }

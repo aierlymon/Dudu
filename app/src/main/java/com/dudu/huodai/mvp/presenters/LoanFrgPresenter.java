@@ -1,6 +1,12 @@
 package com.dudu.huodai.mvp.presenters;
 
 import com.dudu.baselib.http.HttpMethod;
+import com.dudu.huodai.mvp.model.DDHomeFRBodyHolder;
+import com.dudu.huodai.mvp.model.DDHomeFRMenuHolder;
+import com.dudu.huodai.mvp.model.HomeFRAdvertHolder;
+import com.dudu.huodai.mvp.model.HomeFRBannerHolder;
+import com.dudu.huodai.mvp.model.postbean.BannerBean;
+import com.dudu.huodai.mvp.model.postbean.RecordBean;
 import com.dudu.model.bean.HttpResult;
 import com.dudu.baselib.http.myrxsubcribe.MySubscriber;
 import com.dudu.baselib.mvp.BasePresenter;
@@ -8,8 +14,14 @@ import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.mvp.model.HomeFRBodyHolder;
 import com.dudu.huodai.mvp.view.LoanFrgViewImpl;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
+import com.dudu.model.bean.NewHomeBannerBean;
 import com.dudu.model.bean.NewHomeBodyBean;
 import com.dudu.model.bean.NewHomeMenuBean;
+import com.dudu.model.bean.StoryTable;
+import com.dudu.model.bean.SubjectTable;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,37 +31,97 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
 
-    //分类的list
-    List<BaseMulDataModel> list = new ArrayList<>();
-
-    @Override
-    protected boolean isUseEventBus() {
-        return false;
-    }
+    private int count=4;
 
     @Override
     public void showError(String msg) {
         getView().showError("连接错误: " + msg);
     }
 
-    //请求Body内容的
-    public void requestBody(int id) {
+    @Override
+    protected boolean isUseEventBus() {
+        return true;
+    }
 
-        HttpMethod.getInstance().loadBody(id)
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void applyRecord(RecordBean recordBean){
+        apply(recordBean.getLoanProductId(),recordBean.getUserId());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void reservedUv(BannerBean bannerBean){
+        reservedUv(bannerBean.getBannerId(),bannerBean.getUserId(),bannerBean.getUrl());
+    }
+
+    List<BaseMulDataModel> list = new ArrayList<>();
+
+    public List<BaseMulDataModel> getList() {
+        return list;
+    }
+
+    //这个是banner头部的请求，就是轮播图
+    public void requestHead() {
+        HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
+        homeFRBannerHolder.setNewHomeBannerBean(null);//这个预留出来的page,pageCout而已，其实都一样最好的
+        if(list.size()>=count){
+            list.clear();
+        }
+        list.add(homeFRBannerHolder);
+    /*    HttpMethod.getInstance().loadHomeBanner()
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
+                .subscribe(new MySubscriber<HttpResult<NewHomeBannerBean>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
+                    public void onSuccess(HttpResult<NewHomeBannerBean> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
-                            HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
-                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
-                            list.clear();
-                            list.add(homeFRBodyHolder);
-                            MyLog.i("requestBody(0): "+list.size());
-                            getView().refreshHome(list);
+                            NewHomeBannerBean homeHeadBean = httpResult.getData();
+                            HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
+                            homeFRBannerHolder.setNewHomeBannerBean(homeHeadBean);//这个预留出来的page,pageCout而已，其实都一样最好的
+                            if(list.size()>=count){
+                                list.clear();
+                            }
+
+                            list.add(homeFRBannerHolder);
+
+                            MyLog.i("list.size: "+list.size());
                         } else {
-                            showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
+                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        MyLog.i("失败了: " + e.getMessage());
+                        //测试用的
+                        *//*---------------------------------------------------*//*
+                        HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
+                        homeFRBannerHolder.setNewHomeBannerBean(null);//这个预留出来的page,pageCout而已，其实都一样最好的
+                        if(list.size()>=count){
+                            list.clear();
+                        }
+                        list.add(homeFRBannerHolder);
+                        *//*---------------------------------------------------*//*
+                        showError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });*/
+    }
+
+    public void apply(int loanProductId, int id ){
+        HttpMethod.getInstance().applyRecords(loanProductId,id)
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<HttpResult<String>>(this) {
+                    @Override
+                    public void onSuccess(HttpResult<String> httpResult) {
+                        if (httpResult.getStatusCode() == 200) {
+                        } else {
+                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                         }
                     }
 
@@ -65,18 +137,50 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
                 });
     }
 
-
-    //请求清单选项卡,筛选用
-    public void requestMenu() {
-        HttpMethod.getInstance().loadHomeMenu()
+    public void  reservedUv(int bannerId,int userId,String url){
+        HttpMethod.getInstance().reservedUv(bannerId,userId,url)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<NewHomeMenuBean>>(this) {
+                .subscribe(new MySubscriber<HttpResult<String>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<NewHomeMenuBean> httpResult) {
+                    public void onSuccess(HttpResult<String> httpResult) {
                         if (httpResult.getStatusCode() == 200) {
+                        } else {
+                            showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        showError(String.valueOf(e.getMessage()));
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+    }
+
+    //请求清单选项卡
+    public void requestMenu() {
+        HttpMethod.getInstance().requestSubject()
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<HttpResult<List<SubjectTable>>>(this) {
+                    @Override
+                    public void onSuccess(HttpResult<List<SubjectTable>> httpResult) {
+                        if (httpResult.getResult().equals("success")) {
                             MyLog.i("requestMenuc成功了");
-                            getView().refreshTypeFliter( httpResult.getData().getLoanCategories());
+                            DDHomeFRMenuHolder homeFRMenuHolder = new DDHomeFRMenuHolder();
+                            //这个地方因为和商品的筛选是动态的，所以这个也要是动态
+
+                            homeFRMenuHolder.setLoanCategoriesBean(httpResult.getData());
+                            if(list.size()>=count){
+                                list.clear();
+                            }
+                            list.add(homeFRMenuHolder);
+                            MyLog.i("list.size: "+list.size());
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                         }
@@ -95,88 +199,26 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
     }
 
     //请求Body内容的
-    public void requestBody(int id,int min,int max) {
-        if(max==0){
-            HttpMethod.getInstance().loadBodyLimitHigh(id,min)
-                    .subscribeOn(Schedulers.single())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
-                        @Override
-                        public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
-                            if (httpResult.getStatusCode() == 200) {
-                                HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
-                                homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
-                                list.clear();
-                                list.add(homeFRBodyHolder);
-                                getView().refreshHome(list);
-
-                            } else {
-                                showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
-                            }
-                        }
-
-                        @Override
-                        public void onFail(Throwable e) {
-                            showError(String.valueOf(e.getMessage()));
-                        }
-
-                        @Override
-                        public void onCompleted() {
-
-                        }
-                    });
-        }else{
-            HttpMethod.getInstance().loadBodyMintoMax(id,min,max)
-                    .subscribeOn(Schedulers.single())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
-                        @Override
-                        public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
-                            if (httpResult.getStatusCode() == 200) {
-                                HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
-                                homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
-                                list.clear();
-                                list.add(homeFRBodyHolder);
-                                getView().refreshHome(list);
-
-                            } else {
-                                showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
-                            }
-                        }
-
-                        @Override
-                        public void onFail(Throwable e) {
-                            showError(String.valueOf(e.getMessage()));
-                        }
-
-                        @Override
-                        public void onCompleted() {
-
-                        }
-                    });
-        }
-    }
-
-    public void requestBodyPage(int id,int min,int max,int page){
-
-        HttpMethod.getInstance().loadBodyMintoMaxToPage(id,min,max,page)
+    public void requestBody(int page,int count) {
+        HttpMethod.getInstance().requestStoryOnPage(page,count)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<HttpResult<NewHomeBodyBean>>(this) {
+                .subscribe(new MySubscriber<HttpResult<List<StoryTable>>>(this) {
                     @Override
-                    public void onSuccess(HttpResult<NewHomeBodyBean> httpResult) {
-                        if (httpResult.getStatusCode() == 200) {
-                            HomeFRBodyHolder homeFRBodyHolder = new HomeFRBodyHolder();
-                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getData().getLoanProduct());
-                            for(int i=0;i<list.size();i++){
-                                if(list.get(i) instanceof HomeFRBodyHolder){
-                                    ((HomeFRBodyHolder) list.get(i)).getHomeBodyBeanList().addAll(homeFRBodyHolder.getHomeBodyBeanList());
-                                }
+                    public void onSuccess(HttpResult<List<StoryTable>> httpResult) {
+                        if (httpResult.getResult().equals("success")) {
+                            MyLog.i("我来到了请求DD内容: "+httpResult.toString());
+                            DDHomeFRBodyHolder homeFRBodyHolder = new DDHomeFRBodyHolder();
+                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getStory_list());
+                            if(list.size()>=count){
+                                list.clear();
                             }
-                            getView().addPage(list);
-                            MyLog.i("requestBody(x) end : "+list.size());
+                            list.add(new HomeFRAdvertHolder());
+                            list.add(homeFRBodyHolder);
+                            MyLog.i("list.size: "+list.size());
+                            getView().refreshHome(list,httpResult.getTotal_pages());
                         } else {
-                            showError(httpResult.getMsg()+":"+httpResult.getStatusCode());
+                            showError(httpResult.getResult() + ":" + httpResult.getStatusCode());
                         }
                     }
 
@@ -190,5 +232,46 @@ public class LoanFrgPresenter extends BasePresenter<LoanFrgViewImpl> {
 
                     }
                 });
+    }
+
+
+    public void requestBodyPage(int page,int count){
+
+        HttpMethod.getInstance().requestStoryOnPage(page,count)
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<HttpResult<List<StoryTable>>>(this) {
+                    @Override
+                    public void onSuccess(HttpResult<List<StoryTable>> httpResult) {
+                        if (httpResult.getResult().equals("success")) {
+                            MyLog.i("我来到了请求DD内容: "+httpResult.toString());
+                            DDHomeFRBodyHolder homeFRBodyHolder = new DDHomeFRBodyHolder();
+                            homeFRBodyHolder.setHomeBodyBeanList(httpResult.getStory_list());
+                            for(int i=0;i<list.size();i++){
+                                if(list.get(i) instanceof DDHomeFRBodyHolder){
+                                    ((DDHomeFRBodyHolder) list.get(i)).getHomeBodyBeanList().addAll(homeFRBodyHolder.getHomeBodyBeanList());
+                                }
+                            }
+                            MyLog.i("list.size: "+list.size());
+                            getView().addPage(list);
+                        } else {
+                            showError(httpResult.getResult() + ":" + httpResult.getStatusCode());
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        showError(String.valueOf(e.getMessage()));
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+    }
+
+    public void clear() {
+        list.clear();
     }
 }

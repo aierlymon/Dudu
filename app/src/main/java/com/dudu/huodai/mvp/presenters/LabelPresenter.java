@@ -195,9 +195,7 @@ public class LabelPresenter extends BasePresenter<LabelImpl> {
                             }
                             MyLog.i("tableArrayList.size: "+tableArrayList.size());
                             homeFRBodyHolder.setHomeBodyBeanList(tableArrayList);
-                            if(list.size()>=count){
-                                list.clear();
-                            }
+                            list.clear();
                             list.add(new HomeFRAdvertHolder());
                             list.add(homeFRBodyHolder);
                             MyLog.i("list.size: "+list.size());

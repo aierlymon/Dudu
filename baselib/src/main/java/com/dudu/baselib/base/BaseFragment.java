@@ -28,7 +28,7 @@ import butterknife.Unbinder;
  * createBy ${huanghao}
  * on 2019/6/26
  */
-abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     private final int duration=2000;
     private RxPermissions mRxPermissions;
@@ -47,10 +47,11 @@ abstract class BaseFragment extends Fragment {
 
     //一些初始化信息，可以被子类重写
 
-    abstract void init();
+    public abstract void init();
 
      protected abstract void initView();
 
+    protected abstract void initBefore();
 
     private Unbinder unbind;
 
@@ -110,16 +111,23 @@ abstract class BaseFragment extends Fragment {
         lazyLoad();
     }
 
+    View parentview;
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(getLayoutRes(),container,false);
-        unbind=ButterKnife.bind(this,view);
+        parentview =inflater.inflate(getLayoutRes(),container,false);
+        initBefore();
+        unbind=ButterKnife.bind(this,parentview);
         initView();
-
-        return view;
+        return parentview;
     }
 
+    public View getParentview() {
+        return parentview;
+    }
 
     @Override
     public void onDestroyView() {
@@ -127,6 +135,8 @@ abstract class BaseFragment extends Fragment {
         if(isUseEventBus()){
             EventBus.getDefault().unregister(this);
         }
+
+        if(unbind!=null)
         unbind.unbind();
 
     }

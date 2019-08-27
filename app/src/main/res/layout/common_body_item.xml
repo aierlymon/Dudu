@@ -95,7 +95,7 @@
                 android:text="睡前故事"
                 android:padding="3dp"
                 android:textColor="@color/label_color"
-                android:textSize="@dimen/font_px12" />
+                android:textSize="@dimen/font_px10" />
         </RelativeLayout>
 
         <View

@@ -37,6 +37,7 @@ import com.dudu.huodai.ui.fragments.HomeFragment;
 import com.dudu.huodai.ui.fragments.LoanFragment;
 import com.dudu.huodai.ui.fragments.MyFragment;
 import com.dudu.huodai.ui.fragments.RecommandFragment;
+import com.dudu.huodai.ui.fragments.TestFragmeng;
 import com.dudu.huodai.widget.CustomScrollViewPager;
 import com.dudu.model.bean.LoginCallBackBean;
 import com.google.gson.Gson;

@@ -61,7 +61,13 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
     //这个是banner头部的请求，就是轮播图
     public void requestHead() {
-        HttpMethod.getInstance().loadHomeBanner()
+        HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
+        homeFRBannerHolder.setNewHomeBannerBean(null);//这个预留出来的page,pageCout而已，其实都一样最好的
+        if(list.size()>=count){
+            list.clear();
+        }
+        list.add(homeFRBannerHolder);
+       /* HttpMethod.getInstance().loadHomeBanner()
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<NewHomeBannerBean>>(this) {
@@ -86,15 +92,6 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     @Override
                     public void onFail(Throwable e) {
                         MyLog.i("失败了: " + e.getMessage());
-                        //测试用的
-                        /*---------------------------------------------------*/
-                        HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
-                        homeFRBannerHolder.setNewHomeBannerBean(null);//这个预留出来的page,pageCout而已，其实都一样最好的
-                        if(list.size()>=count){
-                            list.clear();
-                        }
-                        list.add(homeFRBannerHolder);
-                        /*---------------------------------------------------*/
                         showError(e.getMessage());
                     }
 
@@ -102,7 +99,7 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                     public void onCompleted() {
 
                     }
-                });
+                });*/
     }
 
     public void apply(int loanProductId, int id ){

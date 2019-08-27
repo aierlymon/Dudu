@@ -7,7 +7,7 @@ import com.dudu.model.bean.NewHomeMenuBean;
 import java.util.List;
 
 public interface LoanFrgViewImpl extends IView {
-    void refreshHome(List<BaseMulDataModel> list);
+    void refreshHome(List<BaseMulDataModel> list,int total_count);
 
     void refreshTypeFliter(List<NewHomeMenuBean.LoanCategoriesBean> loanCategories);
 

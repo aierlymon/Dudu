@@ -69,6 +69,12 @@ public class RecommandFragment extends BaseMVPFragment<RecomViewImpl, RecomFrgPr
     }
 
     @Override
+    protected void initBefore() {
+
+    }
+
+
+    @Override
     public void showLoading() {
 
     }

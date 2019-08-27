@@ -25,8 +25,7 @@
                 android:id="@+id/myhead"
                 layout="@layout/toolbarhead"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height"
-              />
+                android:layout_height="@dimen/toolbar_height" />
 
             <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:id="@+id/refreshLayout"
@@ -45,7 +44,7 @@
                     android:id="@+id/home_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/recyclerview_space_item"/>
+                    android:background="@color/recyclerview_space_item" />
 
                 <com.scwang.smartrefresh.layout.footer.ClassicsFooter
                     android:layout_width="match_parent"

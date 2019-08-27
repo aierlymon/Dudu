@@ -119,6 +119,12 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
     }
 
     @Override
+    protected void initBefore() {
+
+    }
+
+
+    @Override
     public void showLoading() {
 
     }

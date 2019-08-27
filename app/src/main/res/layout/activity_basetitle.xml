@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y45"
                 android:layout_below="@+id/story_myhead"
+                android:visibility="gone"
                 />
 
 
