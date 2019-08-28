@@ -58,7 +58,7 @@ public class SubjectActivity extends BaseTitleActivity<SubjectImpl, SubjectPrese
 
     @Override
     protected boolean hasBackHome() {
-        return false;
+        return true;
     }
 
     @Override
@@ -83,12 +83,16 @@ public class SubjectActivity extends BaseTitleActivity<SubjectImpl, SubjectPrese
 
 
     private int id;
+    private String title;
 
 
     @Override
     public void initRequest() {
         Intent intent = getIntent();
-        id = intent.getIntExtra("id", -1);
+        id = intent.getIntExtra(ApplicationPrams.key_id, -1);
+        title=intent.getStringExtra(ApplicationPrams.key_title);
+
+
 
         if(id==0){
             mPresenter.requestSubject();//请求菜单
@@ -101,7 +105,7 @@ public class SubjectActivity extends BaseTitleActivity<SubjectImpl, SubjectPrese
     @Override
     public void init() {
         ButterKnife.bind(this);
-
+        setTitle(title);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(manager);
 

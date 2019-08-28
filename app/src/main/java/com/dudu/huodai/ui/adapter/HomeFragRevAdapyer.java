@@ -3,6 +3,7 @@ package com.dudu.huodai.ui.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ import com.dudu.huodai.mvp.model.postbean.WebViewBean;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import com.dudu.huodai.ui.adapter.base.BaseMulViewHolder;
 import com.dudu.huodai.widget.MoneyDialog;
+import com.dudu.huodai.widget.SharePopWindow;
 import com.dudu.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
 import com.dudu.model.bean.NewHomeBannerBean;
 
@@ -179,19 +181,21 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     Intent intent = new Intent(mContext, LabelActivity.class);
                     switch (position1) {
                         case 0:
-                            intent.putExtra("id", 28);
+                            intent.putExtra(ApplicationPrams.key_id, 28);
                             break;
                         case 1:
-                            intent.putExtra("id", 73);
+                            intent.putExtra(ApplicationPrams.key_id, 73);
                             break;
                         case 2:
-                            intent.putExtra("id", 9);
+                            intent.putExtra(ApplicationPrams.key_id, 9);
                             break;
                     }
+                    intent.putExtra(ApplicationPrams.key_title,iconNames[position1]);
                     mContext.startActivity(intent);
                 } else {
                     Intent intent = new Intent(mContext, AllStoryActivity.class);
-                    intent.putExtra("id", position1);
+                    intent.putExtra(ApplicationPrams.key_id, position1);
+                    intent.putExtra(ApplicationPrams.key_title, iconNames[position1]);
                     mContext.startActivity(intent);
                 }
 
@@ -202,7 +206,6 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     }
 
     class MenuHolder extends BaseMulViewHolder<DDHomeFRMenuHolder> {
-        private LoanFraTypeBean loanFraTypeBean = new LoanFraTypeBean();
         @BindView(R.id.recv_menu)
         RecyclerView recyclerView;
 
@@ -306,7 +309,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
 
                 Intent intent = new Intent(mContext, StoryActivity.class);
-                intent.putExtra("id", dataModel.getHomeBodyBeanList().get(position1).getId());
+                intent.putExtra(ApplicationPrams.key_id, dataModel.getHomeBodyBeanList().get(position1).getId());
+                intent.putExtra(ApplicationPrams.key_title, dataModel.getHomeBodyBeanList().get(position1).getTitle());
                 mContext.startActivity(intent);
 
             });
@@ -372,8 +376,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             btnBigshare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MyLog.i("点击了大的分享了");
-                    MoneyDialog.Builder(mContext).setMessage("感谢分享").setTitle("+45").build().shown();
+                    SharePopWindow sharePopWindow = new SharePopWindow(mContext);
+                    sharePopWindow.showAtLocation(itemView.findViewById(R.id.fra_home_bigback_parent), Gravity.BOTTOM, 0, 0);
+                   // MoneyDialog.Builder(mContext).setMessage("感谢分享").setTitle("+45").build().shown();
                 }
             });
             specialBigicon = itemView.findViewById(R.id.special_bigicon);

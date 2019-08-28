@@ -1,6 +1,7 @@
 package com.dudu.huodai.ui.fragments;
 
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,12 +32,15 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
 
+    @BindView(R.id.tx_title)
+    TextView txTitle;
+
     //body的当前刷新页面
     private int currentPage = 1;
 
     private int pageCount;
 
-    private int count=10;//请求数据个数
+    private int count = 10;//请求数据个数
 
     private LoanFragRevAdapter fragRevAdapyer;
 
@@ -62,12 +66,14 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         //   showLoading();
         mPresenter.requestHead();//请求banner
         mPresenter.requestMenu();//请求菜单
-        mPresenter.requestBody(currentPage,count);//请求body
+        mPresenter.requestBody(currentPage, count);//请求body
     }
 
     @Override
     protected void initView() {
         MyLog.i("重新加载");
+        txTitle.setText(getResources().getString(R.string.loan));
+
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
 
@@ -78,13 +84,13 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         //刷新设置
         refreshLayout.setEnableAutoLoadMore(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> {
-            if(NetWorkStateBroadcast.isOnline.get()){
+            if (NetWorkStateBroadcast.isOnline.get()) {
                 currentPage = 1;
                 refreshLayout.setEnableLoadMore(true);
                 mPresenter.requestHead();//请求banner
                 mPresenter.requestMenu();//请求菜单
-                mPresenter.requestBody(currentPage,count);//请求body
-            }else{
+                mPresenter.requestBody(currentPage, count);//请求body
+            } else {
                 if (this.refreshLayout.isRefreshing()) {
                     showError("没有网络");
                     refreshLayout.finishRefresh();
@@ -94,12 +100,12 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         });
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
-            MyLog.i("我触发了2   currentPage: "+currentPage+"   pageCount: "+pageCount);
+            MyLog.i("我触发了2   currentPage: " + currentPage + "   pageCount: " + pageCount);
             isNoMore();
-            if(NetWorkStateBroadcast.isOnline.get()){
+            if (NetWorkStateBroadcast.isOnline.get()) {
                 currentPage++;
                 mPresenter.requestBodyPage(currentPage, count);
-            }else{
+            } else {
                 if (refreshLayout.isLoading()) {
                     refreshLayout.finishLoadMore();
                 }
@@ -114,10 +120,10 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
     @Override
     public void refreshHome(List<BaseMulDataModel> list, int total_pages) {
-        pageCount=total_pages;
+        pageCount = total_pages;
         isNoMore();
-        MyLog.i("刷新界面: "+list.size()+"  visable: "+mRecyclerView.getVisibility());
-        if(mRecyclerView.getVisibility()==View.GONE){
+        MyLog.i("刷新界面: " + list.size() + "  visable: " + mRecyclerView.getVisibility());
+        if (mRecyclerView.getVisibility() == View.GONE) {
             mRecyclerView.setVisibility(View.VISIBLE);
         }
         fragRevAdapyer.setModelList(list);
@@ -139,8 +145,8 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
         refreshLayout.finishLoadMore();
     }
 
-    public void isNoMore(){
-        if(currentPage>=pageCount){
+    public void isNoMore() {
+        if (currentPage >= pageCount) {
             refreshLayout.setEnableLoadMore(false);
             return;
         }
@@ -158,10 +164,10 @@ public class LoanFragment extends BaseMVPFragment<LoanFrgViewImpl, LoanFrgPresen
 
     @Override
     public void showError(String msg) {
-        if (refreshLayout!=null&&refreshLayout.isRefreshing()) {
+        if (refreshLayout != null && refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
         }
-        if(refreshLayout!=null&&refreshLayout.isLoading()){
+        if (refreshLayout != null && refreshLayout.isLoading()) {
             refreshLayout.finishLoadMore();
         }
         CustomToast.showToast(getContext().getApplicationContext(), msg, 2000);

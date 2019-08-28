@@ -71,15 +71,19 @@ public class LabelActivity extends BaseTitleActivity<LabelImpl, LabelPresenter> 
     }
 
     private int id;
+    private String mTitle;
 
     @Override
     public void initRequest() {
         Intent intent=getIntent();
-        id=intent.getIntExtra("id",-1);
+        id=intent.getIntExtra(ApplicationPrams.key_id,-1);
+        mTitle=intent.getStringExtra(ApplicationPrams.key_title);
         //   showLoading();
         //mPresenter.requestMenu();//请求菜单
         mPresenter.requestBody(id,currentPage,count);//请求body
     }
+
+
 
     @Override
     public void init() {
@@ -126,6 +130,8 @@ public class LabelActivity extends BaseTitleActivity<LabelImpl, LabelPresenter> 
                 }
             }
         });
+
+        setTitle(mTitle);
     }
 
     @Override

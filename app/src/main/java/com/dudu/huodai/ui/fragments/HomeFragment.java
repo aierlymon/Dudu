@@ -1,6 +1,7 @@
 package com.dudu.huodai.ui.fragments;
 
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,7 +60,7 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
 
     @Override
     protected boolean hasBackHome() {
-        return true;
+        return false;
     }
 
     /*@Override
@@ -82,6 +83,7 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
     @Override
     protected void initView() {
         MyLog.i("重新加载");
+        setTitleText(R.string.home);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
 

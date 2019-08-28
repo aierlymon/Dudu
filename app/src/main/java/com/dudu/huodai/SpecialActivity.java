@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPresenter> implements SpecialImpl {
 
@@ -45,6 +46,7 @@ public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPrese
     private int count = 10;//请求数据个数
 
     private int id;
+    private String title;
 
     @Override
     protected SpecialPresenter createPresenter() {
@@ -65,7 +67,9 @@ public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPrese
     @Override
     public void initRequest() {
         Intent intent = getIntent();
-        id = intent.getIntExtra("id", -1);
+        id = intent.getIntExtra(ApplicationPrams.key_id, -1);
+        title = intent.getStringExtra(ApplicationPrams.key_title);
+
         //   showLoading();
         //mPresenter.requestHead();//请求banner
         mPresenter.requestMenu();//请求菜单
@@ -76,6 +80,8 @@ public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPrese
     public void init() {
         //butterknife的绑定
         ButterKnife.bind(this);
+
+        setTitle(title);
 
         MyLog.i("重新加载");
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -174,6 +180,7 @@ public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPrese
             return;
         }
     }
+
 
 
 }

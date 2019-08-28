@@ -17,8 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y120"
         android:layout_marginLeft="@dimen/left_right_marigin"
-        android:layout_marginRight="@dimen/left_right_marigin"
-        android:background="#0f1"/>
+        android:layout_marginRight="@dimen/left_right_marigin" />
 
     <View
         android:layout_width="match_parent"

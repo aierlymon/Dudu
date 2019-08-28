@@ -8,8 +8,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.R;
 import com.dudu.huodai.mvp.model.DDHomeFRBodyHolder;
@@ -23,12 +26,14 @@ import com.dudu.huodai.mvp.model.postbean.RecordBean;
 import com.dudu.huodai.mvp.model.postbean.WebViewBean;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import com.dudu.huodai.ui.adapter.base.BaseMulViewHolder;
+import com.dudu.model.bean.StoryTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class LoanFragRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder>{
+public class LoanFragRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder> {
     List<BaseMulDataModel> modelList;
     private static final int BANNER = 0;//头部
     private static final int MENU = 1;//主题
@@ -169,19 +174,34 @@ public class LoanFragRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder>{
         @BindView(R.id.tx_title)
         TextView txTitle;
 
-        private HomeMenuRevAdapter homeMenuRevAdapter;
+        private LoadMenuRevAdapter loadMenuRevAdapter;
+
+        List<String> urlList;
 
         public MenuHolder(View itemView) {
             super(itemView);
+            txTitle.setText(mContext.getResources().getString(R.string.crazy));
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,3);
 
+            mRecyclerview.setLayoutManager(gridLayoutManager);
+            urlList = new ArrayList<>();
+            loadMenuRevAdapter = new LoadMenuRevAdapter(urlList, mContext);
+            mRecyclerview.setAdapter(loadMenuRevAdapter);
         }
 
         @Override
         public void bindData(DDHomeFRMenuHolder dataModel, int position) {
-
+            dataModel.getLoanCategoriesBean().get(position).getPicture();
+            for (int i = 0; i < dataModel.getLoanCategoriesBean().size(); i++) {
+                MyLog.i("loan MenuHolder pic: " + dataModel.getLoanCategoriesBean().get(i).getPicture());
+                urlList.add(HttpConstant.PIC_BASE_URL + dataModel.getLoanCategoriesBean().get(i).getPicture());
+            }
+            loadMenuRevAdapter.notifyDataSetChanged();
         }
     }
 
+    List<StoryTable> testTableList=new ArrayList<>();
+    private LoanBodyRevAdapter testBodyRevAdapter;
     class BodyHolder extends BaseMulViewHolder<DDHomeFRBodyHolder> {
         @BindView(R.id.tx_title)
         TextView txTitle;
@@ -189,14 +209,25 @@ public class LoanFragRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder>{
         @BindView(R.id.recyclerview_loan_body)
         RecyclerView mRecyclerview;
 
+        private LoanBodyRevAdapter loanBodyRevAdapter;
+
         public BodyHolder(View itemView) {
             super(itemView);
-
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+            linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+            mRecyclerview.setLayoutManager(linearLayoutManager);
+            txTitle.setText(mContext.getResources().getString(R.string.daybenefits));
         }
 
         @Override
         public void bindData(DDHomeFRBodyHolder dataModel, int position) {
+            testTableList=dataModel.getHomeBodyBeanList();
+            loanBodyRevAdapter=new LoanBodyRevAdapter(mContext,testTableList);
+            mRecyclerview.setAdapter(loanBodyRevAdapter);
 
+
+            //没用的
+            testBodyRevAdapter.notifyDataSetChanged();
         }
     }
 
@@ -208,14 +239,21 @@ public class LoanFragRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder>{
         @BindView(R.id.tx_title)
         TextView txTitle;
 
+
+
         public AdvertHolder(View itemView) {
             super(itemView);
-
+            txTitle.setText(mContext.getResources().getString(R.string.daytask));
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+            linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            txTitle.setText(mContext.getResources().getString(R.string.daytask));
         }
 
         @Override
         public void bindData(HomeFRAdvertHolder dataModel, int position) {
-
+            testBodyRevAdapter=new LoanBodyRevAdapter(mContext, testTableList);
+            recyclerView.setAdapter(testBodyRevAdapter);
         }
     }
 
@@ -233,7 +271,6 @@ public class LoanFragRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder>{
     }
 
     class BodyHolderFH extends BaseMulViewHolder<HomeFRBodyHolderFH> {
-
 
 
         public BodyHolderFH(View itemView) {

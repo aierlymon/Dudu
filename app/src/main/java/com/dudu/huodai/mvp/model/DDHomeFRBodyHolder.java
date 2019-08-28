@@ -18,14 +18,4 @@ public class DDHomeFRBodyHolder  extends BaseMulDataModel {
         this.homeBodyBeanList = homeBodyBeanList;
     }
 
-    List<SubjectInfo.DataBean> dataBeanList;
-
-
-    public List<SubjectInfo.DataBean> getDataBeanList() {
-        return dataBeanList;
-    }
-
-    public void setDataBeanList(List<SubjectInfo.DataBean> dataBeanList) {
-        this.dataBeanList = dataBeanList;
-    }
 }

@@ -45,13 +45,22 @@ public class AllStoryActivity extends BaseTitleActivity<AllStoryImpl, AllStoryPr
     List<AllStoryBean.ClassificationBean> classificationBeans;
 
 
+    private int id;
+    private String title;
+
     @Override
     public void init() {
+
+        Intent intent=getIntent();
+        id=intent.getIntExtra(ApplicationPrams.key_id,-1);
+        title=intent.getStringExtra(ApplicationPrams.key_title);
+
         ButterKnife.bind(this);
         classificationBeans=new ArrayList<>();
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         recycyclerView.setLayoutManager(linearLayoutManager);
 
+        setTitle(title);
     }
 
     @Override
@@ -97,12 +106,12 @@ public class AllStoryActivity extends BaseTitleActivity<AllStoryImpl, AllStoryPr
         List<AllStoryBean.ClassificationBean> classificationBeans=httpResult.getClassification();
 
         AllStoryBean.ClassificationBean classificationBean1=new AllStoryBean.ClassificationBean();
-        classificationBean1.setName("专题故事");
+        classificationBean1.setName(getResources().getString(R.string.subjecy_story));
         List<AllStoryBean.ClassificationBean.TagListBean> tagListBeans1=new ArrayList<>();
         classificationBean1.setTag_list(tagListBeans1);
 
         AllStoryBean.ClassificationBean classificationBean2=new AllStoryBean.ClassificationBean();
-        classificationBean2.setName("连载故事");
+        classificationBean2.setName(getResources().getString(R.string.serialization_story));
         List<AllStoryBean.ClassificationBean.TagListBean> tagListBeans2=new ArrayList<>();
         classificationBean2.setTag_list(tagListBeans2);
 

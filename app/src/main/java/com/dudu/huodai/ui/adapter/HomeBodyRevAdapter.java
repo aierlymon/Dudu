@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
+import com.dudu.huodai.ApplicationPrams;
 import com.dudu.huodai.LabelActivity;
 import com.dudu.huodai.R;
 import com.dudu.huodai.widget.CircleImageView;
@@ -83,7 +84,7 @@ public class HomeBodyRevAdapter extends RecyclerView.Adapter<HomeBodyRevAdapter.
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(mContext, LabelActivity.class);
-                    intent.putExtra("id", ((int) lab.getTag()));
+                    intent.putExtra(ApplicationPrams.key_id, ((int) lab.getTag()));
                     mContext.startActivity(intent);
                 }
             });

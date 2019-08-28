@@ -105,9 +105,8 @@ public abstract class BaseTitleFragment<V extends IView, P extends IPresenter> e
     protected abstract boolean hasBackHome();
 
 
-    public void setTitleText(String titleName) {
-        txTitle.setText(titleName);
-    }
+
+
 
     public void setTitleText(@StringRes int stringRes) {
         txTitle.setText(stringRes);
@@ -203,6 +202,7 @@ public abstract class BaseTitleFragment<V extends IView, P extends IPresenter> e
                 MediaPlayManager.resetMediaplay();
             } else {
                 MediaPlayManager.currentProgress = MediaPlayManager.createMediaPlay().getCurrentPosition();
+                if(!getActivity().isFinishing())
                 getActivity().runOnUiThread(() -> refreshTime.setText(Utils.generateTime(MediaPlayManager.currentProgress)));
             }
             mediaProgress.setProgress(MediaPlayManager.currentProgress);
@@ -225,7 +225,7 @@ public abstract class BaseTitleFragment<V extends IView, P extends IPresenter> e
     public void onResume() {
         super.onResume();
         MyLog.i("我是进来了onRestart");
-        if(MediaPlayManager.getMediaPlayer()!=null){
+        if(MediaPlayManager.getMediaPlayer()!=null&&MediaPlayManager.mediaId!=-1){
             justShowMediaPlay(MediaPlayManager.getMediaPlayer());
         }
     }

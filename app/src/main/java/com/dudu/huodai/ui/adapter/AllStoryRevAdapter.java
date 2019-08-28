@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dudu.baselib.utils.MyLog;
+import com.dudu.huodai.ApplicationPrams;
 import com.dudu.huodai.LabelActivity;
 import com.dudu.huodai.R;
 import com.dudu.huodai.SubjectActivity;
@@ -51,13 +52,11 @@ public class AllStoryRevAdapter extends RecyclerView.Adapter<AllStoryRevAdapter.
         holder.title.setText(classificationBean.getName());
         holder.itemRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
         AllStoryItemAdapter allStoryItemAdapter = new AllStoryItemAdapter(mContext, classificationBean.getTag_list());
-        allStoryItemAdapter.setOnItemClickListener(new AllStoryItemAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position1) {
-                Intent intent=new Intent(mContext, LabelActivity.class);
-                intent.putExtra("id",position1);
-                mContext.startActivity(intent);
-            }
+        allStoryItemAdapter.setOnItemClickListener((view, innerAllStortBean) -> {
+            Intent intent=new Intent(mContext, LabelActivity.class);
+            intent.putExtra(ApplicationPrams.key_id,innerAllStortBean.getId());
+            intent.putExtra(ApplicationPrams.key_title,classificationBean.getTag_list().get(innerAllStortBean.getPos()).getName());
+            mContext.startActivity(intent);
         });
         holder.itemRecyclerView.setAdapter(allStoryItemAdapter);
 
@@ -66,7 +65,8 @@ public class AllStoryRevAdapter extends RecyclerView.Adapter<AllStoryRevAdapter.
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(mContext, SubjectActivity.class);
-                    intent.putExtra("id",position);
+                    intent.putExtra(ApplicationPrams.key_id,position);
+                    intent.putExtra(ApplicationPrams.key_title,position==0?mContext.getResources().getString(R.string.subjecy_story):mContext.getResources().getString(R.string.serialization_story));
                     mContext.startActivity(intent);
                 }
             });

@@ -83,10 +83,13 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
 
     private MediaPlayer player;
 
+    private String title;
+
     @Override
     protected void initRequest() {
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", -1);
+        int id = intent.getIntExtra(ApplicationPrams.key_id, -1);
+        title = intent.getStringExtra(ApplicationPrams.key_title);
         mPresenter.reqestStoryInfo(id);
     }
 
@@ -94,6 +97,7 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
     @Override
     public void init() {
         ButterKnife.bind(this);
+        setTitle(title);
         //注册微信分享
         regToWx();
         //设置故事名称
@@ -165,18 +169,23 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                 Bitmap thumbBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.lllogo);
                 msg.thumbData = WXUtil.bmpToByteArray(thumbBmp, true);
 
-//构造一个Req
+                //构造一个Req
                 SendMessageToWX.Req req = new SendMessageToWX.Req();
                 req.transaction = buildTransaction("webpage");
                 req.message = msg;
                 req.scene = SendMessageToWX.Req.WXSceneTimeline ; ;
                 req.userOpenId = App.APP_ID;
 
-//调用api接口，发送数据到微信
+               //调用api接口，发送数据到微信
                 api.sendReq(req);*/
 
+
+                SharePopWindow sharePopWindow2 = new SharePopWindow(this);
+                sharePopWindow2.showAtLocation(findViewById(R.id.parent_view), Gravity.BOTTOM, 0, 0);
+
+
                 //qq分享
-                Tencent mTencent = Tencent.createInstance("1109804834", StoryActivity.this);
+             /*   Tencent mTencent = Tencent.createInstance("1109804834", StoryActivity.this);
                 final Bundle params = new Bundle();
                 params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
                 params.putString(QQShare.SHARE_TO_QQ_TITLE, "要分享的标题");
@@ -185,7 +194,7 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                 params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif");
                 params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "测试应用222222");
                 params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
-                mTencent.shareToQQ(StoryActivity.this, params, this);
+                mTencent.shareToQQ(StoryActivity.this, params, this);*/
                 break;
             case R.id.share:
                 SharePopWindow sharePopWindow = new SharePopWindow(this);
@@ -193,15 +202,15 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                 break;
             case R.id.story_control:
                 player = MediaPlayManager.createMediaPlay();
-                MyLog.i("StoryActivity player: "+player);
+                MyLog.i("StoryActivity player: " + player);
                 //判断当前页面是不是正在播放的页面
-                if(MediaPlayManager.mediaId!=media_id){
+                if (MediaPlayManager.mediaId != media_id) {
                     //不是的话，重新播放
                     try {
                         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
                         player.reset();
                         player.setDataSource(StoryActivity.this, Uri.parse(HttpConstant.PIC_BASE_URL + url));
-                        MyLog.i("mediaMp3: "+HttpConstant.PIC_BASE_URL + url);
+                        MyLog.i("mediaMp3: " + HttpConstant.PIC_BASE_URL + url);
                         // 通过异步的方式装载媒体资源
                         player.prepareAsync();
                         //保存标题和图标
@@ -212,10 +221,10 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                             @Override
                             public void onPrepared(MediaPlayer mp) {
                                 // 装载完毕回调,允许卜凡
-                                MediaPlayManager.isPlay=true;
+                                MediaPlayManager.isPlay = true;
                                 //播放
                                 startAutioPlay(MediaPlayManager.isPlay);
-                                MyLog.i("我是进来StoryActivity： MediaPlayManager.isPlay： "+MediaPlayManager.isPlay);
+                                MyLog.i("我是进来StoryActivity： MediaPlayManager.isPlay： " + MediaPlayManager.isPlay);
 
                                 if (MediaPlayManager.mediaId == media_id) {
                                     if (MediaPlayManager.isPlay) {
@@ -226,14 +235,13 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                                 }
                             }
                         });
-                        
                     } catch (IOException e) {
 
                         e.printStackTrace();
                     }
-                }else{
+                } else {
                     //是的话(每次等于暂停和播放)
-                    MediaPlayManager.isPlay=!MediaPlayManager.isPlay;
+                    MediaPlayManager.isPlay = !MediaPlayManager.isPlay;
                     startAutioPlay(MediaPlayManager.isPlay);
                     if (MediaPlayManager.mediaId == media_id) {
                         if (MediaPlayManager.isPlay) {
@@ -245,7 +253,7 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                 }
                 break;
             case R.id.story_littel_control:
-                MediaPlayManager.isPlay=!MediaPlayManager.isPlay;
+                MediaPlayManager.isPlay = !MediaPlayManager.isPlay;
                 startAutioPlay(MediaPlayManager.isPlay);
                 if (MediaPlayManager.mediaId == media_id) {
                     if (MediaPlayManager.isPlay) {
@@ -284,8 +292,8 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
 
         url = storyBean.getAudio();
         //设置音频的图标
-        MyLog.i("storyBean.getAudio(): "+storyBean.getAudio());
-        if(!TextUtils.isEmpty(storyBean.getAudio())&&storyBean.getAudio().lastIndexOf(".mp3")!=-1){
+        MyLog.i("storyBean.getAudio(): " + storyBean.getAudio());
+        if (!TextUtils.isEmpty(storyBean.getAudio()) && storyBean.getAudio().lastIndexOf(".mp3") != -1) {
             storyControl.setVisibility(View.VISIBLE);
         }
         icon_url = HttpConstant.PIC_BASE_URL + storyBean.getPicture();

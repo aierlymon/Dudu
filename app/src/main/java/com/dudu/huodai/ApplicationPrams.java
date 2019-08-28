@@ -16,4 +16,6 @@ public class ApplicationPrams {
     public static final int SubjctActivity=22;
 
 
+    public static final String key_title="title";
+    public static final String key_id="id";
 }

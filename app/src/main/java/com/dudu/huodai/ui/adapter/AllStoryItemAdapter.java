@@ -40,7 +40,10 @@ public class AllStoryItemAdapter extends RecyclerView.Adapter<AllStoryItemAdapte
     public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
         MyLog.i("我来到了读取数据tag_list: "+tag_list.size());
         holder.title.setText(tag_list.get(position).getName());
-        holder.itemView.setTag(tag_list.get(position).getId());
+        InnerAllStortBean innerAllStortBean=new InnerAllStortBean();
+        innerAllStortBean.setId(tag_list.get(position).getId());
+        innerAllStortBean.setPos(position);
+        holder.itemView.setTag(innerAllStortBean);
     }
 
     @Override
@@ -54,7 +57,7 @@ public class AllStoryItemAdapter extends RecyclerView.Adapter<AllStoryItemAdapte
     public void onClick(View view) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(view, (int) view.getTag());
+            mOnItemClickListener.onItemClick(view, (InnerAllStortBean) view.getTag());
         }
     }
 
@@ -63,7 +66,7 @@ public class AllStoryItemAdapter extends RecyclerView.Adapter<AllStoryItemAdapte
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, InnerAllStortBean position);
     }
 
     class ItemHolder extends RecyclerView.ViewHolder {
@@ -74,6 +77,27 @@ public class AllStoryItemAdapter extends RecyclerView.Adapter<AllStoryItemAdapte
             super(itemView);
             itemView.setOnClickListener(listener);
             title = itemView.findViewById(R.id.tx_item);
+        }
+    }
+
+    public class InnerAllStortBean{
+        private int id;
+        private int pos;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getPos() {
+            return pos;
+        }
+
+        public void setPos(int pos) {
+            this.pos = pos;
         }
     }
 }
