@@ -39,6 +39,7 @@ import com.dudu.huodai.ui.fragments.MyFragment;
 import com.dudu.huodai.ui.fragments.RecommandFragment;
 import com.dudu.huodai.ui.fragments.TestFragmeng;
 import com.dudu.huodai.widget.CustomScrollViewPager;
+import com.dudu.huodai.widget.MediaPlayManager;
 import com.dudu.model.bean.LoginCallBackBean;
 import com.google.gson.Gson;
 
@@ -305,6 +306,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         //取消下载更新
         if (mPresenter != null)
             mPresenter.cancelIUpdate();
+
+        MediaPlayManager.destoryMedaiPlay();
     }
 
     private ProgressDialog pd;

@@ -36,11 +36,6 @@ public class MediaPlayManager {
         return mediaPlayer;
     }
 
-    public static void StopMediaPlay() {
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = null;
-    }
 
 
     //充值
@@ -65,9 +60,10 @@ public class MediaPlayManager {
         return mediaPlayer;
     }
 
-    public void destoryMedaiPlay() {
+    public static void destoryMedaiPlay() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
+            mediaPlayer.reset();
             mediaPlayer.release();
             mediaPlayer = null;
         }
