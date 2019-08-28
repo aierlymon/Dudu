@@ -8,7 +8,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/story_media"
         android:layout_marginLeft="@dimen/left_right_marigin"
         android:layout_marginRight="@dimen/left_right_marigin"
         android:scrollbars="none">
@@ -36,6 +35,7 @@
                     android:layout_height="@dimen/y60"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
+                    android:visibility="gone"
                     android:src="@drawable/media_pause" />
             </RelativeLayout>
 

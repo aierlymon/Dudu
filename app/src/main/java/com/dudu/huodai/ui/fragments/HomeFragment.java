@@ -21,7 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresenter> implements HomeFrgViewImpl {
+public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPresenter> implements HomeFrgViewImpl {
 
     @BindView(R.id.home_recyclerview)
     RecyclerView mRecyclerView;
@@ -52,7 +52,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
     }
 
 
-  /*  @Override
+    @Override
     protected int getBodyLayoutRes() {
         return R.layout.fra_home;
     }
@@ -60,12 +60,12 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
     @Override
     protected boolean hasBackHome() {
         return true;
-    }*/
+    }
 
-    @Override
+    /*@Override
     protected int getLayoutRes() {
         return R.layout.fra_home;
-    }
+    }*/
 
 
 
@@ -123,7 +123,7 @@ public class HomeFragment extends BaseMVPFragment<HomeFrgViewImpl, HomeFrgPresen
 
     @Override
     protected void initBefore() {
-
+        super.initBefore();
     }
 
     @Override

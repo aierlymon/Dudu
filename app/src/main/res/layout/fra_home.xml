@@ -5,55 +5,30 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true">
 
-    <!--外部用来填充的颜色-->
-    <ImageView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/daohang_clolor" />
+        android:background="#fff">
 
-    <com.dudu.baselib.widget.StatusBarHeightView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusableInTouchMode="true"
-        app:use_type="use_padding_top">
-
-        <RelativeLayout
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            app:srlAccentColor="#000" />
 
-            <include
-                android:id="@+id/myhead"
-                layout="@layout/toolbarhead"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/recyclerview_space_item" />
 
-            <com.scwang.smartrefresh.layout.SmartRefreshLayout
-                android:id="@+id/refreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/myhead"
-                android:background="#fff">
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlPrimaryColor="#fff" />
 
-                <com.scwang.smartrefresh.layout.header.ClassicsHeader
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#fff"
-                    app:srlAccentColor="#000" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/home_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/recyclerview_space_item" />
 
-                <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:srlPrimaryColor="#fff" />
-
-            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-        </RelativeLayout>
-
-    </com.dudu.baselib.widget.StatusBarHeightView>
 </RelativeLayout>

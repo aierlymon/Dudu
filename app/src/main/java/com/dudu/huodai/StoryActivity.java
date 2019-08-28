@@ -1,45 +1,40 @@
 package com.dudu.huodai;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import com.bumptech.glide.Glide;
-import com.dudu.baselib.base.BaseMvpActivity;
 import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.myapplication.App;
 import com.dudu.baselib.utils.MyLog;
-import com.dudu.baselib.utils.StatusBarUtil;
-import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
 import com.dudu.huodai.mvp.presenters.StoryPresenter;
 import com.dudu.huodai.mvp.view.StoryImpl;
-import com.dudu.huodai.widget.CircleImageView;
+import com.dudu.huodai.widget.MediaPlayManager;
 import com.dudu.huodai.widget.SharePopWindow;
 import com.dudu.model.bean.StoryInfo;
 import com.tencent.connect.share.QQShare;
-import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,6 +104,8 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
         ((TextView) viewConetnt.findViewById(R.id.tx_title)).setText(getResources().getString(R.string.story_content));
         //设置分享按钮可见
         btnShare.setVisibility(View.VISIBLE);
+
+
     }
 
 
@@ -195,21 +192,68 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                 sharePopWindow.showAtLocation(findViewById(R.id.parent_view), Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.story_control:
+                player = MediaPlayManager.createMediaPlay();
+                MyLog.i("StoryActivity player: "+player);
+                //判断当前页面是不是正在播放的页面
+                if(MediaPlayManager.mediaId!=media_id){
+                    //不是的话，重新播放
+                    try {
+                        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                        player.reset();
+                        player.setDataSource(StoryActivity.this, Uri.parse(HttpConstant.PIC_BASE_URL + url));
+                        MyLog.i("mediaMp3: "+HttpConstant.PIC_BASE_URL + url);
+                        // 通过异步的方式装载媒体资源
+                        player.prepareAsync();
+                        //保存标题和图标
+                        setMediaTitleIcon(icon_url, medai_title);
+                        MediaPlayManager.mediaId = media_id;
 
-            case R.id.story_littel_control:
-                if (ApplicationPrams.player == null) {
-                    player = MediaPlayer.create(StoryActivity.this.getApplicationContext(), Uri.parse(HttpConstant.PIC_BASE_URL + url));
-                    ApplicationPrams.player = player;
-                }
-                startAutioPlay(player);
-                if (isPlay()) {
-                    Glide.with(this).load(R.drawable.media_open).into(storyControl);
+                        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+                                // 装载完毕回调,允许卜凡
+                                MediaPlayManager.isPlay=true;
+                                //播放
+                                startAutioPlay(MediaPlayManager.isPlay);
+                                if (MediaPlayManager.mediaId == media_id) {
+                                    if (MediaPlayManager.isPlay) {
+                                        Glide.with(StoryActivity.this).load(R.drawable.media_open).into(storyControl);
+                                    } else {
+                                        Glide.with(StoryActivity.this).load(R.drawable.media_pause).into(storyControl);
+                                    }
+                                }
+                            }
+                        });
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+                    }
                 }else{
-                    Glide.with(this).load(R.drawable.media_pause).into(storyControl);
+                    //是的话(每次等于暂停和播放)
+                    MediaPlayManager.isPlay=!MediaPlayManager.isPlay;
+                    startAutioPlay(MediaPlayManager.isPlay);
+                    if (MediaPlayManager.mediaId == media_id) {
+                        if (MediaPlayManager.isPlay) {
+                            Glide.with(StoryActivity.this).load(R.drawable.media_open).into(storyControl);
+                        } else {
+                            Glide.with(StoryActivity.this).load(R.drawable.media_pause).into(storyControl);
+                        }
+                    }
+                }
+                break;
+            case R.id.story_littel_control:
+                MediaPlayManager.isPlay=!MediaPlayManager.isPlay;
+                startAutioPlay(MediaPlayManager.isPlay);
+                if (MediaPlayManager.mediaId == media_id) {
+                    if (MediaPlayManager.isPlay) {
+                        Glide.with(StoryActivity.this).load(R.drawable.media_open).into(storyControl);
+                    } else {
+                        Glide.with(StoryActivity.this).load(R.drawable.media_pause).into(storyControl);
+                    }
                 }
                 break;
             case R.id.story_little_close:
-                stopAutioPlay();
+                stopMediaPlay();
                 Glide.with(this).load(R.drawable.media_pause).into(storyControl);
                 break;
         }
@@ -217,6 +261,9 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
 
 
     private String url;
+    private String icon_url;
+    private String medai_title;
+    private int media_id;
 
     @Override
     public void refreshUi(StoryInfo.StoryBean storyBean) {
@@ -234,8 +281,21 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
 
         url = storyBean.getAudio();
         //设置音频的图标
-        setMediaTitleIcon(HttpConstant.PIC_BASE_URL + storyBean.getPicture(), storyBean.getTitle());
+        MyLog.i("storyBean.getAudio(): "+storyBean.getAudio());
+        if(!TextUtils.isEmpty(storyBean.getAudio())&&storyBean.getAudio().lastIndexOf(".mp3")!=-1){
+            storyControl.setVisibility(View.VISIBLE);
+        }
+        icon_url = HttpConstant.PIC_BASE_URL + storyBean.getPicture();
+        medai_title = storyBean.getTitle();
+
+        media_id = storyBean.getId();
+        if (MediaPlayManager.createMediaPlay().isPlaying() && MediaPlayManager.mediaId == media_id) {
+            Glide.with(this).load(R.drawable.media_open).into(storyControl);
+        }
     }
+
+    Intent wiIntent;
+    BroadcastReceiver wxReceiver;
 
     private void regToWx() {
         // 通过WXAPIFactory工厂，获取IWXAPI的实例
@@ -245,14 +305,15 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
         api.registerApp(App.APP_ID);
 
         //建议动态监听微信启动广播进行注册到微信
-        registerReceiver(new BroadcastReceiver() {
+      /*  wxReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
                 // 将该app注册到微信
                 api.registerApp(App.APP_ID);
             }
-        }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
+        };
+        wiIntent = registerReceiver(wxReceiver, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));*/
 
     }
 
@@ -275,4 +336,18 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (wiIntent != null) {
+            PackageManager pm = getPackageManager();
+            List<ResolveInfo> resolveInfos = pm.queryBroadcastReceivers(wiIntent, 0);
+            if (resolveInfos != null && !resolveInfos.isEmpty()) {
+//查询到相应的BroadcastReceiver
+                unregisterReceiver(wxReceiver);
+            }
+        }
+
+
+    }
 }

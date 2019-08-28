@@ -197,7 +197,7 @@ public abstract class BaseTitleFragment<V extends IView, P extends IPresenter> e
         if (player != null) {
             player.stop();
             player = null;
-            ApplicationPrams.player = null;
+           // ApplicationPrams.player = null;
         }
         ////图片变为初始化状态
         Glide.with(this).load(R.drawable.media_pause).into(littleControl);
