@@ -215,6 +215,8 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                                 MediaPlayManager.isPlay=true;
                                 //播放
                                 startAutioPlay(MediaPlayManager.isPlay);
+                                MyLog.i("我是进来StoryActivity： MediaPlayManager.isPlay： "+MediaPlayManager.isPlay);
+
                                 if (MediaPlayManager.mediaId == media_id) {
                                     if (MediaPlayManager.isPlay) {
                                         Glide.with(StoryActivity.this).load(R.drawable.media_open).into(storyControl);
@@ -224,6 +226,7 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                                 }
                             }
                         });
+                        
                     } catch (IOException e) {
 
                         e.printStackTrace();

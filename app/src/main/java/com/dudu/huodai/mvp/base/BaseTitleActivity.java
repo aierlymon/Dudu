@@ -99,7 +99,8 @@ public abstract class BaseTitleActivity<V extends IView, P extends IPresenter<V>
         littleControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startAutioPlay(!MediaPlayManager.isPlay);
+                MediaPlayManager.isPlay=!MediaPlayManager.isPlay;
+                startAutioPlay(MediaPlayManager.isPlay);
             }
         });
 
