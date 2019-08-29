@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/game_caicaicai">
+    android:background="@color/game_caicaicai"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,6 +19,7 @@
 
 
         <RadioGroup
+            android:id="@+id/group_anseer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/theme_image"
@@ -28,40 +30,77 @@
             <RadioButton
                 android:layout_width="@dimen/x43"
                 android:layout_height="@dimen/x43"
-                android:background="@drawable/game_cai_edit"
                 android:layout_margin="@dimen/left_right_marigin"
-                android:textAlignment="center"
+                android:background="@drawable/game_cai_edit"
                 android:button="@null"
-                android:text="adds1" />
+                android:text="adds1"
+                android:textAlignment="center" />
 
             <RadioButton
                 android:layout_width="@dimen/x43"
                 android:layout_height="@dimen/x43"
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
-                android:textAlignment="center"
                 android:button="@null"
-                android:text="adds1" />
+                android:text="adds1"
+                android:textAlignment="center" />
 
             <RadioButton
                 android:layout_width="@dimen/x43"
                 android:layout_height="@dimen/x43"
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
-                android:textAlignment="center"
                 android:button="@null"
-                android:text="adds1" />
+                android:text="adds1"
+                android:textAlignment="center" />
 
             <RadioButton
                 android:layout_width="@dimen/x43"
                 android:layout_height="@dimen/x43"
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
-                android:textAlignment="center"
                 android:button="@null"
-                android:text="adds1" />
+                android:text="adds1"
+                android:textAlignment="center" />
         </RadioGroup>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/group_anseer"
+            android:layout_marginTop="@dimen/double_left_right_marigin" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/recyclerview_item">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_px12"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/gg"
+                android:text="@string/game_activity"
+                android:textColor="@color/game_huo_text"/>
+
+            <ImageView
+                android:id="@+id/gg"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="1.0"
+                app:layout_constraintHeight_percent="0.75"
+                android:background="#fe1"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
+
+
+
 
 </LinearLayout>

@@ -70,4 +70,7 @@
     <color name="source_color">#B3B1B1</color>
     <color name="game_caicaicai">#D1F6FF</color>
     <color name="game_edit_border">#208EA8</color>
+    <color name="game_item_border">#707070</color>
+    <color name="game_huo_text">#075D72</color>
+
 </resources>

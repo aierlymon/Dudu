@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/double_left_right_marigin">
+
+    <CheckBox
+        android:id="@+id/tx_item"
+        android:layout_width="@dimen/x35"
+        android:layout_height="@dimen/x35"
+        android:background="@drawable/game_item"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:button="@null"
+        android:layout_centerInParent="true"
+        android:text="是"/>
+</RelativeLayout>
