@@ -5,12 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dudu.huodai.R;
+import com.dudu.huodai.mvp.model.postbean.GameCaiSelectBean;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -34,6 +38,15 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.CameCa
     @Override
     public void onBindViewHolder(@NonNull CameCaiHolder holder, int position) {
         holder.txItem.setText(nameList.get(position));
+        holder.txItem.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (holder.txItem.isChecked()) {
+                holder.txItem.setEnabled(false);
+                GameCaiSelectBean gameCaiSelectBean = new GameCaiSelectBean();
+                gameCaiSelectBean.setText(nameList.get(position));
+                gameCaiSelectBean.setCheckBox(holder.txItem);
+                EventBus.getDefault().post(gameCaiSelectBean);
+            }
+        });
     }
 
     @Override
@@ -41,13 +54,13 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.CameCa
         return nameList.size();
     }
 
-    class CameCaiHolder extends RecyclerView.ViewHolder{
+    class CameCaiHolder extends RecyclerView.ViewHolder {
 
         CheckBox txItem;
 
         public CameCaiHolder(@NonNull View itemView) {
             super(itemView);
-            txItem=itemView.findViewById(R.id.tx_item);
+            txItem = itemView.findViewById(R.id.tx_item);
         }
 
 

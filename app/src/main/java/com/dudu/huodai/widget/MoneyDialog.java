@@ -9,10 +9,12 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.dudu.huodai.R;
 
 public class MoneyDialog extends Dialog {
@@ -22,6 +24,10 @@ public class MoneyDialog extends Dialog {
     private final onConfirmClickListener ONCONFIRMCLICKLISTENER;
     private final onCancelClickListener ONCANCELCLICKLISTENER;
 
+    private String leftButtonString;
+    private String rightButtonString;
+    private int IconId=-1;
+
     public interface onConfirmClickListener {
         void onClick(View view);
     }
@@ -30,11 +36,14 @@ public class MoneyDialog extends Dialog {
         void onClick(View view);
     }
 
-    private MoneyDialog(@NonNull Context context, String title, String message,
+    private MoneyDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId,
                         onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
         super(context, R.style.UpdateDialog);
         this.TITLE = title;
         this.MESSAGE = message;
+        this.leftButtonString=leftButtonString;
+        this.rightButtonString=rightButtonString;
+        this.IconId=IconId;
 
         this.ONCONFIRMCLICKLISTENER = onConfirmClickListener;
         this.ONCANCELCLICKLISTENER = onCancelClickListener;
@@ -63,7 +72,7 @@ public class MoneyDialog extends Dialog {
         WindowManager.LayoutParams params = getWindow().getAttributes();
         Point point = new Point();
         display.getSize(point);
-        params.width = (int) (point.x );
+        params.width = (int) (point.x);
         params.height = (int) (point.y);
         getWindow().setAttributes(params);
 
@@ -71,6 +80,7 @@ public class MoneyDialog extends Dialog {
         Button douBling = findViewById(R.id.doubling);
         TextView txNum = findViewById(R.id.tx_num);
         TextView tvMessage = findViewById(R.id.tx_title);
+        ImageView gife=((ImageView) findViewById(R.id.gift));
 
         if (!TextUtils.isEmpty(TITLE)) {
             txNum.setText(TITLE);
@@ -78,6 +88,18 @@ public class MoneyDialog extends Dialog {
         if (!TextUtils.isEmpty(MESSAGE)) {
             tvMessage.setText(MESSAGE);
         }
+
+        if (!TextUtils.isEmpty(leftButtonString)) {
+            notDoubling.setText(leftButtonString);
+        }
+        if (!TextUtils.isEmpty(rightButtonString)) {
+            douBling.setText(rightButtonString);
+        }
+
+        if(IconId!=-1){
+            Glide.with(getContext()).load(IconId).into(gife);
+        }
+
 
 
         douBling.setOnClickListener(view -> {
@@ -104,6 +126,9 @@ public class MoneyDialog extends Dialog {
     public static class Builder {
         private String mTitle;
         private String mMessage;
+        private String leftButtonText;
+        private String rightButtonText;
+        private int IconId;
 
         private onConfirmClickListener mOnConfirmClickListener;
         private onCancelClickListener mOnCcancelClickListener;
@@ -134,8 +159,23 @@ public class MoneyDialog extends Dialog {
         }
 
         public MoneyDialog build() {
-            return new MoneyDialog(mContext, mTitle, mMessage,
+            return new MoneyDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId,
                     mOnConfirmClickListener, mOnCcancelClickListener);
+        }
+
+        public Builder setLeftButtonText(String leftButtonText) {
+            this.leftButtonText = leftButtonText;
+            return this;
+        }
+
+        public Builder setRightButtonText(String rightButtonText) {
+            this.rightButtonText = rightButtonText;
+            return this;
+        }
+
+        public Builder setIconId(int iconId) {
+            IconId = iconId;
+            return this;
         }
     }
 

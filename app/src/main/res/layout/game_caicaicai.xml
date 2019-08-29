@@ -18,7 +18,7 @@
             android:background="@mipmap/lllogo" />
 
 
-        <RadioGroup
+        <LinearLayout
             android:id="@+id/group_anseer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,42 +27,42 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <RadioButton
+            <CheckBox
+                android:id="@+id/ck_first"
                 android:layout_width="@dimen/x43"
                 android:layout_height="@dimen/x43"
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
                 android:button="@null"
-                android:text="adds1"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <CheckBox
+                android:id="@+id/ck_second"
                 android:layout_width="@dimen/x43"
                 android:layout_height="@dimen/x43"
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
                 android:button="@null"
-                android:text="adds1"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <CheckBox
+                android:id="@+id/ck_third"
                 android:layout_width="@dimen/x43"
                 android:layout_height="@dimen/x43"
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
                 android:button="@null"
-                android:text="adds1"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <CheckBox
+                android:id="@+id/ck_four"
                 android:layout_width="@dimen/x43"
                 android:layout_height="@dimen/x43"
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
                 android:button="@null"
-                android:text="adds1"
                 android:textAlignment="center" />
-        </RadioGroup>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_item"

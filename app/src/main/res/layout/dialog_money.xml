@@ -148,6 +148,7 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/gift"
         android:layout_width="@dimen/x80"
         android:layout_height="@dimen/x80"
         android:layout_marginTop="@dimen/x85"
