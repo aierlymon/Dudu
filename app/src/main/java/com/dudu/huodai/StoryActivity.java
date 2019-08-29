@@ -34,6 +34,7 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.BindView;
@@ -81,7 +82,8 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
 
     private IWXAPI api;
 
-    private MediaPlayer player;
+
+    private WeakReference<MediaPlayer> player;
 
     private String title;
 
@@ -201,23 +203,24 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                 sharePopWindow.showAtLocation(findViewById(R.id.parent_view), Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.story_control:
-                player = MediaPlayManager.createMediaPlay();
+                player =new WeakReference<>(MediaPlayManager.createMediaPlay());
+
                 MyLog.i("StoryActivity player: " + player);
                 //判断当前页面是不是正在播放的页面
-                if (MediaPlayManager.mediaId != media_id) {
+                if (MediaPlayManager.getMediaId().get() != media_id) {
                     //不是的话，重新播放
                     try {
-                        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                        player.reset();
-                        player.setDataSource(StoryActivity.this, Uri.parse(HttpConstant.PIC_BASE_URL + url));
+                        player.get().setAudioStreamType(AudioManager.STREAM_MUSIC);
+                        player.get().reset();
+                        player.get().setDataSource(StoryActivity.this, Uri.parse(HttpConstant.PIC_BASE_URL + url));
                         MyLog.i("mediaMp3: " + HttpConstant.PIC_BASE_URL + url);
                         // 通过异步的方式装载媒体资源
-                        player.prepareAsync();
+                        player.get().prepareAsync();
                         //保存标题和图标
                         setMediaTitleIcon(icon_url, medai_title);
-                        MediaPlayManager.mediaId = media_id;
+                        MediaPlayManager.setMediaId(media_id);
 
-                        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        player.get().setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                             @Override
                             public void onPrepared(MediaPlayer mp) {
                                 // 装载完毕回调,允许卜凡
@@ -226,13 +229,21 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                                 startAutioPlay(MediaPlayManager.isPlay);
                                 MyLog.i("我是进来StoryActivity： MediaPlayManager.isPlay： " + MediaPlayManager.isPlay);
 
-                                if (MediaPlayManager.mediaId == media_id) {
+                                if (MediaPlayManager.getMediaId().get() == media_id) {
                                     if (MediaPlayManager.isPlay) {
                                         Glide.with(StoryActivity.this).load(R.drawable.media_open).into(storyControl);
                                     } else {
                                         Glide.with(StoryActivity.this).load(R.drawable.media_pause).into(storyControl);
                                     }
                                 }
+                            }
+                        });
+
+                        player.get().setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mediaPlayer) {
+                                if(!isFinishing())
+                                Glide.with(StoryActivity.this).load(R.drawable.media_pause).into(storyControl);
                             }
                         });
                     } catch (IOException e) {
@@ -243,7 +254,7 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                     //是的话(每次等于暂停和播放)
                     MediaPlayManager.isPlay = !MediaPlayManager.isPlay;
                     startAutioPlay(MediaPlayManager.isPlay);
-                    if (MediaPlayManager.mediaId == media_id) {
+                    if (MediaPlayManager.getMediaId().get() == media_id) {
                         if (MediaPlayManager.isPlay) {
                             Glide.with(StoryActivity.this).load(R.drawable.media_open).into(storyControl);
                         } else {
@@ -255,7 +266,7 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
             case R.id.story_littel_control:
                 MediaPlayManager.isPlay = !MediaPlayManager.isPlay;
                 startAutioPlay(MediaPlayManager.isPlay);
-                if (MediaPlayManager.mediaId == media_id) {
+                if (MediaPlayManager.getMediaId().get()== media_id) {
                     if (MediaPlayManager.isPlay) {
                         Glide.with(StoryActivity.this).load(R.drawable.media_open).into(storyControl);
                     } else {
@@ -300,7 +311,7 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
         medai_title = storyBean.getTitle();
 
         media_id = storyBean.getId();
-        if (MediaPlayManager.createMediaPlay().isPlaying() && MediaPlayManager.mediaId == media_id) {
+        if (MediaPlayManager.createMediaPlay().isPlaying() &&MediaPlayManager.getMediaId().get() == media_id) {
             Glide.with(this).load(R.drawable.media_open).into(storyControl);
         }
     }
@@ -359,6 +370,16 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
             }
         }
 
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(player!=null){
+            player.clear();
+            player=null;
+        }
 
     }
 }

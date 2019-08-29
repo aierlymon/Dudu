@@ -6,6 +6,7 @@ import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.ApplicationPrams;
 
 import java.util.Timer;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MediaPlayManager {
 
@@ -14,7 +15,7 @@ public class MediaPlayManager {
     public static String iconUrl;
     public static String mediaTitle;
     public static int currentProgress;
-    public static int mediaId = -1;
+    private static  AtomicInteger mediaId=new AtomicInteger(-1);
     public static Timer mediaTimer;
 
     private static final String key = "key";
@@ -22,7 +23,7 @@ public class MediaPlayManager {
     private MediaPlayManager() {
     }
 
-    private static MediaPlayer mediaPlayer;
+    private  volatile static MediaPlayer mediaPlayer;
 
     public static MediaPlayer createMediaPlay() {
 
@@ -30,6 +31,7 @@ public class MediaPlayManager {
             synchronized (key) {
                 if (mediaPlayer == null) {
                     mediaPlayer = new MediaPlayer();
+
                 }
             }
         }
@@ -53,10 +55,10 @@ public class MediaPlayManager {
         isPlay = false;
         duration = 0;
         currentProgress = 0;
-        mediaId = -1;
+        mediaId.set(-1);
     }
 
-    public synchronized static MediaPlayer getMediaPlayer() {
+    public  static MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
 
@@ -67,5 +69,13 @@ public class MediaPlayManager {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+    }
+
+    public static AtomicInteger getMediaId() {
+        return mediaId;
+    }
+
+    public static void setMediaId(int id) {
+        mediaId.set(id);
     }
 }

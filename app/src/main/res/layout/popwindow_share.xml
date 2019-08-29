@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5"
-        android:background="@color/ban_toumin"/>
+        android:background="@color/ban_toumin" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,60 +38,58 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:button="@null"
                     android:drawableTop="@mipmap/friend_circle"
+                    android:drawablePadding="@dimen/y7"
                     android:gravity="center"
                     android:text="@string/friend_circle"
                     android:textAlignment="center"
                     android:textColor="@color/content_color"
-                    android:button="@null"
-                    android:textSize="@dimen/font_px14"
-                    android:drawablePadding="@dimen/y7"/>
+                    android:textSize="@dimen/font_px14" />
 
                 <RadioButton
                     android:id="@+id/tx_wx"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:button="@null"
                     android:drawableTop="@mipmap/wx_icon"
+                    android:drawablePadding="@dimen/y7"
                     android:gravity="center"
                     android:text="@string/wx"
                     android:textAlignment="center"
                     android:textColor="@color/content_color"
-                    android:button="@null"
-                    android:textSize="@dimen/font_px14"
-                    android:drawablePadding="@dimen/y7"/>
+                    android:textSize="@dimen/font_px14" />
 
                 <RadioButton
                     android:id="@+id/tx_qq"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:button="@null"
                     android:drawableTop="@mipmap/qq_icon"
+                    android:drawablePadding="@dimen/y7"
                     android:gravity="center"
                     android:text="@string/qq"
                     android:textAlignment="center"
-                    android:button="@null"
                     android:textColor="@color/content_color"
-                    android:textSize="@dimen/font_px14"
-                    android:drawablePadding="@dimen/y7"/>
+                    android:textSize="@dimen/font_px14" />
 
                 <RadioButton
                     android:id="@+id/tx_wb"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:button="@null"
                     android:drawableTop="@mipmap/wb_icon"
+                    android:drawablePadding="@dimen/y7"
                     android:gravity="center"
                     android:text="@string/wb"
                     android:textAlignment="center"
-                    android:button="@null"
                     android:textColor="@color/content_color"
-                    android:textSize="@dimen/font_px14"
-                    android:drawablePadding="@dimen/y7"
-                  />
+                    android:textSize="@dimen/font_px14" />
 
             </RadioGroup>
-
 
 
         </LinearLayout>

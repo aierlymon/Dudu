@@ -99,7 +99,7 @@ public abstract class BaseTitleActivity<V extends IView, P extends IPresenter<V>
         littleControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MediaPlayManager.isPlay=!MediaPlayManager.isPlay;
+                MediaPlayManager.isPlay = !MediaPlayManager.isPlay;
                 startAutioPlay(MediaPlayManager.isPlay);
             }
         });
@@ -114,12 +114,10 @@ public abstract class BaseTitleActivity<V extends IView, P extends IPresenter<V>
         bodyView = LayoutInflater.from(this).inflate(getBodyLayoutRes(), null);
         ((LinearLayout) findViewById(R.id.base_content_parent)).addView(bodyView);
 
-        //初始化mediaPlay，判断是否开启
-        if(MediaPlayManager.getMediaPlayer()!=null&&MediaPlayManager.mediaId!=-1){
-            justShowMediaPlay(MediaPlayManager.getMediaPlayer());
-        }
-    }
 
+        justShowMediaPlay(MediaPlayManager.getMediaPlayer());
+
+    }
 
 
     public View getBodyView() {
@@ -188,29 +186,35 @@ public abstract class BaseTitleActivity<V extends IView, P extends IPresenter<V>
     }
 
 
-    public void justShowMediaPlay(MediaPlayer player){
-        //启动播放音频
-        MediaView.setVisibility(View.VISIBLE);
-        //获取时长
-        MediaPlayManager.duration = player.getDuration();//获取音乐的播放时间  单位是毫秒
-        mediaProgress.setMax(MediaPlayManager.duration);
-        countTime.setText(Utils.generateTime(MediaPlayManager.duration));
+    public void justShowMediaPlay(MediaPlayer player) {
+        MyLog.i("justShowMediaPlay： "+player+"    MediaPlayManager.mediaId: "+ MediaPlayManager.getMediaId().get());
+        //初始化mediaPlay，判断是否开启
+        if (MediaPlayManager.getMediaPlayer() != null && MediaPlayManager.getMediaId().get() != -1) {
+            //启动播放音频
+            MediaView.setVisibility(View.VISIBLE);
+            //获取时长
+            MediaPlayManager.duration = player.getDuration();//获取音乐的播放时间  单位是毫秒
+            mediaProgress.setMax(MediaPlayManager.duration);
+            countTime.setText(Utils.generateTime(MediaPlayManager.duration));
 
-        setMediaTitleIcon(MediaPlayManager.iconUrl,MediaPlayManager.mediaTitle);
+            setMediaTitleIcon(MediaPlayManager.iconUrl, MediaPlayManager.mediaTitle);
 
-        //设置图片为播放
-        if(MediaPlayManager.getMediaPlayer().isPlaying()){
-            Glide.with(this).load(R.drawable.media_open).into(littleControl);
+            //设置图片为播放
+            if (MediaPlayManager.getMediaPlayer().isPlaying()) {
+                Glide.with(this).load(R.drawable.media_open).into(littleControl);
+            } else {
+                Glide.with(this).load(R.drawable.media_pause).into(littleControl);
+            }
+
+            //开启定时器,更新当前时间
+            startTimer();
         }else{
-            Glide.with(this).load(R.drawable.media_pause).into(littleControl);
+            stopMediaPlay();
         }
-
-        //开启定时器,更新当前时间
-        startTimer();
     }
 
     //暂停播放，但是不回收
-    public void pauseMediaPlay(MediaPlayer player){
+    public void pauseMediaPlay(MediaPlayer player) {
         MyLog.i("我是进来了暂停播放");
         if (player != null && player.isPlaying()) {
             //取消定时器
@@ -225,8 +229,14 @@ public abstract class BaseTitleActivity<V extends IView, P extends IPresenter<V>
     public void stopMediaPlay() {
         //停止播放音频
         MediaPlayManager.resetMediaplay();
-        //隐藏播放列表
-        MediaView.setVisibility(View.GONE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //隐藏播放列表
+                MediaView.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     private class MyTimerClass extends TimerTask {
@@ -236,7 +246,7 @@ public abstract class BaseTitleActivity<V extends IView, P extends IPresenter<V>
             if (MediaPlayManager.currentProgress >= MediaPlayManager.duration) {
                 MyLog.i("我是进来定时器挂了: " + MediaPlayManager.duration);
                 //播放完毕(包含了关闭定时器和音频对象了)
-                MediaPlayManager.resetMediaplay();
+                stopMediaPlay();
             } else {
                 MediaPlayManager.currentProgress = MediaPlayManager.createMediaPlay().getCurrentPosition();
                 runOnUiThread(() -> refreshTime.setText(Utils.generateTime(MediaPlayManager.currentProgress)));
@@ -244,7 +254,6 @@ public abstract class BaseTitleActivity<V extends IView, P extends IPresenter<V>
             mediaProgress.setProgress(MediaPlayManager.currentProgress);
         }
     }
-
 
 
     public void setMediaTitleIcon(String url, String title) {
@@ -261,9 +270,7 @@ public abstract class BaseTitleActivity<V extends IView, P extends IPresenter<V>
     protected void onRestart() {
         super.onRestart();
         MyLog.i("我是进来了onRestart");
-        if(MediaPlayManager.getMediaPlayer()!=null){
-            justShowMediaPlay(MediaPlayManager.getMediaPlayer());
-        }
+        justShowMediaPlay(MediaPlayManager.getMediaPlayer());
         //resetAutioPlay(ApplicationPrams.player);
     }
 
@@ -273,7 +280,11 @@ public abstract class BaseTitleActivity<V extends IView, P extends IPresenter<V>
         stopTimer();
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopTimer();
+    }
 
     //关闭定时器
     private void stopTimer() {
