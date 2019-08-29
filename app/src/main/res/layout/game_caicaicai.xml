@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/game_caicaicai">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/left_right_marigin">
+
+        <ImageView
+            android:id="@+id/theme_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y156"
+            android:background="@mipmap/lllogo" />
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/theme_image"
+            android:layout_marginTop="@dimen/double_left_right_marigin"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="@dimen/x43"
+                android:layout_height="@dimen/x43"
+                android:background="@drawable/game_cai_edit"
+                android:layout_margin="@dimen/left_right_marigin"
+                android:textAlignment="center"
+                android:button="@null"
+                android:text="adds1" />
+
+            <RadioButton
+                android:layout_width="@dimen/x43"
+                android:layout_height="@dimen/x43"
+                android:layout_margin="@dimen/left_right_marigin"
+                android:background="@drawable/game_cai_edit"
+                android:textAlignment="center"
+                android:button="@null"
+                android:text="adds1" />
+
+            <RadioButton
+                android:layout_width="@dimen/x43"
+                android:layout_height="@dimen/x43"
+                android:layout_margin="@dimen/left_right_marigin"
+                android:background="@drawable/game_cai_edit"
+                android:textAlignment="center"
+                android:button="@null"
+                android:text="adds1" />
+
+            <RadioButton
+                android:layout_width="@dimen/x43"
+                android:layout_height="@dimen/x43"
+                android:layout_margin="@dimen/left_right_marigin"
+                android:background="@drawable/game_cai_edit"
+                android:textAlignment="center"
+                android:button="@null"
+                android:text="adds1" />
+        </RadioGroup>
+
+    </RelativeLayout>
+
+</LinearLayout>

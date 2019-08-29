@@ -68,4 +68,6 @@
     <color name="dialog_understand_button_color">#FF4887</color>
     <color name="dialog_dobule_buttopn_color">#FF6B09</color>
     <color name="source_color">#B3B1B1</color>
+    <color name="game_caicaicai">#D1F6FF</color>
+    <color name="game_edit_border">#208EA8</color>
 </resources>
