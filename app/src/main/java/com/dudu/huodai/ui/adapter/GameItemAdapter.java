@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +30,7 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.CameCa
     @NonNull
     @Override
     public CameCaiHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CameCaiHolder(LayoutInflater.from(mContext).inflate(R.layout.game_cai_menuitem, parent, false));
+        return new CameCaiHolder(LayoutInflater.from(mContext).inflate(R.layout.activity_game_cai_menuitem, parent, false));
     }
 
     @Override

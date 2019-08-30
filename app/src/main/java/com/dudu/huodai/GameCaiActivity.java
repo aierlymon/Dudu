@@ -172,7 +172,7 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
 
     @Override
     protected int getBodyLayoutRes() {
-        return R.layout.game_caicaicai;
+        return R.layout.activity_game_caicaicai;
     }
 
     @Override

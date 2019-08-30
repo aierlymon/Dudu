@@ -38,7 +38,7 @@
         <activity android:name="com.dudu.huodai.StoryActivity">
 
         </activity>
-        
+
         <activity android:name=".AllStoryActivity"></activity>
 
         <activity android:name=".SubjectActivity"></activity>
@@ -47,36 +47,38 @@
             android:name="com.dudu.huodai.RecomMineActivity"
             android:launchMode="singleTop" />
 
-        <activity android:name="com.dudu.huodai.FilterActivity"
+        <activity
+            android:name="com.dudu.huodai.FilterActivity"
             android:launchMode="singleTop">
 
         </activity>
-        
-        
 
-        <activity android:name="com.dudu.huodai.HistoryActivity"
+
+        <activity
+            android:name="com.dudu.huodai.HistoryActivity"
             android:launchMode="singleTop"></activity>
         <activity android:name="com.dudu.huodai.StartActivity">
 
         </activity>
 
-        <activity android:name="com.dudu.huodai.SplashActivity"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name="com.dudu.huodai.SplashActivity"
+            android:launchMode="singleTop" />
 
         <activity android:name=".GameCircleActivity">
-           <!-- <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!-- <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>-->
         </activity>
 
         <activity android:name=".GameCaiActivity">
-        <!--    <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--    <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+                    <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>-->
         </activity>
 
         <activity android:name=".GameTreeActivity">
@@ -85,14 +87,22 @@
 
         <activity android:name=".AdvertisementActivity"></activity>
 
-        <activity
-            android:name="com.dudu.huodai.MainActivity"
-            android:launchMode="singleTop">
+        <activity android:name=".GameSmashEggActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.dudu.huodai.MainActivity"
+            android:launchMode="singleTop">
+            <!--   <intent-filter>
+                   <action android:name="android.intent.action.MAIN" />
+
+                   <category android:name="android.intent.category.LAUNCHER" />
+               </intent-filter>-->
         </activity>
 
         <activity
@@ -182,8 +192,8 @@
 
         <receiver
             android:name="com.dudu.huodai.receiver.MyReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
@@ -256,12 +266,14 @@
         <!--腾讯qq-->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
-            android:noHistory="true"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="1109804834" />
             </intent-filter>
         </activity>
