@@ -2,7 +2,6 @@ package com.dudu.huodai.ui.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.utils.MyLog;
-import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.AllStoryActivity;
 import com.dudu.huodai.ApplicationPrams;
 import com.dudu.huodai.LabelActivity;
@@ -31,19 +28,14 @@ import com.dudu.huodai.mvp.model.DDHomeFRMenuHolder;
 import com.dudu.huodai.mvp.model.HomeFRAdvertHolder;
 import com.dudu.huodai.mvp.model.HomeFRBannerHolder;
 import com.dudu.huodai.mvp.model.HomeFRBigBackHoder;
-import com.dudu.huodai.mvp.model.HomeFRBodyHolder;
 import com.dudu.huodai.mvp.model.HomeFRBodyHolderFH;
-import com.dudu.huodai.mvp.model.HomeFRMenuHolder;
 import com.dudu.huodai.mvp.model.postbean.BannerBean;
-import com.dudu.huodai.mvp.model.postbean.LoanFraTypeBean;
 import com.dudu.huodai.mvp.model.postbean.RecordBean;
 import com.dudu.huodai.mvp.model.postbean.WebViewBean;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import com.dudu.huodai.ui.adapter.base.BaseMulViewHolder;
-import com.dudu.huodai.widget.MoneyDialog;
 import com.dudu.huodai.widget.SharePopWindow;
 import com.dudu.huodai.widget.jingewenku.abrahamcaijin.loopviewpagers.LoopViewPager;
-import com.dudu.model.bean.NewHomeBannerBean;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -378,7 +370,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 public void onClick(View view) {
                     SharePopWindow sharePopWindow = new SharePopWindow(mContext);
                     sharePopWindow.showAtLocation(itemView.findViewById(R.id.fra_home_bigback_parent), Gravity.BOTTOM, 0, 0);
-                   // MoneyDialog.Builder(mContext).setMessage("感谢分享").setTitle("+45").build().shown();
+                   // GameWinDialog.Builder(mContext).setMessage("感谢分享").setTitle("+45").build().shown();
                 }
             });
             specialBigicon = itemView.findViewById(R.id.special_bigicon);

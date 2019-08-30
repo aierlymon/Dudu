@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,7 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.dudu.huodai.R;
 
-public class MoneyDialog extends Dialog {
+public class GameWinDialog extends Dialog {
     private final String TITLE;
     private final String MESSAGE;
 
@@ -26,7 +27,8 @@ public class MoneyDialog extends Dialog {
 
     private String leftButtonString;
     private String rightButtonString;
-    private int IconId=-1;
+    private int IconId = -1;
+    private boolean isWin;
 
     public interface onConfirmClickListener {
         void onClick(View view);
@@ -36,14 +38,15 @@ public class MoneyDialog extends Dialog {
         void onClick(View view);
     }
 
-    private MoneyDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId,
-                        onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
+    private GameWinDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId, boolean isWin,
+                          onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
         super(context, R.style.UpdateDialog);
         this.TITLE = title;
         this.MESSAGE = message;
-        this.leftButtonString=leftButtonString;
-        this.rightButtonString=rightButtonString;
-        this.IconId=IconId;
+        this.leftButtonString = leftButtonString;
+        this.rightButtonString = rightButtonString;
+        this.IconId = IconId;
+        this.isWin=isWin;
 
         this.ONCONFIRMCLICKLISTENER = onConfirmClickListener;
         this.ONCANCELCLICKLISTENER = onCancelClickListener;
@@ -53,7 +56,7 @@ public class MoneyDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_money);
+        setContentView(R.layout.dialog_win);
         // setCanceledOnTouchOutside(false);
         initView();
     }
@@ -80,11 +83,18 @@ public class MoneyDialog extends Dialog {
         Button douBling = findViewById(R.id.doubling);
         TextView txNum = findViewById(R.id.tx_num);
         TextView tvMessage = findViewById(R.id.tx_title);
-        ImageView gife=((ImageView) findViewById(R.id.gift));
+        ImageView gife = ((ImageView) findViewById(R.id.gift));
+        LinearLayout rightLayout = (LinearLayout) findViewById(R.id.right_layout);
+        LinearLayout stateLayout = (LinearLayout) findViewById(R.id.state_layout);
+
 
         if (!TextUtils.isEmpty(TITLE)) {
             txNum.setText(TITLE);
+        } else {
+            rightLayout.setVisibility(View.GONE);
         }
+
+
         if (!TextUtils.isEmpty(MESSAGE)) {
             tvMessage.setText(MESSAGE);
         }
@@ -96,10 +106,15 @@ public class MoneyDialog extends Dialog {
             douBling.setText(rightButtonString);
         }
 
-        if(IconId!=-1){
+        if (IconId != -1) {
             Glide.with(getContext()).load(IconId).into(gife);
         }
 
+        if(isWin){
+            stateLayout.setVisibility(View.VISIBLE);
+        }else{
+            stateLayout.setVisibility(View.GONE);
+        }
 
 
         douBling.setOnClickListener(view -> {
@@ -107,6 +122,7 @@ public class MoneyDialog extends Dialog {
                 throw new NullPointerException("clicklistener is not null");
             } else {
                 ONCONFIRMCLICKLISTENER.onClick(view);
+                dismiss();
             }
         });
         notDoubling.setOnClickListener(view -> {
@@ -114,11 +130,12 @@ public class MoneyDialog extends Dialog {
                 throw new NullPointerException("clicklistener is not null");
             } else {
                 ONCANCELCLICKLISTENER.onClick(view);
+                dismiss();
             }
         });
     }
 
-    public MoneyDialog shown() {
+    public GameWinDialog shown() {
         show();
         return this;
     }
@@ -129,6 +146,7 @@ public class MoneyDialog extends Dialog {
         private String leftButtonText;
         private String rightButtonText;
         private int IconId;
+        private boolean isWin;
 
         private onConfirmClickListener mOnConfirmClickListener;
         private onCancelClickListener mOnCcancelClickListener;
@@ -158,8 +176,8 @@ public class MoneyDialog extends Dialog {
             return this;
         }
 
-        public MoneyDialog build() {
-            return new MoneyDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId,
+        public GameWinDialog build() {
+            return new GameWinDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId, isWin,
                     mOnConfirmClickListener, mOnCcancelClickListener);
         }
 
@@ -175,6 +193,11 @@ public class MoneyDialog extends Dialog {
 
         public Builder setIconId(int iconId) {
             IconId = iconId;
+            return this;
+        }
+
+        public Builder isWin(boolean isWin) {
+            this.isWin = isWin;
             return this;
         }
     }

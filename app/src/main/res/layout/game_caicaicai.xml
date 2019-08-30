@@ -34,6 +34,8 @@
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
                 android:button="@null"
+                android:textSize="@dimen/font_px24"
+                android:textStyle="bold"
                 android:textAlignment="center" />
 
             <CheckBox
@@ -43,6 +45,8 @@
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
                 android:button="@null"
+                android:textSize="@dimen/font_px24"
+                android:textStyle="bold"
                 android:textAlignment="center" />
 
             <CheckBox
@@ -52,6 +56,8 @@
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
                 android:button="@null"
+                android:textSize="@dimen/font_px24"
+                android:textStyle="bold"
                 android:textAlignment="center" />
 
             <CheckBox
@@ -61,6 +67,8 @@
                 android:layout_margin="@dimen/left_right_marigin"
                 android:background="@drawable/game_cai_edit"
                 android:button="@null"
+                android:textSize="@dimen/font_px24"
+                android:textStyle="bold"
                 android:textAlignment="center" />
         </LinearLayout>
 

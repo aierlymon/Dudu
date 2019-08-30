@@ -29,6 +29,7 @@
     <dimen name="font_px20">@dimen/x18</dimen>
     <dimen name="font_px28">@dimen/x26</dimen>
     <dimen name="font_px18">@dimen/x16</dimen>
+    <dimen name="font_px24">@dimen/x22</dimen>
     <dimen name="font_px16">@dimen/x14</dimen>
     <dimen name="font_px14">@dimen/x13</dimen>
     <dimen name="font_px12">@dimen/x12</dimen>

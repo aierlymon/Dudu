@@ -75,6 +75,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".AdvertisementActivity"></activity>
+
         <activity
             android:name="com.dudu.huodai.MainActivity"
             android:launchMode="singleTop">
