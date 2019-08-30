@@ -73,6 +73,6 @@
     <color name="game_item_border">#707070</color>
     <color name="game_huo_text">#075D72</color>
     <color name="game_tree_back">#96C225</color>
-
+    <color name="game_circle_back">#5822B0</color>
 
 </resources>

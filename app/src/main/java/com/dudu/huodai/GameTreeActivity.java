@@ -153,7 +153,7 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
 
     @Override
     protected boolean hasBackHome() {
-        return false;
+        return true;
     }
 
     @Override

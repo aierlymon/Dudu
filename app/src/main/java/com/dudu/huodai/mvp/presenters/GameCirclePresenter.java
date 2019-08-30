@@ -1,12 +1,10 @@
 package com.dudu.huodai.mvp.presenters;
 
 import com.dudu.baselib.mvp.BasePresenter;
-import com.dudu.baselib.mvp.IView;
-import com.dudu.huodai.mvp.base.BaseTitleActivity;
-import com.dudu.huodai.mvp.view.GameCaiImpl;
 import com.dudu.huodai.mvp.view.GameCirclmpl;
 
-public class GameCaiPresenter extends BasePresenter<GameCaiImpl>  {
+public class GameCirclePresenter extends BasePresenter<GameCirclmpl>{
+
     @Override
     public void showError(String msg) {
 
