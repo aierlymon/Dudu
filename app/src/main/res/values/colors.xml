@@ -46,7 +46,6 @@
 
     <color name="recommand_mine_warn">#FF1D1D</color>
     <color name="recommand_mine_title">#222222</color>
-    <color name="recommand_mine_inteindex">#E6E6E6</color>
     <color name="recommand_mine_service_info">#FF1D1D</color>
     <color name="recommand_mine_isagree">#777777</color>
     <color name="recommand_goods_background">#F7F7F7</color>
@@ -74,5 +73,16 @@
     <color name="game_huo_text">#075D72</color>
     <color name="game_tree_back">#96C225</color>
     <color name="game_circle_back">#5822B0</color>
+    <color name="fra_my_crash_button">#FF946E</color>
+    <color name="fra_my_unselect_rb">#FFE7D8</color>
+
+    <color name="fra_my_weixin_ps"> #C9C9C9</color>
+    <color name="recommand_mine_inteindex">#E6E6E6</color>
+
+
+    <color name="fra_my_wx_coloc">#0ABB07</color>
+
+    <color name="fra_my_try">#D1D1D1</color>
+
 
 </resources>

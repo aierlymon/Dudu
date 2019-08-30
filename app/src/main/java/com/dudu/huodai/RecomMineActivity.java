@@ -199,7 +199,7 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
             case R.id.tx_mine_service:
                 WebViewBean webViewBean = new WebViewBean();
                 webViewBean.setUrl(HttpConstant.MINE_BASE_URL +"treaty.html");
-                webViewBean.setTag(getResources().getString(R.string.serice_content));
+                webViewBean.setTag(getResources().getString(R.string.service));
                 EventBus.getDefault().post(webViewBean);
                 break;
         }

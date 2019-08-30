@@ -83,7 +83,7 @@ public class HistoryActivity extends BaseMvpActivity<HistoryImpl, HistoryPresent
         ButterKnife.bind(this);
         //设置标题和返回键
         //设置头部
-        tx.setText(getString(R.string.history));
+        tx.setText("历史查看");
         back.setVisibility(View.VISIBLE);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);

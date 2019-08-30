@@ -3,6 +3,8 @@ package com.dudu.huodai.ui.fragments;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +16,7 @@ import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.ApplicationPrams;
 import com.dudu.huodai.HistoryActivity;
 import com.dudu.huodai.R;
+import com.dudu.huodai.mvp.base.BaseTitleFragment;
 import com.dudu.huodai.mvp.model.MyFRFunctionHolder;
 import com.dudu.huodai.mvp.model.postbean.WebViewBean;
 import com.dudu.huodai.mvp.presenters.MyFrgPresenter;
@@ -31,31 +34,24 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> implements MyViewImpl {
+public class MyFragment extends BaseTitleFragment<MyViewImpl, MyFrgPresenter> implements MyViewImpl {
 
-    @BindView(R.id.recv_my)
-    RecyclerView recyclerView;
-
-    @BindView(R.id.btn_login)
-    Button btnLogin;
-
-    @BindView(R.id.user_icon)
-    CircleImageView imgIcon;
-
-    @BindView(R.id.tx_username)
-    TextView txUsername;
-
-    @BindView(R.id.exit)
-    TextView txExit;
-
-    @BindView(R.id.tx_title)
-    TextView txTitle;
 
     private WebViewBean webViewBean;
 
-    private int[] name = {R.string.history,R.string.any_question, R.string.about_us, R.string.serice_content};
-    private int[] icon = {R.mipmap.hitstory, R.drawable.group, R.drawable.about, R.drawable.fuwu};
+    private int[] name = {R.string.like, R.string.message, R.string.service};
+    private int[] icon = {R.mipmap.like, R.mipmap.message, R.mipmap.service};
     private String[] urls = {"0", "help.html", "about.html", "treaty.html"};
+
+    @BindView(R.id.recv_my)
+    RecyclerView mRecyclerView;
+
+    @BindView(R.id.login_layout)
+    RelativeLayout loginLayout;
+
+    @BindView(R.id.nologin_layout)
+    LinearLayout noLoginLayout;
+
 
     public static MyFragment newInstance(String info) {
         MyFragment fragment = new MyFragment();
@@ -69,9 +65,15 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
         return new MyFrgPresenter();
     }
 
+
     @Override
-    protected int getLayoutRes() {
+    protected int getBodyLayoutRes() {
         return R.layout.fra_my;
+    }
+
+    @Override
+    protected boolean hasBackHome() {
+        return false;
     }
 
     @Override
@@ -81,14 +83,15 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
 
     @Override
     protected void initView() {
+        setTitleText(R.string.my);
         webViewBean = new WebViewBean();
       /*  txTitle.setTypeface(ApplicationPrams.typeface);
         txUsername.setTypeface(ApplicationPrams.typeface);*/
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new SpaceItemDecoration(2));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         List<BaseMulDataModel> myFRFunctionHolders = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < icon.length; i++) {
             MyFRFunctionHolder myFRFunctionHolder = new MyFRFunctionHolder();
             myFRFunctionHolder.setF_icon(icon[i]);
             myFRFunctionHolder.setUrl(HttpConstant.MINE_BASE_URL + urls[i]);
@@ -111,7 +114,7 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
                 EventBus.getDefault().post(webViewBean);
             }
         });
-        recyclerView.setAdapter(myRevAdapter);
+        mRecyclerView.setAdapter(myRevAdapter);
 
         if (ApplicationPrams.isLogin) {
             loginSuceesee();
@@ -120,7 +123,7 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
 
     @Override
     protected void initBefore() {
-
+        super.initBefore();
     }
 
 
@@ -139,32 +142,10 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
 
     }
 
-    @OnClick({R.id.btn_login, R.id.exit})
-    public void onClick(View v) {
-        Intent intent;
-        switch (v.getId()) {
-            case R.id.btn_login:
-                if (Utils.isFastClick())
-                    EventBus.getDefault().post(false);
-              /*  intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);*/
-                break;
-            case R.id.exit:
-                noLogin();
-                EventBus.getDefault().post(false);
-                ApplicationPrams.loginCallBackBean = null;
-                break;
-        }
-
-    }
 
     private void noLogin() {
         ApplicationPrams.isLogin = false;
-        btnLogin.setVisibility(View.VISIBLE);
-        imgIcon.setVisibility(View.GONE);
-        txUsername.setVisibility(View.GONE);
-        txUsername.setText(ApplicationPrams.loginCallBackBean.getPhone());
-        txExit.setVisibility(View.GONE);
+
     }
 
 
@@ -175,10 +156,17 @@ public class MyFragment extends BaseMVPFragment<MyViewImpl, MyFrgPresenter> impl
 
     @Override
     public void loginSuceesee() {
-        btnLogin.setVisibility(View.GONE);
-        imgIcon.setVisibility(View.VISIBLE);
-        txUsername.setVisibility(View.VISIBLE);
-        txUsername.setText(ApplicationPrams.loginCallBackBean.getPhone());
-        txExit.setVisibility(View.VISIBLE);
+
+    }
+
+    @OnClick({R.id.btn_wx_login, R.id.tx_try})
+    public void OnClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_wx_login:
+            case R.id.tx_try:
+                loginLayout.setVisibility(View.VISIBLE);
+                noLoginLayout.setVisibility(View.GONE);
+                break;
+        }
     }
 }

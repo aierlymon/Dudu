@@ -4,92 +4,247 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--外部用来填充的颜色-->
-    <ImageView
+    <RelativeLayout
+        android:id="@+id/login_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/daohang_clolor"/>
+        android:visibility="gone">
 
-    <com.dudu.baselib.widget.StatusBarHeightView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:use_type="use_padding_top">
-
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <RelativeLayout
+            android:id="@+id/top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/index_my_color">
+            android:layout_height="@dimen/y54"
+            android:layout_below="@+id/myhead"
+            android:layout_margin="@dimen/left_right_marigin"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/fra_my_menuitem">
+
+            <com.dudu.huodai.widget.CircleImageView
+                android:id="@+id/user_icon"
+                android:layout_width="@dimen/x40"
+                android:layout_height="@dimen/x40"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x20"
+                android:src="@mipmap/lllogo" />
+
+            <TextView
+                android:id="@+id/tx_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_toRightOf="@+id/user_icon"
+                android:text="15914855180"
+                android:textColor="@color/toolbar_head"
+                android:textSize="@dimen/x16"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
 
 
-            <include
-                android:id="@+id/myhead"
-                layout="@layout/toolbarhead"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height" />
-
+        <LinearLayout
+            android:id="@+id/my_info"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y190"
+            android:layout_below="@+id/top"
+            android:layout_margin="@dimen/left_right_marigin"
+            android:background="@drawable/fra_my_menuitem"
+            android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/top"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/y54"
-                android:layout_below="@+id/myhead"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/white">
-
-                <com.dudu.huodai.widget.CircleImageView
-                    android:id="@+id/user_icon"
-                    android:layout_width="@dimen/x40"
-                    android:layout_height="@dimen/x40"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/x20"
-                    android:src="@mipmap/lllogo"
-                    android:visibility="gone" />
+                android:layout_height="0dp"
+                android:layout_weight="0.9">
 
                 <TextView
-                    android:id="@+id/tx_username"
+                    android:id="@+id/text_mymoney_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:layout_toRightOf="@+id/user_icon"
-                    android:text="15914855180"
-                    android:textColor="@color/toolbar_head"
-                    android:textSize="@dimen/x16"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:layout_marginLeft="@dimen/left_right_marigin"
+                    android:text="@string/my_money"
+                    android:textColor="@color/color_text_normal"
+                    android:textSize="@dimen/font_px14" />
 
                 <TextView
-                    android:id="@+id/exit"
+                    android:id="@+id/text_mymoney_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/text_mymoney_title"
+                    android:text="250.41"
+                    android:textColor="@color/dialog_content_color"
+                    android:textSize="@dimen/font_px16" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/y25"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/left_right_marigin"
+                    android:background="@drawable/dudu_dialog_double_button"
+                    android:text="@string/goto_money"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_px14" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/left_right_marigin"
+                    android:text="@string/select_crash_moneynumber"
+                    android:textColor="@color/color_text_normal"
+                    android:textSize="@dimen/font_px14" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:layout_width="@dimen/x74"
+                        android:layout_height="@dimen/y38"
+                        android:background="@drawable/fra_my_select_state"
+                        android:button="@null"
+                        android:text="@string/fra_my_money_num_1"
+                        android:textAlignment="center"
+                        android:textColor="@color/color_text_normal"
+                        android:textSize="@dimen/font_px14" />
+
+                    <RadioButton
+                        android:layout_width="@dimen/x74"
+                        android:layout_height="@dimen/y38"
+                        android:layout_marginLeft="@dimen/x20"
+                        android:layout_marginRight="@dimen/x20"
+                        android:background="@drawable/fra_my_select_state"
+                        android:button="@null"
+                        android:text="@string/fra_my_money_num_10"
+                        android:textAlignment="center"
+                        android:textColor="@color/color_text_normal"
+                        android:textSize="@dimen/font_px14" />
+
+                    <RadioButton
+                        android:layout_width="@dimen/x74"
+                        android:layout_height="@dimen/y38"
+                        android:background="@drawable/fra_my_select_state"
+                        android:button="@null"
+                        android:text="@string/fra_my_money_num_30"
+                        android:textAlignment="center"
+                        android:textColor="@color/color_text_normal"
+                        android:textSize="@dimen/font_px14" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/left_right_marigin"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/tx_wx_ps"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/x17"
-                    android:text="@string/exits"
-                    android:textColor="@color/frag_body_small_textcolor"
-                    android:textSize="@dimen/x12"
-                    android:visibility="gone" />
+                    android:layout_marginRight="@dimen/left_right_marigin"
+                    android:text="@string/fra_my_wx_ps"
+                    android:textColor="@color/fra_my_weixin_ps"
+                    android:textSize="@dimen/font_px10" />
 
                 <Button
-                    android:id="@+id/btn_login"
-                    android:layout_width="@dimen/x146"
-                    android:layout_height="@dimen/y25"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/dudu_oppen_button"
-                    android:text="@string/login"
-                    android:textColor="@color/my_login_color"
-                    android:textSize="@dimen/x12" />
+                    android:layout_width="@dimen/x280"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tx_wx_ps"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/double_left_right_marigin"
+                    android:background="@drawable/fra_my_crash_button"
+                    android:text="@string/fra_my_wx_button"
+                    android:textColor="@color/white" />
             </RelativeLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recv_my"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/top"
-                android:background="@color/index_my_color" />
-        </RelativeLayout>
-    </com.dudu.baselib.widget.StatusBarHeightView>
+        </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recv_my"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/my_info"
+            android:layout_margin="@dimen/left_right_marigin"
+            android:background="@drawable/fra_my_menuitem" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/nologin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.4">
+
+            <com.dudu.huodai.widget.CircleImageView
+                android:id="@+id/big_icon"
+                android:layout_width="@dimen/x103"
+                android:layout_height="@dimen/x103"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/y34"
+                android:src="@mipmap/lllogo" />
+
+
+            <TextView
+                android:id="@+id/wx_login_ps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/big_icon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/y44"
+                android:text="@string/fra_my_login_ps"
+                android:textColor="@color/color_text_normal"
+                android:textSize="@dimen/font_px16" />
+
+            <Button
+                android:id="@+id/btn_wx_login"
+                android:layout_width="@dimen/x256"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/wx_login_ps"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/y20"
+                android:background="@drawable/fra_my_wx_login"
+                android:text="@string/fra_my_wx_login"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_px18" />
+
+            <TextView
+                android:id="@+id/tx_try"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_wx_login"
+                android:layout_alignRight="@+id/btn_wx_login"
+                android:layout_marginTop="@dimen/y15"
+                android:text="@string/fra_my_try_it"
+                android:textColor="@color/fra_my_try"
+                android:textSize="@dimen/font_px14" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 </RelativeLayout>

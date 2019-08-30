@@ -59,6 +59,7 @@ public class MyRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder> implem
     public void onBindViewHolder(@NonNull BaseMulViewHolder holder, int position) {
         holder.bindData(list.get(position),position);
 
+
     }
 
 
@@ -75,6 +76,9 @@ public class MyRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder> implem
         @BindView(R.id.tx_func_name)
         TextView tx_func_name;
 
+        @BindView(R.id.bottom_index)
+        View view;
+
         public MyHolder(View itemView, View.OnClickListener listener) {
             super(itemView);
             itemView.setOnClickListener(listener);
@@ -85,6 +89,9 @@ public class MyRevAdapter extends RecyclerView.Adapter<BaseMulViewHolder> implem
             itemView.setTag(position);
             Glide.with(mContext).load(dataModel.getF_icon()).into(img_func_icon);
             tx_func_name.setText(dataModel.getF_name());
+            if(position==list.size()-1){
+                view.setVisibility(View.GONE);
+            }
         }
     }
 }
