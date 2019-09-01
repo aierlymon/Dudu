@@ -14,10 +14,31 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3.2"
-            android:background="@mipmap/game_cicle_back">
+            android:layout_height="@dimen/y232">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@mipmap/game_cicle_back" />
+
+            <com.dudu.huodai.widget.CirclePanView
+                android:id="@+id/game_circle_pan"
+                android:layout_width="@dimen/x320"
+                android:layout_height="@dimen/x320"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="46dp"
+                android:background="@mipmap/circle_pan"
+                android:scaleX="1.55"
+                android:scaleY="1.54" />
+
+            <ImageView
+                android:id="@+id/game_circle_clock"
+                android:layout_width="@dimen/x100"
+                android:layout_height="@dimen/x100"
+                android:paddingTop="@dimen/x24"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/circle_clock" />
         </RelativeLayout>
 
 

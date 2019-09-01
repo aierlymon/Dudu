@@ -38,7 +38,7 @@ public class GameSmashAdapter extends RecyclerView.Adapter<GameSmashAdapter.Game
     public GameSmashAdapter(Context mContext, List<String> list) {
         this.mContext = mContext;
         this.list = list;
-        Glide.with(mContext).load(R.mipmap.badegg);
+        Glide.with(mContext).load(R.mipmap.badegg).preload();
     }
 
     @Override
