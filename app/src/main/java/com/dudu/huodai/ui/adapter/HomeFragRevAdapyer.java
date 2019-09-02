@@ -19,6 +19,10 @@ import com.bumptech.glide.Glide;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.AllStoryActivity;
 import com.dudu.huodai.ApplicationPrams;
+import com.dudu.huodai.GameCaiActivity;
+import com.dudu.huodai.GameCircleActivity;
+import com.dudu.huodai.GameSmashEggActivity;
+import com.dudu.huodai.GameTreeActivity;
 import com.dudu.huodai.LabelActivity;
 import com.dudu.huodai.R;
 import com.dudu.huodai.SpecialActivity;
@@ -170,20 +174,42 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             homeBannerRevAdapter.setOnItemClickListener((view, position1) -> {
                 MyLog.i("标签选中: " + position1);
                 if (position1 != 3) {
-                    Intent intent = new Intent(mContext, LabelActivity.class);
-                    switch (position1) {
-                        case 0:
-                            intent.putExtra(ApplicationPrams.key_id, 28);
-                            break;
-                        case 1:
-                            intent.putExtra(ApplicationPrams.key_id, 73);
-                            break;
-                        case 2:
-                            intent.putExtra(ApplicationPrams.key_id, 9);
-                            break;
+                    if (position1 > 3) {
+                        switch (position1) {
+                            case 4:
+                                Intent gameTree=new Intent(mContext, GameTreeActivity.class);
+                                mContext.startActivity(gameTree);
+                                break;
+                            case 5:
+                                Intent gameSmash=new Intent(mContext, GameSmashEggActivity.class);
+                                mContext.startActivity(gameSmash);
+                                break;
+                            case 6:
+                                Intent gameCai=new Intent(mContext, GameCaiActivity.class);
+                                mContext.startActivity(gameCai);
+                                break;
+                            case 7:
+                                Intent gammeCircle=new Intent(mContext, GameCircleActivity.class);
+                                mContext.startActivity(gammeCircle);
+                                break;
+                        }
+                    } else {
+                        Intent intent = new Intent(mContext, LabelActivity.class);
+                        switch (position1) {
+                            case 0:
+                                intent.putExtra(ApplicationPrams.key_id, 28);
+                                break;
+                            case 1:
+                                intent.putExtra(ApplicationPrams.key_id, 73);
+                                break;
+                            case 2:
+                                intent.putExtra(ApplicationPrams.key_id, 9);
+                                break;
+                        }
+                        intent.putExtra(ApplicationPrams.key_title, iconNames[position1]);
+                        mContext.startActivity(intent);
                     }
-                    intent.putExtra(ApplicationPrams.key_title,iconNames[position1]);
-                    mContext.startActivity(intent);
+
                 } else {
                     Intent intent = new Intent(mContext, AllStoryActivity.class);
                     intent.putExtra(ApplicationPrams.key_id, position1);
@@ -370,7 +396,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                 public void onClick(View view) {
                     SharePopWindow sharePopWindow = new SharePopWindow(mContext);
                     sharePopWindow.showAtLocation(itemView.findViewById(R.id.fra_home_bigback_parent), Gravity.BOTTOM, 0, 0);
-                   // GameWinDialog.Builder(mContext).setMessage("感谢分享").setTitle("+45").build().shown();
+                    // GameWinDialog.Builder(mContext).setMessage("感谢分享").setTitle("+45").build().shown();
                 }
             });
             specialBigicon = itemView.findViewById(R.id.special_bigicon);
