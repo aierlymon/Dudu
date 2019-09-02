@@ -126,7 +126,7 @@ public interface MovieService {
     Observable<StoryInfo> requestStoryInfo(@Path("id") int storyId);
 
     //专题列表
-    @GET("subject/")
+    @GET("subject/?recommend=1")
     Observable<HttpResult<List<SubjectTable>>> requestSubject();
 
     //专题内容详情

@@ -147,6 +147,10 @@ public abstract class BaseTitleActivity<V extends IView, P extends IPresenter<V>
     }
 
 
+    public void setTitleColor(int colorId){
+        txTitle.setTextColor(colorId);
+    }
+
     private Timer timer;//播放音频的定时器
 
 

@@ -28,8 +28,8 @@
                 android:layout_height="@dimen/x320"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/circle_pan"
                 android:layout_marginTop="@dimen/y20"
+                android:background="@mipmap/circle_pan"
                 android:scaleX="1.4"
                 android:scaleY="1.4" />
 
@@ -45,26 +45,25 @@
                 android:id="@+id/residueNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/residueNum"
-                android:textSize="@dimen/font_px14"
                 android:layout_margin="@dimen/x10"
-                android:textColor="@color/white"/>
+                android:text="@string/residueNum"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_px14" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_margin="@dimen/x10">
+                android:layout_alignTop="@+id/residueNum"
+                android:layout_alignParentRight="true">
 
                 <TextView
                     android:id="@+id/zi_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_px14"
-                    android:textColor="@color/white"
                     android:layout_marginRight="@dimen/left_right_marigin"
-                    android:layout_centerVertical="true"
-                    android:text="自动转盘"/>
+                    android:text="自动转盘"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_px14" />
 
                 <CheckBox
                     android:id="@+id/game_auto_check"
@@ -83,13 +82,12 @@
                 android:id="@+id/game_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/game_circle_progressback"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:background="@drawable/game_circle_progressback" />
 
         </RelativeLayout>
     </LinearLayout>
-
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,17 +104,18 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/white"
-                android:layout_marginRight="@dimen/x20"
-                android:textSize="@dimen/font_px12"
-                android:gravity="center"
+                android:layout_centerVertical="true"
                 android:layout_margin="@dimen/x5"
-                android:text="活动规则"/>
+                android:layout_marginRight="@dimen/x20"
+                android:gravity="center"
+                android:text="活动规则"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_px12" />
         </RelativeLayout>
 
         <LinearLayout
@@ -125,10 +124,10 @@
             android:background="@drawable/dudu_dialog_money_back"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.85"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guize"
-            app:layout_constraintHeight_percent="0.85"
             app:layout_constraintWidth_percent="1.0">
 
             <RelativeLayout

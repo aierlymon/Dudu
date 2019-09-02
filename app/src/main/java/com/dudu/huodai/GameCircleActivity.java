@@ -2,11 +2,16 @@ package com.dudu.huodai;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
+import com.bumptech.glide.Glide;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
 import com.dudu.huodai.mvp.presenters.GameCirclePresenter;
@@ -30,11 +35,23 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
     private boolean isRunning;
 
 
+
+
+
     @BindView(R.id.game_progress)
     GameProgressBar gameProgressBar;
 
     @BindView(R.id.game_auto_check)
     CheckBox auToCheck;
+
+    @BindView(R.id.myhead)
+    View toolbarParent;
+
+    @BindView(R.id.menu_icon_image)
+    ImageView menuIconImage;
+
+    @BindView(R.id.img_back)
+    ImageView imgBack;
 
     @Override
     protected void initRequest() {
@@ -45,6 +62,10 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
     public void init() {
         ButterKnife.bind(this);
         setTitle("幸运大轮盘");
+        setTitleColor(Color.WHITE);
+        toolbarParent.setBackgroundColor(getResources().getColor(R.color.game_circle_back));
+        menuIconImage.setBackgroundColor(getResources().getColor(R.color.game_circle_back));
+        Glide.with(this).load(R.drawable.jiantou_left_white).into(imgBack);
 
         circlePanView.setListener(new CirclePanView.RotateListener() {
             @Override

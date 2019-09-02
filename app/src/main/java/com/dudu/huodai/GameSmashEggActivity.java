@@ -3,12 +3,15 @@ package com.dudu.huodai;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
 import com.dudu.huodai.mvp.model.postbean.GameSmashBean;
@@ -34,6 +37,14 @@ public class GameSmashEggActivity extends BaseTitleActivity<GameSmashImpl, GameS
 
     List<String> list;
 
+    @BindView(R.id.myhead)
+    View toolbarParent;
+
+    @BindView(R.id.menu_icon_image)
+    ImageView menuIconImage;
+
+    @BindView(R.id.img_back)
+    ImageView imgBack;
 
     @Override
     protected void initRequest() {
@@ -44,6 +55,11 @@ public class GameSmashEggActivity extends BaseTitleActivity<GameSmashImpl, GameS
     public void init() {
         ButterKnife.bind(this);
         setTitle("砸金蛋");
+
+        setTitleColor(Color.WHITE);
+        toolbarParent.setBackgroundColor(getResources().getColor(R.color.game_smash_back));
+        menuIconImage.setBackgroundColor(getResources().getColor(R.color.game_smash_back));
+        Glide.with(this).load(R.drawable.jiantou_left_white).into(imgBack);
 
         list=new ArrayList<>();
         for(int i=0;i<9;i++){

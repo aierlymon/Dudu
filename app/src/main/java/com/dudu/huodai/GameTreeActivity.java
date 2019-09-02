@@ -12,7 +12,6 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.dudu.baselib.utils.MyLog;
-import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
 import com.dudu.huodai.mvp.presenters.GameTreePresenter;
 import com.dudu.huodai.mvp.view.GameTreeImpl;
@@ -36,6 +35,8 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
     private float lastZ;
     private long currentTime=-1;
     private boolean isGo=true;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
