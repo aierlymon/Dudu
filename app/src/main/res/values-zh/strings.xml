@@ -114,4 +114,8 @@
     <string name="fra_my_login_ps">用微信登录，赚现金</string>
     <string name="fra_my_wx_login">微信一键登录</string>
     <string name="fra_my_try_it">用用再说</string>
+
+    <string name="residueNum">剩余次数</string>
+    <string name="numberofdraws">抽奖次数</string>
+    <string name="extradraw">额外抽奖</string>
 </resources>

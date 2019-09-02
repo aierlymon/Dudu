@@ -9,12 +9,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
+        android:layout_weight="5.5"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y232">
+            android:layout_height="@dimen/y240">
+
 
             <ImageView
                 android:layout_width="match_parent"
@@ -27,36 +28,96 @@
                 android:layout_height="@dimen/x320"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="46dp"
                 android:background="@mipmap/circle_pan"
-                android:scaleX="1.55"
-                android:scaleY="1.54" />
+                android:layout_marginTop="@dimen/y20"
+                android:scaleX="1.4"
+                android:scaleY="1.4" />
 
             <ImageView
                 android:id="@+id/game_circle_clock"
-                android:layout_width="@dimen/x100"
-                android:layout_height="@dimen/x100"
-                android:paddingTop="@dimen/x24"
+                android:layout_width="@dimen/x90"
+                android:layout_height="@dimen/x90"
                 android:layout_centerInParent="true"
+                android:paddingTop="10dp"
                 android:src="@mipmap/circle_clock" />
+
+            <TextView
+                android:id="@+id/residueNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/residueNum"
+                android:textSize="@dimen/font_px14"
+                android:layout_margin="@dimen/x10"
+                android:textColor="@color/white"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="@dimen/x10">
+
+                <TextView
+                    android:id="@+id/zi_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_px14"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="@dimen/left_right_marigin"
+                    android:layout_centerVertical="true"
+                    android:text="自动转盘"/>
+
+                <CheckBox
+                    android:id="@+id/game_auto_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/zi_text" />
+            </RelativeLayout>
         </RelativeLayout>
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.8">
+            android:layout_height="wrap_content">
 
+            <com.dudu.huodai.widget.GameProgressBar
+                android:id="@+id/game_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/game_circle_progressback"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
     </LinearLayout>
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/left_right_marigin"
         android:layout_marginRight="@dimen/left_right_marigin"
-        android:layout_weight="4">
+        android:layout_weight="3.5">
+
+        <RelativeLayout
+            android:id="@+id/guize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:layout_marginRight="@dimen/x20"
+                android:textSize="@dimen/font_px12"
+                android:gravity="center"
+                android:layout_margin="@dimen/x5"
+                android:text="活动规则"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -64,10 +125,10 @@
             android:background="@drawable/dudu_dialog_money_back"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.9"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guize"
+            app:layout_constraintHeight_percent="0.85"
             app:layout_constraintWidth_percent="1.0">
 
             <RelativeLayout

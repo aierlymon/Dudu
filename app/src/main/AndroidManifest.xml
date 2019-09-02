@@ -74,7 +74,7 @@
         </activity>
 
         <activity android:name=".GameCaiActivity">
-            <!--    <intent-filter>
+               <!-- <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
 
                     <category android:name="android.intent.category.LAUNCHER" />
@@ -82,13 +82,17 @@
         </activity>
 
         <activity android:name=".GameTreeActivity">
+           <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
         </activity>
 
         <activity android:name=".AdvertisementActivity"></activity>
 
         <activity android:name=".GameSmashEggActivity">
-        <!--    <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />

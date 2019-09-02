@@ -24,6 +24,7 @@
     <color name="text_ps_back">#33FB5151</color>
     <color name="webview_title">#26E6E8E7</color>
     <color name="toumin">#00E6E8E7</color>
+    <color name="toumin_20">#20E6E8E7</color>
     <color name="error_request">#222</color>
     <color name="toolbar_head">#111111</color>
 
@@ -86,4 +87,6 @@
 
 
     <color name="game_smash_back">#F13566</color>
+
+    <color name="game_circle_progress_back">#4906B5</color>
 </resources>
