@@ -233,6 +233,12 @@ public class HttpMethod {
     }
 
 
+    //请求专题列表
+    public  Observable<HttpResult<List<SubjectTable>>> requestSubjectAll(){
+        return mMovieService.requestSubjectAll();
+    }
+
+
     //请求连载专题列表
     public  Observable<HttpResult<List<SubjectTable>>> requestSeries(){
         return mMovieService.requestSeries();

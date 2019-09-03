@@ -31,7 +31,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class LabelPresenter extends BasePresenter<LabelImpl> {
-    private int count=4;
+    private int count=2;
 
     @Override
     public void showError(String msg) {

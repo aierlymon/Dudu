@@ -3,11 +3,14 @@ package com.dudu.huodai;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.dudu.baselib.base.BaseMvpActivity;
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
 import com.dudu.baselib.utils.CustomToast;
@@ -37,6 +40,9 @@ public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPrese
 
     @BindView(R.id.special_refreshLayout)
     SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.float_button)
+    ImageView floatButton;
 
     //body的当前刷新页面
     private int currentPage = 1;
@@ -72,7 +78,7 @@ public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPrese
 
         //   showLoading();
         //mPresenter.requestHead();//请求banner
-        mPresenter.requestMenu();//请求菜单
+     //   mPresenter.requestMenu();//请求菜单
         mPresenter.requestBody(id, currentPage, count);//请求body
     }
 
@@ -80,6 +86,11 @@ public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPrese
     public void init() {
         //butterknife的绑定
         ButterKnife.bind(this);
+
+        RequestOptions options = new RequestOptions();
+        int size = (int) getResources().getDimension(R.dimen.float_button);
+        options.override(size, size); //设置加载的图片大小
+        Glide.with(this).load(R.mipmap.take_money).apply(options).into(floatButton);
 
         setTitle(title);
 
@@ -89,8 +100,9 @@ public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPrese
 
 
         fragRevAdapyer = new HomeFragRevAdapyer(this, mPresenter.getList());
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 0, (int) getResources().getDimension(R.dimen.y10)));
+      //  mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 0, (int) getResources().getDimension(R.dimen.y10)));
         mRecyclerView.setAdapter(fragRevAdapyer);
+        fragRevAdapyer.setActivityTheme(ApplicationPrams.SpecialActivity);
 
         //刷新设置
         //刷新设置
@@ -99,8 +111,7 @@ public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPrese
             if (NetWorkStateBroadcast.isOnline.get()) {
                 currentPage = 1;
                 refreshLayout.setEnableLoadMore(true);
-                mPresenter.requestHead();//请求banner
-                mPresenter.requestMenu();//请求菜单
+              //  mPresenter.requestMenu();//请求菜单
                 mPresenter.requestBody(id, currentPage, count);//请求body
             } else {
                 if (this.refreshLayout.isRefreshing()) {

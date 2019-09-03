@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -39,7 +41,11 @@ import com.dudu.huodai.ui.fragments.MyFragment;
 import com.dudu.huodai.ui.fragments.RecommandFragment;
 import com.dudu.huodai.ui.fragments.TestFragmeng;
 import com.dudu.huodai.widget.CustomScrollViewPager;
+import com.dudu.huodai.widget.GameAdverBackDialog;
+import com.dudu.huodai.widget.GameNewOneDialog;
+import com.dudu.huodai.widget.GameWinDialog;
 import com.dudu.huodai.widget.MediaPlayManager;
+import com.dudu.huodai.widget.TimeRewardDialog;
 import com.dudu.model.bean.LoginCallBackBean;
 import com.google.gson.Gson;
 
@@ -144,6 +150,11 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             ApplicationPrams.loginCallBackBean = gson.fromJson(obj, LoginCallBackBean.UserBean.class);
             ApplicationPrams.isLogin = true;
         }
+
+        //检查签到
+        alertRegister();
+
+
         //butterknife的绑定
         ButterKnife.bind(this);
         //重新定义当前drawable的大小
@@ -175,6 +186,56 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         //检查更新
         mPresenter.checkUpdate(MainActivity.this);
 
+    }
+
+    private void alertRegister() {
+        if(!ApplicationPrams.isLogin){
+          /*  GameNewOneDialog.Builder(this)
+                    .setMessage(getResources().getString(R.string.newone))
+                    .setTitle("+90")
+                    .setIconId(R.mipmap.win)
+                    .setRightButtonText(getResources().getString(R.string.wx_get))
+                    .setOnConfirmClickListener(new GameNewOneDialog.onConfirmClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //跳转微信登录
+                        }
+                    })
+                    .build().shown();*/
+
+            TimeRewardDialog.Builder(this)
+                    .setMessage("限时0秒领取")
+                    .setOnConfirmClickListener(new TimeRewardDialog.onConfirmClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //跳转微信登录
+                            Toast.makeText(MainActivity.this, "点击成功", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .build().shown();
+        }else{
+            GameWinDialog.Builder(this)
+                    .setMessage("欢迎回来，送您")
+                    .setTitle("+80")
+                    .setIconId(R.mipmap.win)
+                    .setLeftButtonText("不翻倍")
+                    .setRightButtonText("金豆翻倍")
+                    .hasAdvert(true)
+                    .isWin(true)
+                    .setOnCancelClickListener(new GameWinDialog.onCancelClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                        }
+                    })
+                    .setOnConfirmClickListener(new GameWinDialog.onConfirmClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent=new Intent(MainActivity.this,AdvertisementActivity.class);
+                            startActivityForResult(intent,1);
+                        }
+                    })
+                    .build().shown();
+        }
     }
 
 
@@ -380,5 +441,26 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
+        if (requestCode == 1/* && resultCode == 3*/) {
+            //弹窗
+            GameAdverBackDialog.Builder(this)
+                    .setMessage("恭喜您,奖励您")
+                    .setTitle("+90")
+                    .setIconId(R.mipmap.win)
+                    .setRightButtonText("继续")
+                    .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                        }
+                    })
+                    .build().shown();
+        }
+
+    }
 
 }

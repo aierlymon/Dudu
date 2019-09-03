@@ -15,9 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.dudu.baselib.utils.MyLog;
+import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.R;
 
 public class GameAdverBackDialog extends Dialog {
@@ -32,6 +34,7 @@ public class GameAdverBackDialog extends Dialog {
     private int IconId = -1;
     private boolean isWin;
     private String anSwer;
+    private boolean hasAdvert;
 
     public interface onConfirmClickListener {
         void onClick(View view);
@@ -42,7 +45,7 @@ public class GameAdverBackDialog extends Dialog {
     }
 
     private GameAdverBackDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId, boolean isWin,String anSwer,
-                                onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
+                                boolean hasAdvert,onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
         super(context, R.style.UpdateDialog);
         this.TITLE = title;
         this.MESSAGE = message;
@@ -51,6 +54,7 @@ public class GameAdverBackDialog extends Dialog {
         this.IconId = IconId;
         this.isWin=isWin;
         this.anSwer=anSwer;
+        this.hasAdvert=hasAdvert;
 
         this.ONCONFIRMCLICKLISTENER = onConfirmClickListener;
         this.ONCANCELCLICKLISTENER = onCancelClickListener;
@@ -95,6 +99,16 @@ public class GameAdverBackDialog extends Dialog {
         CheckBox an2 = (CheckBox) findViewById(R.id.answer_second);
         CheckBox an3 = (CheckBox) findViewById(R.id.answer_third);
         CheckBox an4 = (CheckBox) findViewById(R.id.answer_four);
+
+        LinearLayout dialog_parent = (LinearLayout) findViewById(R.id.dialog_parent);
+        LinearLayout advertLayout = (LinearLayout) findViewById(R.id.advert_parent);
+
+        if(!hasAdvert){
+            advertLayout.setVisibility(View.GONE);
+        }
+        //更新gife坐标位置使用的接口
+        refreshGifeLocation(gife, dialog_parent);
+
         if(!TextUtils.isEmpty(anSwer)){
             MyLog.i("anSwer: "+anSwer);
 
@@ -154,6 +168,17 @@ public class GameAdverBackDialog extends Dialog {
         });
     }
 
+    private void refreshGifeLocation(ImageView gife, LinearLayout dialog_parent) {
+        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        dialog_parent.measure(w, h);
+        int height = dialog_parent.getMeasuredHeight();
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) gife.getLayoutParams();
+        //gife.getLayoutParams().height / 2   礼物问题？
+        layoutParams.topMargin = (int) (Utils.getScreenWH(getContext().getApplicationContext())[1] / 2 - height / 2 - gife.getLayoutParams().height / 4);
+        gife.setLayoutParams(layoutParams);
+    }
+
     public GameAdverBackDialog shown() {
         show();
         return this;
@@ -167,6 +192,7 @@ public class GameAdverBackDialog extends Dialog {
         private int IconId;
         private boolean isWin;
         private String anSwer;
+        private boolean hasAdvert;
 
         private onConfirmClickListener mOnConfirmClickListener;
         private onCancelClickListener mOnCcancelClickListener;
@@ -197,7 +223,7 @@ public class GameAdverBackDialog extends Dialog {
         }
 
         public GameAdverBackDialog build() {
-            return new GameAdverBackDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId, isWin,anSwer,
+            return new GameAdverBackDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId, isWin,anSwer,hasAdvert,
                     mOnConfirmClickListener, mOnCcancelClickListener);
         }
 
@@ -223,6 +249,11 @@ public class GameAdverBackDialog extends Dialog {
 
         public Builder setAnswer(String anSwer) {
             this.anSwer = anSwer;
+            return this;
+        }
+
+        public Builder hasAdvert(boolean hasAdvert) {
+            this.hasAdvert = hasAdvert;
             return this;
         }
     }

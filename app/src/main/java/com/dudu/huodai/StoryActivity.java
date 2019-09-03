@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.dudu.baselib.http.HttpConstant;
 import com.dudu.baselib.myapplication.App;
 import com.dudu.baselib.utils.MyLog;
@@ -36,6 +37,8 @@ import com.tencent.tauth.UiError;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,6 +82,12 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
 
     View viewState;
 
+    @BindView(R.id.button_story_bigshare)
+    Button bigShare;
+
+    @BindView(R.id.float_button)
+    ImageView floatButton;
+
 
     private IWXAPI api;
 
@@ -100,6 +109,13 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
     public void init() {
         ButterKnife.bind(this);
         setTitle(title);
+        bigShare.setVisibility(View.GONE);
+        btnShare.setVisibility(View.GONE);
+
+
+        startTimeToMoney();
+
+
         //注册微信分享
         regToWx();
         //设置故事名称
@@ -109,10 +125,43 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
         ((TextView) viewUseful.findViewById(R.id.tx_title)).setText(getResources().getString(R.string.story_userful));
         ((TextView) viewConetnt.findViewById(R.id.tx_title)).setText(getResources().getString(R.string.story_content));
         //设置分享按钮可见
-        btnShare.setVisibility(View.VISIBLE);
 
 
     }
+
+
+    private Timer timerToMoney;
+    private int currentTime=0;
+
+    private void startTimeToMoney() {
+
+        RequestOptions options = new RequestOptions();
+        int size = (int) getResources().getDimension(R.dimen.float_button);
+        options.override(size, size); //设置加载的图片大小
+        Glide.with(this).load(R.mipmap.time_to_money).apply(options).into(floatButton);
+
+        timerToMoney = new Timer();
+        timerToMoney.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(currentTime==20*1000){
+                    cancel();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.with(StoryActivity.this).load(R.mipmap.time_end).apply(options).into(floatButton);
+                        }
+                    });
+                }
+                currentTime+=1000;
+            }
+        }, 0, 1000);
+
+
+
+    }
+
+
 
 
     @Override
@@ -203,7 +252,7 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                 sharePopWindow.showAtLocation(findViewById(R.id.parent_view), Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.story_control:
-                player =new WeakReference<>(MediaPlayManager.createMediaPlay());
+                player = new WeakReference<>(MediaPlayManager.createMediaPlay());
 
                 MyLog.i("StoryActivity player: " + player);
                 //判断当前页面是不是正在播放的页面
@@ -242,8 +291,8 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
                         player.get().setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                             @Override
                             public void onCompletion(MediaPlayer mediaPlayer) {
-                                if(!isFinishing())
-                                Glide.with(StoryActivity.this).load(R.drawable.media_pause).into(storyControl);
+                                if (!isFinishing())
+                                    Glide.with(StoryActivity.this).load(R.drawable.media_pause).into(storyControl);
                             }
                         });
                     } catch (IOException e) {
@@ -266,7 +315,7 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
             case R.id.story_littel_control:
                 MediaPlayManager.isPlay = !MediaPlayManager.isPlay;
                 startAutioPlay(MediaPlayManager.isPlay);
-                if (MediaPlayManager.getMediaId().get()== media_id) {
+                if (MediaPlayManager.getMediaId().get() == media_id) {
                     if (MediaPlayManager.isPlay) {
                         Glide.with(StoryActivity.this).load(R.drawable.media_open).into(storyControl);
                     } else {
@@ -311,7 +360,7 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
         medai_title = storyBean.getTitle();
 
         media_id = storyBean.getId();
-        if (MediaPlayManager.createMediaPlay().isPlaying() &&MediaPlayManager.getMediaId().get() == media_id) {
+        if (MediaPlayManager.createMediaPlay().isPlaying() && MediaPlayManager.getMediaId().get() == media_id) {
             Glide.with(this).load(R.drawable.media_open).into(storyControl);
         }
     }
@@ -376,9 +425,13 @@ public class StoryActivity extends BaseTitleActivity<StoryImpl, StoryPresenter> 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(player!=null){
+        if (player != null) {
             player.clear();
-            player=null;
+            player = null;
+        }
+
+        if(timerToMoney!=null){
+            timerToMoney.cancel();
         }
 
     }

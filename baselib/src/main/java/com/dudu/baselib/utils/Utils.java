@@ -18,6 +18,7 @@ import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -204,6 +205,14 @@ public class Utils {
         int hours = totalSeconds / 3600;
 
         return hours > 0 ? String.format("%d:%02d:%02d", hours, minutes, seconds) : String.format("00:%02d:%02d", minutes, seconds);
+    }
+
+    public static int getNum(int startNum,int endNum){
+        if(endNum > startNum){
+            Random random = new Random();
+            return random.nextInt(endNum - startNum) + startNum;
+        }
+        return 0;
     }
 
 }

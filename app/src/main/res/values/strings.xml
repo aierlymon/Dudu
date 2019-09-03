@@ -120,4 +120,7 @@
     <string name="residueNum">剩余次数</string>
     <string name="numberofdraws">抽奖次数</string>
     <string name="extradraw">额外抽奖</string>
+
+    <string name="newone">新人有钱送，送您</string>
+    <string name="wx_get">微信登录领取</string>
 </resources>

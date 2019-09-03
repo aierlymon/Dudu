@@ -14,8 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.R;
 
 public class GameWinDialog extends Dialog {
@@ -29,6 +31,7 @@ public class GameWinDialog extends Dialog {
     private String rightButtonString;
     private int IconId = -1;
     private boolean isWin;
+    private boolean hasAdvert;
 
     public interface onConfirmClickListener {
         void onClick(View view);
@@ -38,7 +41,7 @@ public class GameWinDialog extends Dialog {
         void onClick(View view);
     }
 
-    private GameWinDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId, boolean isWin,
+    private GameWinDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId, boolean isWin,boolean hasAdvert,
                           onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
         super(context, R.style.UpdateDialog);
         this.TITLE = title;
@@ -46,7 +49,8 @@ public class GameWinDialog extends Dialog {
         this.leftButtonString = leftButtonString;
         this.rightButtonString = rightButtonString;
         this.IconId = IconId;
-        this.isWin=isWin;
+        this.isWin = isWin;
+        this.hasAdvert=hasAdvert;
 
         this.ONCONFIRMCLICKLISTENER = onConfirmClickListener;
         this.ONCANCELCLICKLISTENER = onCancelClickListener;
@@ -83,9 +87,21 @@ public class GameWinDialog extends Dialog {
         Button douBling = findViewById(R.id.doubling);
         TextView txNum = findViewById(R.id.tx_num);
         TextView tvMessage = findViewById(R.id.tx_title);
+
+
         ImageView gife = ((ImageView) findViewById(R.id.gift));
         LinearLayout rightLayout = (LinearLayout) findViewById(R.id.right_layout);
         LinearLayout stateLayout = (LinearLayout) findViewById(R.id.state_layout);
+        LinearLayout dialog_parent = (LinearLayout) findViewById(R.id.dialog_parent);
+        LinearLayout advertLayout = (LinearLayout) findViewById(R.id.advert_parent);
+
+
+        if(!hasAdvert){
+            advertLayout.setVisibility(View.GONE);
+        }
+
+        //更新gife坐标位置使用的接口
+        refreshGifeLocation(gife, dialog_parent);
 
 
         if (!TextUtils.isEmpty(TITLE)) {
@@ -110,9 +126,9 @@ public class GameWinDialog extends Dialog {
             Glide.with(getContext()).load(IconId).into(gife);
         }
 
-        if(isWin){
+        if (isWin) {
             stateLayout.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             stateLayout.setVisibility(View.GONE);
         }
 
@@ -135,6 +151,16 @@ public class GameWinDialog extends Dialog {
         });
     }
 
+    private void refreshGifeLocation(ImageView gife, LinearLayout dialog_parent) {
+        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        dialog_parent.measure(w, h);
+        int height = dialog_parent.getMeasuredHeight();
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) gife.getLayoutParams();
+        layoutParams.topMargin = (int) (Utils.getScreenWH(getContext().getApplicationContext())[1] / 2 - height / 2 - gife.getLayoutParams().height / 2);
+        gife.setLayoutParams(layoutParams);
+    }
+
     public GameWinDialog shown() {
         show();
         return this;
@@ -147,6 +173,7 @@ public class GameWinDialog extends Dialog {
         private String rightButtonText;
         private int IconId;
         private boolean isWin;
+        private boolean hasAdvert;
 
         private onConfirmClickListener mOnConfirmClickListener;
         private onCancelClickListener mOnCcancelClickListener;
@@ -177,7 +204,7 @@ public class GameWinDialog extends Dialog {
         }
 
         public GameWinDialog build() {
-            return new GameWinDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId, isWin,
+            return new GameWinDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId, isWin,hasAdvert,
                     mOnConfirmClickListener, mOnCcancelClickListener);
         }
 
@@ -193,6 +220,11 @@ public class GameWinDialog extends Dialog {
 
         public Builder setIconId(int iconId) {
             IconId = iconId;
+            return this;
+        }
+
+        public Builder hasAdvert(boolean hasAdvert) {
+            this.hasAdvert = hasAdvert;
             return this;
         }
 

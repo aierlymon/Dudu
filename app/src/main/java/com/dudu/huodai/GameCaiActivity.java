@@ -93,6 +93,7 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                     .setIconId(R.mipmap.win)
                     .setLeftButtonText("继续答题")
                     .setRightButtonText("金豆翻倍")
+                    .hasAdvert(true)
                     .isWin(true)
                     .setOnCancelClickListener(new GameWinDialog.onCancelClickListener() {
                         @Override
@@ -114,6 +115,7 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                     .setIconId(R.mipmap.fail)
                     .setLeftButtonText("重新尝试")
                     .setRightButtonText("我要提示")
+                    .hasAdvert(false)
                     .isWin(false)
                     .setOnCancelClickListener(new GameFailDialog.onCancelClickListener() {
                         @Override
@@ -313,6 +315,7 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                     .setIconId(R.mipmap.answer)
                     .setRightButtonText("继续答题")
                     .setAnswer("大吉大利")
+                    .hasAdvert(true)
                     .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
                         @Override
                         public void onClick(View view) {

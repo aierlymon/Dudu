@@ -129,6 +129,10 @@ public interface MovieService {
     @GET("subject/?recommend=1")
     Observable<HttpResult<List<SubjectTable>>> requestSubject();
 
+    //专题列表
+    @GET("subject/")
+    Observable<HttpResult<List<SubjectTable>>> requestSubjectAll();
+
     //专题内容详情
     //故事详情
     @GET("subject/{id}/story/")

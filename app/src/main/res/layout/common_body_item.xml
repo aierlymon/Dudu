@@ -107,7 +107,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2px"
-
         android:background="@color/recyclerview_space_item"
         app:layout_constraintBottom_toBottomOf="parent" />
 

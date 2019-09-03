@@ -40,7 +40,7 @@ public class SubjectPresenter extends BasePresenter<SubjectImpl> {
 
     //请求清单选项卡
     public void requestSubject() {
-        HttpMethod.getInstance().requestSubject()
+        HttpMethod.getInstance().requestSubjectAll()
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<List<SubjectTable>>>(this) {

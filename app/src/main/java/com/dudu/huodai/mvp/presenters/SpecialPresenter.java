@@ -53,7 +53,8 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
 
     //这个是banner头部的请求，就是轮播图
     public void requestHead() {
-        HttpMethod.getInstance().loadHomeBanner()
+
+      /*  HttpMethod.getInstance().loadHomeBanner()
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<NewHomeBannerBean>>(this) {
@@ -62,10 +63,6 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
                         if (httpResult.getStatusCode() == 200) {
                             NewHomeBannerBean homeHeadBean = httpResult.getData();
                             HomeFRBigBackHoder homeFRBigBackHoder = new HomeFRBigBackHoder();
-                            if(list.size()>=count){
-                                list.clear();
-                            }
-
                             list.add(homeFRBigBackHoder);
 
                             MyLog.i("list.size: "+list.size());
@@ -84,7 +81,7 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
                     public void onCompleted() {
 
                     }
-                });
+                });*/
     }
 
     public void apply(int loanProductId, int id ){
@@ -139,6 +136,7 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
 
     //请求清单选项卡
     public void requestMenu() {
+        list.clear();
         HttpMethod.getInstance().requestSubject()
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -184,21 +182,35 @@ public class SpecialPresenter extends BasePresenter<SpecialImpl> {
                     public void onSuccess(SubjectInfo httpResult) {
                         if (httpResult.getResult().equals("success")) {
                             MyLog.i("我来到了请求DD内容: "+httpResult.toString());
+                            DDHomeFRBodyHolder homeFRBodyHolderbottom = new DDHomeFRBodyHolder();
+                            List<StoryTable> tableHeadArrayList=new ArrayList<>();
+
                             DDHomeFRBodyHolder homeFRBodyHolder = new DDHomeFRBodyHolder();
                             List<StoryTable> tableArrayList=new ArrayList<>();
-                            for(int i=0;i<httpResult.getData().size();i++){
+                            for(int i=0;i<httpResult.getData().size()/2;i++){
                                 String str=new Gson().toJson(httpResult.getData().get(i));
                                 MyLog.i("json： "+str);
                                 tableArrayList.add(new Gson().fromJson(str,StoryTable.class));
                             }
+
+                            for(int i=httpResult.getData().size()/2;i<httpResult.getData().size();i++){
+                                String str=new Gson().toJson(httpResult.getData().get(i));
+                                MyLog.i("json： "+str);
+                                tableHeadArrayList.add(new Gson().fromJson(str,StoryTable.class));
+                            }
                             MyLog.i("tableArrayList.size: "+tableArrayList.size());
                             homeFRBodyHolder.setHomeBodyBeanList(tableArrayList);
-                            if(list.size()>=count){
+                            homeFRBodyHolderbottom.setHomeBodyBeanList(tableHeadArrayList);
+                            list.clear();
+                        /*    if(list.size()>=count){
                                 list.clear();
-                            }
+                            }*/
+
                             list.add(0,new HomeFRBigBackHoder(HttpConstant.PIC_BASE_URL+httpResult.getPicture()));
-                            list.add(new HomeFRAdvertHolder());
                             list.add(homeFRBodyHolder);
+                            list.add(new HomeFRAdvertHolder());
+                            list.add(homeFRBodyHolderbottom);
+
                             MyLog.i("list.size: "+list.size());
                             getView().refreshHome(list,httpResult.getTotal_pages());
                         } else {

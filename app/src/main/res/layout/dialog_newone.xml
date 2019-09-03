@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ban_toumin">
@@ -28,7 +29,7 @@
             android:id="@+id/tx_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="感谢分享"
+            android:text="新人有钱送，送您"
             android:textColor="@color/color_text_normal"
             android:textSize="@dimen/font_px20" />
 
@@ -60,67 +61,6 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/group_answer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <CheckBox
-                    android:id="@+id/answer_first"
-                    android:layout_width="@dimen/x43"
-                    android:layout_height="@dimen/x43"
-                    android:layout_margin="@dimen/left_right_marigin"
-                    android:background="@drawable/game_edit_border_select"
-                    android:button="@null"
-                    android:enabled="false"
-                    android:textColor="@color/game_huo_text"
-                    android:textSize="@dimen/font_px24"
-                    android:textStyle="bold"
-                    android:textAlignment="center" />
-
-                <CheckBox
-                    android:id="@+id/answer_second"
-                    android:layout_width="@dimen/x43"
-                    android:layout_height="@dimen/x43"
-                    android:layout_margin="@dimen/left_right_marigin"
-                    android:background="@drawable/game_edit_border_select"
-                    android:button="@null"
-                    android:enabled="false"
-                    android:textColor="@color/game_huo_text"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/font_px24"
-                    android:textAlignment="center" />
-
-                <CheckBox
-                    android:id="@+id/answer_third"
-                    android:layout_width="@dimen/x43"
-                    android:layout_height="@dimen/x43"
-                    android:layout_margin="@dimen/left_right_marigin"
-                    android:background="@drawable/game_edit_border_select"
-                    android:button="@null"
-                    android:enabled="false"
-                    android:textColor="@color/game_huo_text"
-                    android:textSize="@dimen/font_px24"
-                    android:textStyle="bold"
-                    android:textAlignment="center" />
-
-                <CheckBox
-                    android:id="@+id/answer_four"
-                    android:layout_width="@dimen/x43"
-                    android:layout_height="@dimen/x43"
-                    android:layout_margin="@dimen/left_right_marigin"
-                    android:background="@drawable/game_edit_border_select"
-                    android:button="@null"
-                    android:enabled="false"
-                    android:textColor="@color/game_huo_text"
-                    android:textSize="@dimen/font_px24"
-                    android:textStyle="bold"
-                    android:textAlignment="center" />
-            </LinearLayout>
-
         </RelativeLayout>
 
 
@@ -131,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/x10"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -165,7 +106,7 @@
 
             <Button
                 android:id="@+id/doubling"
-                android:layout_width="@dimen/x152"
+                android:layout_width="@dimen/x242"
                 android:layout_height="@dimen/y42"
                 android:background="@drawable/dudu_dialog_double_button"
                 android:text="金豆翻倍"
@@ -179,6 +120,7 @@
             android:layout_height="@dimen/y149"
             android:layout_marginLeft="@dimen/left_right_marigin"
             android:layout_marginRight="@dimen/left_right_marigin"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -245,5 +187,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/close"
+        android:layout_width="@dimen/x26"
+        android:layout_height="@dimen/x26"
+        app:layout_constraintBottom_toTopOf="@+id/dialog_parent"
+        app:layout_constraintRight_toRightOf="@+id/dialog_parent"
+        android:layout_marginBottom="@dimen/left_right_marigin"
+        android:background="@mipmap/close"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

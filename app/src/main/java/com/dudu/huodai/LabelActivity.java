@@ -106,8 +106,7 @@ public class LabelActivity extends BaseTitleActivity<LabelImpl, LabelPresenter> 
             if(NetWorkStateBroadcast.isOnline.get()){
                 currentPage = 1;
                 refreshLayout.setEnableLoadMore(true);
-                mPresenter.requestHead();//请求banner
-                mPresenter.requestMenu();//请求菜单
+              //  mPresenter.requestMenu();//请求菜单
                 mPresenter.requestBody(id,currentPage,count);//请求body
             }else{
                 if (this.refreshLayout.isRefreshing()) {

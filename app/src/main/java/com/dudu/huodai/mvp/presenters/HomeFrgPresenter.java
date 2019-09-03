@@ -30,7 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
-    private int count=4;
+    private int count = 4;
 
     @Override
     public void showError(String msg) {
@@ -44,13 +44,13 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-     public void applyRecord(RecordBean recordBean){
-        apply(recordBean.getLoanProductId(),recordBean.getUserId());
+    public void applyRecord(RecordBean recordBean) {
+        apply(recordBean.getLoanProductId(), recordBean.getUserId());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void reservedUv(BannerBean bannerBean){
-        reservedUv(bannerBean.getBannerId(),bannerBean.getUserId(),bannerBean.getUrl());
+    public void reservedUv(BannerBean bannerBean) {
+        reservedUv(bannerBean.getBannerId(), bannerBean.getUserId(), bannerBean.getUrl());
     }
 
     List<BaseMulDataModel> list = new ArrayList<>();
@@ -63,9 +63,8 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
     public void requestHead() {
         HomeFRBannerHolder homeFRBannerHolder = new HomeFRBannerHolder();
         homeFRBannerHolder.setNewHomeBannerBean(null);//这个预留出来的page,pageCout而已，其实都一样最好的
-        if(list.size()>=count){
-            list.clear();
-        }
+        list.clear();
+
         list.add(homeFRBannerHolder);
        /* HttpMethod.getInstance().loadHomeBanner()
                 .subscribeOn(Schedulers.single())
@@ -102,8 +101,8 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                 });*/
     }
 
-    public void apply(int loanProductId, int id ){
-        HttpMethod.getInstance().applyRecords(loanProductId,id)
+    public void apply(int loanProductId, int id) {
+        HttpMethod.getInstance().applyRecords(loanProductId, id)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<String>>(this) {
@@ -127,8 +126,8 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                 });
     }
 
-    public void  reservedUv(int bannerId,int userId,String url){
-        HttpMethod.getInstance().reservedUv(bannerId,userId,url)
+    public void reservedUv(int bannerId, int userId, String url) {
+        HttpMethod.getInstance().reservedUv(bannerId, userId, url)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<String>>(this) {
@@ -166,11 +165,11 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
                             //这个地方因为和商品的筛选是动态的，所以这个也要是动态
 
                             homeFRMenuHolder.setLoanCategoriesBean(httpResult.getData());
-                            if(list.size()>=count){
+                            if (list.size() >= count) {
                                 list.clear();
                             }
                             list.add(homeFRMenuHolder);
-                            MyLog.i("list.size: "+list.size());
+                            MyLog.i("list.size: " + list.size());
                         } else {
                             showError(httpResult.getMsg() + ":" + httpResult.getStatusCode());
                         }
@@ -189,24 +188,24 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
     }
 
     //请求Body内容的
-    public void requestBody(int page,int count) {
-        HttpMethod.getInstance().requestStoryOnPage(page,count)
+    public void requestBody(int page, int count) {
+        HttpMethod.getInstance().requestStoryOnPage(page, count)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<List<StoryTable>>>(this) {
                     @Override
                     public void onSuccess(HttpResult<List<StoryTable>> httpResult) {
                         if (httpResult.getResult().equals("success")) {
-                            MyLog.i("我来到了请求DD内容: "+httpResult.toString());
+                            MyLog.i("我来到了请求DD内容: " + httpResult.toString());
                             DDHomeFRBodyHolder homeFRBodyHolder = new DDHomeFRBodyHolder();
                             homeFRBodyHolder.setHomeBodyBeanList(httpResult.getStory_list());
-                            if(list.size()>=count){
+                            if (list.size() >= count) {
                                 list.clear();
                             }
                             list.add(new HomeFRAdvertHolder());
                             list.add(homeFRBodyHolder);
-                            MyLog.i("list.size: "+list.size());
-                            getView().refreshHome(list,httpResult.getTotal_pages());
+                            MyLog.i("list.size: " + list.size());
+                            getView().refreshHome(list, httpResult.getTotal_pages());
                         } else {
                             showError(httpResult.getResult() + ":" + httpResult.getStatusCode());
                         }
@@ -225,24 +224,24 @@ public class HomeFrgPresenter extends BasePresenter<HomeFrgViewImpl> {
     }
 
 
-    public void requestBodyPage(int page,int count){
+    public void requestBodyPage(int page, int count) {
 
-        HttpMethod.getInstance().requestStoryOnPage(page,count)
+        HttpMethod.getInstance().requestStoryOnPage(page, count)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HttpResult<List<StoryTable>>>(this) {
                     @Override
                     public void onSuccess(HttpResult<List<StoryTable>> httpResult) {
                         if (httpResult.getResult().equals("success")) {
-                            MyLog.i("我来到了请求DD内容: "+httpResult.toString());
+                            MyLog.i("我来到了请求DD内容: " + httpResult.toString());
                             DDHomeFRBodyHolder homeFRBodyHolder = new DDHomeFRBodyHolder();
                             homeFRBodyHolder.setHomeBodyBeanList(httpResult.getStory_list());
-                            for(int i=0;i<list.size();i++){
-                                if(list.get(i) instanceof DDHomeFRBodyHolder){
+                            for (int i = 0; i < list.size(); i++) {
+                                if (list.get(i) instanceof DDHomeFRBodyHolder) {
                                     ((DDHomeFRBodyHolder) list.get(i)).getHomeBodyBeanList().addAll(homeFRBodyHolder.getHomeBodyBeanList());
                                 }
                             }
-                            MyLog.i("list.size: "+list.size());
+                            MyLog.i("list.size: " + list.size());
                             getView().addPage(list);
                         } else {
                             showError(httpResult.getResult() + ":" + httpResult.getStatusCode());

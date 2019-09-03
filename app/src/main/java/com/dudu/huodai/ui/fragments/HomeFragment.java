@@ -1,11 +1,14 @@
 package com.dudu.huodai.ui.fragments;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.dudu.baselib.base.BaseMVPFragment;
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
 import com.dudu.baselib.utils.CustomToast;
@@ -16,10 +19,12 @@ import com.dudu.huodai.mvp.presenters.HomeFrgPresenter;
 import com.dudu.huodai.mvp.view.HomeFrgViewImpl;
 import com.dudu.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 
 public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPresenter> implements HomeFrgViewImpl {
@@ -32,6 +37,9 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
 
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+
+    @BindView(R.id.float_button)
+    ImageView floatButton;
 
     //body的当前刷新页面
     private int currentPage = 1;
@@ -87,6 +95,10 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
 
+        RequestOptions options = new RequestOptions();
+        int size = (int) getResources().getDimension(R.dimen.float_button);
+        options.override(size, size); //设置加载的图片大小
+        Glide.with(getContext()).load(R.mipmap.take_money).apply(options).into(floatButton);
 
         fragRevAdapyer = new HomeFragRevAdapyer(getActivity(), mPresenter.getList());
         mRecyclerView.setAdapter(fragRevAdapyer);

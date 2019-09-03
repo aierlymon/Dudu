@@ -82,6 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y40"
                 android:layout_marginTop="@dimen/double_common_item_marigin"
+                android:layout_marginBottom="@dimen/left_right_marigin"
                 android:background="@drawable/dudu_oppen_button"
                 android:text="展开全文"
                 android:textColor="@color/recommand_button_next"
@@ -150,4 +151,12 @@
                 android:textSize="@dimen/font_px18" />
         </LinearLayout>
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/float_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/double_common_item_marigin"
+        android:layout_marginTop="@dimen/y400" />
 </RelativeLayout>

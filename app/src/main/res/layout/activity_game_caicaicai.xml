@@ -15,7 +15,7 @@
             android:id="@+id/theme_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y156"
-            android:background="@mipmap/lllogo" />
+            android:background="@mipmap/aaaaaa" />
 
 
         <LinearLayout

@@ -111,7 +111,7 @@ public class SubjectActivity extends BaseTitleActivity<SubjectImpl, SubjectPrese
 
 
         fragRevAdapyer = new HomeFragRevAdapyer(this, mPresenter.getList());
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 0, (int) getResources().getDimension(R.dimen.y10)));
+       // mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 0, (int) getResources().getDimension(R.dimen.y10)));
         mRecyclerView.setAdapter(fragRevAdapyer);
 
 
@@ -128,7 +128,7 @@ public class SubjectActivity extends BaseTitleActivity<SubjectImpl, SubjectPrese
             }
 
         });
-
+        refreshLayout.setEnableLoadMore(false);
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
             MyLog.i("我触发了2");
             if (NetWorkStateBroadcast.isOnline.get()) {
@@ -146,6 +146,9 @@ public class SubjectActivity extends BaseTitleActivity<SubjectImpl, SubjectPrese
             }
         });
     }
+
+
+
 
     @Override
     public void refreshHome(List<BaseMulDataModel> list) {

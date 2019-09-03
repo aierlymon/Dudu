@@ -177,19 +177,19 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     if (position1 > 3) {
                         switch (position1) {
                             case 4:
-                                Intent gameTree=new Intent(mContext, GameTreeActivity.class);
+                                Intent gameTree = new Intent(mContext, GameTreeActivity.class);
                                 mContext.startActivity(gameTree);
                                 break;
                             case 5:
-                                Intent gameSmash=new Intent(mContext, GameSmashEggActivity.class);
+                                Intent gameSmash = new Intent(mContext, GameSmashEggActivity.class);
                                 mContext.startActivity(gameSmash);
                                 break;
                             case 6:
-                                Intent gameCai=new Intent(mContext, GameCaiActivity.class);
+                                Intent gameCai = new Intent(mContext, GameCaiActivity.class);
                                 mContext.startActivity(gameCai);
                                 break;
                             case 7:
-                                Intent gammeCircle=new Intent(mContext, GameCircleActivity.class);
+                                Intent gammeCircle = new Intent(mContext, GameCircleActivity.class);
                                 mContext.startActivity(gammeCircle);
                                 break;
                         }
@@ -233,6 +233,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         @BindView(R.id.common_title)
         View view;
 
+        @BindView(R.id.bottom_inditator)
+        View bottom_inditator;
+
         private HomeMenuRevAdapter homeMenuRevAdapter;
 
         public MenuHolder(View itemView) {
@@ -247,8 +250,11 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
 
             switch (ActivityType) {
                 case ApplicationPrams.SpecialActivity:
+                    view.setVisibility(View.GONE);
+                    break;
                 case ApplicationPrams.SubjctActivity:
                     view.setVisibility(View.GONE);
+                    bottom_inditator.setVisibility(View.GONE);
                     break;
                 case ApplicationPrams.LabelActivity:
                     txTitle.setText(mContext.getResources().getString(R.string.story_before_sleep));
@@ -303,6 +309,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             switch (ActivityType) {
                 case ApplicationPrams.SpecialActivity:
                 case ApplicationPrams.LabelActivity:
+                case ApplicationPrams.SubjctActivity:
                     view.setVisibility(View.GONE);
                     break;
                 default:
@@ -344,10 +351,20 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         //http://pic33.nipic.com/20131007/13639685_123501617185_2.jpg
         private List<String> dataList;
 
+        @BindView(R.id.view_indirator)
+        View view_indirator;
+
+        @BindView(R.id.little_view_indirator)
+        View view_little_indirator;
+
         public AdvertHolder(View itemView) {
             super(itemView);
             dataList = new ArrayList<>();
             dataList.add("http://pic33.nipic.com/20131007/13639685_123501617185_2.jpg");
+            if(ActivityType==ApplicationPrams.SpecialActivity){
+                view_indirator.setVisibility(View.GONE);
+                view_little_indirator.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
@@ -391,6 +408,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
         public BigBackHolder(View itemView) {
             super(itemView);
             btnBigshare = itemView.findViewById(R.id.button_bigshare);
+            btnBigshare.setVisibility(View.GONE);
+
             btnBigshare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

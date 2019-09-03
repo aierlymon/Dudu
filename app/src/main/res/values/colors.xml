@@ -89,4 +89,6 @@
     <color name="game_smash_back">#F13566</color>
 
     <color name="game_circle_progress_back">#4906B5</color>
+
+    <color name="dialog_time_reward">#EC283B</color>
 </resources>

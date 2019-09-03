@@ -9,6 +9,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,10 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.R;
 
-public class GameFailDialog extends Dialog {
+public class GameNewOneDialog extends Dialog {
     private final String TITLE;
     private final String MESSAGE;
 
@@ -31,6 +33,7 @@ public class GameFailDialog extends Dialog {
     private String rightButtonString;
     private int IconId = -1;
     private boolean isWin;
+    private String anSwer;
     private boolean hasAdvert;
 
     public interface onConfirmClickListener {
@@ -41,8 +44,8 @@ public class GameFailDialog extends Dialog {
         void onClick(View view);
     }
 
-    private GameFailDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId, boolean isWin, boolean hasAdvert,
-                           onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
+    private GameNewOneDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId, boolean isWin, String anSwer,
+                             boolean hasAdvert, onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
         super(context, R.style.UpdateDialog);
         this.TITLE = title;
         this.MESSAGE = message;
@@ -50,6 +53,7 @@ public class GameFailDialog extends Dialog {
         this.rightButtonString = rightButtonString;
         this.IconId = IconId;
         this.isWin=isWin;
+        this.anSwer=anSwer;
         this.hasAdvert=hasAdvert;
 
         this.ONCONFIRMCLICKLISTENER = onConfirmClickListener;
@@ -60,7 +64,7 @@ public class GameFailDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_fail);
+        setContentView(R.layout.dialog_newone);
         // setCanceledOnTouchOutside(false);
         initView();
     }
@@ -90,10 +94,18 @@ public class GameFailDialog extends Dialog {
         ImageView gife = ((ImageView) findViewById(R.id.gift));
         LinearLayout rightLayout = (LinearLayout) findViewById(R.id.right_layout);
         LinearLayout stateLayout = (LinearLayout) findViewById(R.id.state_layout);
+        LinearLayout answerLayout = (LinearLayout) findViewById(R.id.group_answer);
 
 
         LinearLayout dialog_parent = (LinearLayout) findViewById(R.id.dialog_parent);
         LinearLayout advertLayout = (LinearLayout) findViewById(R.id.advert_parent);
+        Button close = (Button) findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
         if(!hasAdvert){
             advertLayout.setVisibility(View.GONE);
@@ -106,6 +118,7 @@ public class GameFailDialog extends Dialog {
             txNum.setText(TITLE);
         } else {
             rightLayout.setVisibility(View.GONE);
+            answerLayout.setVisibility(View.VISIBLE);
         }
 
 
@@ -156,11 +169,11 @@ public class GameFailDialog extends Dialog {
         int height = dialog_parent.getMeasuredHeight();
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) gife.getLayoutParams();
         //gife.getLayoutParams().height / 2   礼物问题？
-        layoutParams.topMargin = (int) (Utils.getScreenWH(getContext().getApplicationContext())[1] / 2 - height / 2 - gife.getLayoutParams().height / 4);
+        layoutParams.topMargin = (int) (Utils.getScreenWH(getContext().getApplicationContext())[1] / 2 - height / 2 - gife.getLayoutParams().height / 2);
         gife.setLayoutParams(layoutParams);
     }
 
-    public GameFailDialog shown() {
+    public GameNewOneDialog shown() {
         show();
         return this;
     }
@@ -172,6 +185,7 @@ public class GameFailDialog extends Dialog {
         private String rightButtonText;
         private int IconId;
         private boolean isWin;
+        private String anSwer;
         private boolean hasAdvert;
 
         private onConfirmClickListener mOnConfirmClickListener;
@@ -202,8 +216,8 @@ public class GameFailDialog extends Dialog {
             return this;
         }
 
-        public GameFailDialog build() {
-            return new GameFailDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId, isWin,hasAdvert,
+        public GameNewOneDialog build() {
+            return new GameNewOneDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId, isWin,anSwer,hasAdvert,
                     mOnConfirmClickListener, mOnCcancelClickListener);
         }
 
@@ -224,6 +238,11 @@ public class GameFailDialog extends Dialog {
 
         public Builder isWin(boolean isWin) {
             this.isWin = isWin;
+            return this;
+        }
+
+        public Builder setAnswer(String anSwer) {
+            this.anSwer = anSwer;
             return this;
         }
 

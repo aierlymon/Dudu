@@ -20,18 +20,13 @@ import com.bumptech.glide.Glide;
 import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.R;
 
-public class GameFailDialog extends Dialog {
-    private final String TITLE;
+public class TimeRewardDialog extends Dialog {
     private final String MESSAGE;
 
     private final onConfirmClickListener ONCONFIRMCLICKLISTENER;
     private final onCancelClickListener ONCANCELCLICKLISTENER;
 
-    private String leftButtonString;
-    private String rightButtonString;
-    private int IconId = -1;
-    private boolean isWin;
-    private boolean hasAdvert;
+    private TextView tvMessage;
 
     public interface onConfirmClickListener {
         void onClick(View view);
@@ -41,16 +36,10 @@ public class GameFailDialog extends Dialog {
         void onClick(View view);
     }
 
-    private GameFailDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId, boolean isWin, boolean hasAdvert,
-                           onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
+    private TimeRewardDialog(@NonNull Context context, String message,
+                             onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
         super(context, R.style.UpdateDialog);
-        this.TITLE = title;
         this.MESSAGE = message;
-        this.leftButtonString = leftButtonString;
-        this.rightButtonString = rightButtonString;
-        this.IconId = IconId;
-        this.isWin=isWin;
-        this.hasAdvert=hasAdvert;
 
         this.ONCONFIRMCLICKLISTENER = onConfirmClickListener;
         this.ONCANCELCLICKLISTENER = onCancelClickListener;
@@ -60,7 +49,7 @@ public class GameFailDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_fail);
+        setContentView(R.layout.dialog_time_reward);
         // setCanceledOnTouchOutside(false);
         initView();
     }
@@ -83,55 +72,25 @@ public class GameFailDialog extends Dialog {
         params.height = (int) (point.y);
         getWindow().setAttributes(params);
 
-        Button notDoubling = findViewById(R.id.notdoubling);
-        Button douBling = findViewById(R.id.doubling);
-        TextView txNum = findViewById(R.id.tx_num);
-        TextView tvMessage = findViewById(R.id.tx_title);
-        ImageView gife = ((ImageView) findViewById(R.id.gift));
-        LinearLayout rightLayout = (LinearLayout) findViewById(R.id.right_layout);
-        LinearLayout stateLayout = (LinearLayout) findViewById(R.id.state_layout);
 
+        Button close = (Button) findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
-        LinearLayout dialog_parent = (LinearLayout) findViewById(R.id.dialog_parent);
-        LinearLayout advertLayout = (LinearLayout) findViewById(R.id.advert_parent);
-
-        if(!hasAdvert){
-            advertLayout.setVisibility(View.GONE);
-        }
-        //更新gife坐标位置使用的接口
-        refreshGifeLocation(gife, dialog_parent);
-
-
-        if (!TextUtils.isEmpty(TITLE)) {
-            txNum.setText(TITLE);
-        } else {
-            rightLayout.setVisibility(View.GONE);
-        }
-
+        tvMessage = ((TextView) findViewById(R.id.tx_time_reward));
 
         if (!TextUtils.isEmpty(MESSAGE)) {
             tvMessage.setText(MESSAGE);
         }
 
-        if (!TextUtils.isEmpty(leftButtonString)) {
-            notDoubling.setText(leftButtonString);
-        }
-        if (!TextUtils.isEmpty(rightButtonString)) {
-            douBling.setText(rightButtonString);
-        }
-
-        if (IconId != -1) {
-            Glide.with(getContext()).load(IconId).into(gife);
-        }
-
-        if(isWin){
-            stateLayout.setVisibility(View.VISIBLE);
-        }else{
-            stateLayout.setVisibility(View.GONE);
-        }
+        TextView tx_reward = (TextView) findViewById(R.id.tx_getit);
 
 
-        douBling.setOnClickListener(view -> {
+        tx_reward.setOnClickListener(view -> {
             if (ONCONFIRMCLICKLISTENER == null) {
                 throw new NullPointerException("clicklistener is not null");
             } else {
@@ -139,14 +98,14 @@ public class GameFailDialog extends Dialog {
                 dismiss();
             }
         });
-        notDoubling.setOnClickListener(view -> {
+      /*  notDoubling.setOnClickListener(view -> {
             if (ONCANCELCLICKLISTENER == null) {
                 throw new NullPointerException("clicklistener is not null");
             } else {
                 ONCANCELCLICKLISTENER.onClick(view);
                 dismiss();
             }
-        });
+        });*/
     }
 
     private void refreshGifeLocation(ImageView gife, LinearLayout dialog_parent) {
@@ -155,24 +114,18 @@ public class GameFailDialog extends Dialog {
         dialog_parent.measure(w, h);
         int height = dialog_parent.getMeasuredHeight();
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) gife.getLayoutParams();
-        //gife.getLayoutParams().height / 2   礼物问题？
-        layoutParams.topMargin = (int) (Utils.getScreenWH(getContext().getApplicationContext())[1] / 2 - height / 2 - gife.getLayoutParams().height / 4);
+        layoutParams.topMargin = (int) (Utils.getScreenWH(getContext().getApplicationContext())[1] / 2 - height / 2 - gife.getLayoutParams().height / 2);
         gife.setLayoutParams(layoutParams);
     }
 
-    public GameFailDialog shown() {
+    public TimeRewardDialog shown() {
         show();
         return this;
     }
 
     public static class Builder {
-        private String mTitle;
         private String mMessage;
-        private String leftButtonText;
-        private String rightButtonText;
-        private int IconId;
-        private boolean isWin;
-        private boolean hasAdvert;
+
 
         private onConfirmClickListener mOnConfirmClickListener;
         private onCancelClickListener mOnCcancelClickListener;
@@ -182,10 +135,6 @@ public class GameFailDialog extends Dialog {
             this.mContext = context;
         }
 
-        public Builder setTitle(String title) {
-            this.mTitle = title;
-            return this;
-        }
 
         public Builder setMessage(String message) {
             this.mMessage = message;
@@ -202,35 +151,12 @@ public class GameFailDialog extends Dialog {
             return this;
         }
 
-        public GameFailDialog build() {
-            return new GameFailDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId, isWin,hasAdvert,
+        public TimeRewardDialog build() {
+            return new TimeRewardDialog(mContext, mMessage,
                     mOnConfirmClickListener, mOnCcancelClickListener);
         }
 
-        public Builder setLeftButtonText(String leftButtonText) {
-            this.leftButtonText = leftButtonText;
-            return this;
-        }
 
-        public Builder setRightButtonText(String rightButtonText) {
-            this.rightButtonText = rightButtonText;
-            return this;
-        }
-
-        public Builder setIconId(int iconId) {
-            IconId = iconId;
-            return this;
-        }
-
-        public Builder isWin(boolean isWin) {
-            this.isWin = isWin;
-            return this;
-        }
-
-        public Builder hasAdvert(boolean hasAdvert) {
-            this.hasAdvert = hasAdvert;
-            return this;
-        }
     }
 
 }
