@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/express_width"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:hint="输入期望广告view的宽"/>
+    <EditText
+        android:id="@+id/express_height"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:hint="输入期望广告view的高"
+        android:layout_below="@+id/express_width"/>
+    <Button
+        android:id="@+id/btn_express_load"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/express_height"
+        android:text="加载广告"
+        android:textSize="14sp" />
+    <ScrollView
+        android:id="@+id/sl_first"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/btn_express_load"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:id="@+id/express_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#D5D5D5" />
+    </ScrollView>
+
+</RelativeLayout>

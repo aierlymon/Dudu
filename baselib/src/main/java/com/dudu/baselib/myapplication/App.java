@@ -7,6 +7,7 @@ import androidx.multidex.MultiDex;
 
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
 import com.dudu.baselib.http.HttpConstant;
+import com.dudu.baselib.otherpackage.config.TTAdManagerHolder;
 import com.dudu.baselib.utils.Utils;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
@@ -54,6 +55,10 @@ public class App extends Application {
         //微博
         WbSdk.install(this,new AuthInfo(this, APP_WB_KEY, "http://www.sina.com", SCOPE));
 
+      //  TTAdManager.requestPermissionIfNecessary(this);
+        //穿山甲SDK初始化
+        //强烈建议在应用对应的Application#onCreate()方法中调用，避免出现content为null的异常
+        TTAdManagerHolder.init(this);
     }
 
     @Override

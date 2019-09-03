@@ -9,19 +9,28 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
+import com.bytedance.sdk.openadsdk.TTAdManager;
+import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTFeedAd;
 import com.dudu.baselib.base.BaseMvpActivity;
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
 import com.dudu.baselib.myapplication.App;
@@ -34,20 +43,19 @@ import com.dudu.huodai.mvp.model.postbean.LoanFraTypeBean;
 import com.dudu.huodai.mvp.model.postbean.WebViewBean;
 import com.dudu.huodai.mvp.presenters.MainPrsenter;
 import com.dudu.huodai.mvp.view.MainViewImpl;
+import com.dudu.baselib.otherpackage.config.TTAdManagerHolder;
 import com.dudu.huodai.ui.adapter.MainVPAdapter;
 import com.dudu.huodai.ui.fragments.HomeFragment;
 import com.dudu.huodai.ui.fragments.LoanFragment;
 import com.dudu.huodai.ui.fragments.MyFragment;
-import com.dudu.huodai.ui.fragments.RecommandFragment;
-import com.dudu.huodai.ui.fragments.TestFragmeng;
 import com.dudu.huodai.widget.CustomScrollViewPager;
 import com.dudu.huodai.widget.GameAdverBackDialog;
-import com.dudu.huodai.widget.GameNewOneDialog;
 import com.dudu.huodai.widget.GameWinDialog;
 import com.dudu.huodai.widget.MediaPlayManager;
 import com.dudu.huodai.widget.TimeRewardDialog;
 import com.dudu.model.bean.LoginCallBackBean;
 import com.google.gson.Gson;
+import com.squareup.haha.perflib.Main;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -75,7 +83,9 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.ACCESS_FINE_LOCATION
     };
+
 
 
     @Override
@@ -116,6 +126,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     private void init() {
 
+
+        
         //拿取字体
         //ApplicationPrams.typeface=Typeface.createFromAsset(getAssets(),"PingFang_Bold.ttf");
 
@@ -188,6 +200,9 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
     }
 
+
+
+
     private void alertRegister() {
         if(!ApplicationPrams.isLogin){
           /*  GameNewOneDialog.Builder(this)
@@ -203,7 +218,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                     })
                     .build().shown();*/
 
-            TimeRewardDialog.Builder(this)
+         /*   TimeRewardDialog.Builder(this)
                     .setMessage("限时0秒领取")
                     .setOnConfirmClickListener(new TimeRewardDialog.onConfirmClickListener() {
                         @Override
@@ -212,7 +227,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                             Toast.makeText(MainActivity.this, "点击成功", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .build().shown();
+                    .build().shown();*/
         }else{
             GameWinDialog.Builder(this)
                     .setMessage("欢迎回来，送您")

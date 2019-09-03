@@ -52,6 +52,12 @@ android {
         }
     }
 
+    repositories {
+        flatDir {
+            dirs '../baselib/libs', 'libs'  //系统会搜索本身libs下和moduleM中libs下的依赖，使用逗号隔开。
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -104,6 +110,5 @@ dependencies {
     implementation project(':baselib')
     implementation project(path: ':model')
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
-    implementation files('libs/open_sdk_r6137_lite.jar')
 
 }

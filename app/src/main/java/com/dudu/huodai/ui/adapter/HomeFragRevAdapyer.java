@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +35,7 @@ import com.dudu.huodai.mvp.model.HomeFRAdvertHolder;
 import com.dudu.huodai.mvp.model.HomeFRBannerHolder;
 import com.dudu.huodai.mvp.model.HomeFRBigBackHoder;
 import com.dudu.huodai.mvp.model.HomeFRBodyHolderFH;
+import com.dudu.huodai.mvp.model.HomeOtherAdvertHolder;
 import com.dudu.huodai.mvp.model.postbean.BannerBean;
 import com.dudu.huodai.mvp.model.postbean.RecordBean;
 import com.dudu.huodai.mvp.model.postbean.WebViewBean;
@@ -57,6 +60,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
     private static final int HISTORY = 3;//历史
     private static final int ADVERT = 4;//广告
     private static final int BIGBACK = 5;//大标题
+    private static final int OTHERADVERT = 6;//大标题
 
 
     private Activity mContext;
@@ -107,6 +111,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             case BIGBACK:
                 return new BigBackHolder(LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.fra_home_bigback, viewGroup, false));
+            case OTHERADVERT:
+                return new OtherHolder(LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.other_layout, viewGroup, false));
         }
         return null;
     }
@@ -135,6 +142,8 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             return ADVERT;
         } else if (modelList.get(position) instanceof HomeFRBigBackHoder) {
             return BIGBACK;
+        } else if (modelList.get(position) instanceof HomeOtherAdvertHolder) {
+            return OTHERADVERT;
         } else {
             return HISTORY;
         }
@@ -361,7 +370,7 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             super(itemView);
             dataList = new ArrayList<>();
             dataList.add("http://pic33.nipic.com/20131007/13639685_123501617185_2.jpg");
-            if(ActivityType==ApplicationPrams.SpecialActivity){
+            if (ActivityType == ApplicationPrams.SpecialActivity) {
                 view_indirator.setVisibility(View.GONE);
                 view_little_indirator.setVisibility(View.VISIBLE);
             }
@@ -462,6 +471,37 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
             });
             //  recyclerView.addItemDecoration(new SpaceItemDecoration(20,20,1));
             recyclerView.setAdapter(homeBodyRevAdapter);
+        }
+
+
+    }
+
+
+    class OtherHolder extends BaseMulViewHolder<HomeOtherAdvertHolder> {
+
+        @BindView(R.id.other_parent)
+        RelativeLayout layout;
+
+        public OtherHolder(View itemView) {
+            super(itemView);
+
+        }
+
+        @Override
+        public void bindData(HomeOtherAdvertHolder dataModel, int position) {
+            MyLog.i("view "+dataModel.getView());
+            layout.removeAllViews();
+            layout.addView(dataModel.getView());
+
+            View view=new View(mContext);
+            layout.addView(view);
+
+
+            RelativeLayout.LayoutParams layoutParams= (RelativeLayout.LayoutParams) view.getLayoutParams();
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            layoutParams.height= (int) mContext.getResources().getDimension(R.dimen.y10);
+            view.setBackgroundColor(mContext.getResources().getColor(R.color.daohang_clolor));
+            view.setLayoutParams(layoutParams);
         }
 
 

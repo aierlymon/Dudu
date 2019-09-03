@@ -2,29 +2,31 @@ package com.dudu.huodai.ui.fragments;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.dudu.baselib.base.BaseMVPFragment;
+import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.TTAdManager;
+import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
+import com.dudu.baselib.otherpackage.config.TTAdManagerHolder;
 import com.dudu.baselib.utils.CustomToast;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.R;
 import com.dudu.huodai.mvp.base.BaseTitleFragment;
+import com.dudu.huodai.mvp.model.HomeOtherAdvertHolder;
 import com.dudu.huodai.mvp.presenters.HomeFrgPresenter;
 import com.dudu.huodai.mvp.view.HomeFrgViewImpl;
 import com.dudu.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
 
-import butterknife.BindInt;
 import butterknife.BindView;
 
 public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPresenter> implements HomeFrgViewImpl {
@@ -91,6 +93,16 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
     @Override
     protected void initView() {
         MyLog.i("重新加载");
+
+        //step1:初始化sdk
+        TTAdManager ttAdManager = TTAdManagerHolder.get();
+        //step2:创建TTAdNative对象,用于调用广告请求接口
+        mTTAdNative = ttAdManager.createAdNative(getContext().getApplicationContext());
+        //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
+        TTAdManagerHolder.get().requestPermissionIfNecessary(getContext());
+        //初始化第三方库
+        requesetOtherAdvert();
+
         setTitleText(R.string.home);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
@@ -112,6 +124,7 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
                 mPresenter.requestHead();//请求banner
                 mPresenter.requestMenu();//请求菜单
                 mPresenter.requestBody(currentPage,count);//请求body
+                requesetOtherAdvert();
             }else{
                 if (this.refreshLayout.isRefreshing()) {
                     showError("没有网络");
@@ -190,6 +203,64 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
             refreshLayout.setEnableLoadMore(false);
             return;
         }
+    }
+
+    //初始化第三方包
+    private TTAdNative mTTAdNative;
+    private void requesetOtherAdvert() {
+
+        AdSlot adSlot = new AdSlot.Builder()
+                .setCodeId("928300316") //广告位id
+                .setSupportDeepLink(true)
+                .setAdCount(1) //请求广告数量为1到3条
+                .setExpressViewAcceptedSize(1920,1080) //期望个性化模板广告view的size,单位dp
+                .setImageAcceptedSize(640,320) //这个参数设置即可，不影响个性化模板广告的size
+                .build();
+
+        mTTAdNative.loadNativeExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
+            @Override
+            public void onError(int code, String message) {
+                MyLog.i("load error : " + code + ", " + message);
+            }
+
+            @Override
+            public void onNativeExpressAdLoad(List<TTNativeExpressAd> ads) {
+                if (ads == null || ads.size() == 0){
+                    return;
+                }
+                bindAdListener(ads.get(0));
+                ads.get(0).render();//调用render开始渲染广告
+                MyLog.i("ad是 广告信息: "+"  view: "+ads.get(0).getExpressAdView());
+
+            }
+        });
+    }
+
+    private void bindAdListener(TTNativeExpressAd ad) {
+        ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
+            @Override
+            public void onAdClicked(View view, int type) {
+
+            }
+
+            @Override
+            public void onAdShow(View view, int type) {
+
+            }
+
+            @Override
+            public void onRenderFail(View view, String msg, int code) {
+            }
+
+            @Override
+            public void onRenderSuccess(View view, float width, float height) {
+                MyLog.i("我渲染成功了: "+view);
+                //返回view的宽高 单位 dp
+                mPresenter.getList().add(2,new HomeOtherAdvertHolder(view));
+                fragRevAdapyer.notifyDataSetChanged();
+            }
+        });
+
     }
 
 }
