@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,12 @@ public class GameAdverBackDialog extends Dialog {
     private boolean isWin;
     private String anSwer;
     private boolean hasAdvert;
+
+    private  RelativeLayout advertLayout;
+
+    public RelativeLayout getAdvertLayout() {
+        return advertLayout;
+    }
 
     public interface onConfirmClickListener {
         void onClick(View view);
@@ -101,7 +108,7 @@ public class GameAdverBackDialog extends Dialog {
         CheckBox an4 = (CheckBox) findViewById(R.id.answer_four);
 
         LinearLayout dialog_parent = (LinearLayout) findViewById(R.id.dialog_parent);
-        LinearLayout advertLayout = (LinearLayout) findViewById(R.id.advert_parent);
+        advertLayout = (RelativeLayout) findViewById(R.id.advert_parent);
 
         if(!hasAdvert){
             advertLayout.setVisibility(View.GONE);

@@ -1,21 +1,21 @@
 package com.dudu.huodai;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 
 import com.bumptech.glide.Glide;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
 import com.dudu.huodai.mvp.presenters.GameCirclePresenter;
 import com.dudu.huodai.mvp.view.GameCirclmpl;
+import com.dudu.huodai.params.ApplicationPrams;
+import com.dudu.huodai.utils.AdvertUtil;
 import com.dudu.huodai.widget.CirclePanView;
 import com.dudu.huodai.widget.GameAdverBackDialog;
 import com.dudu.huodai.widget.GameProgressBar;
@@ -52,6 +52,9 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
 
     @BindView(R.id.img_back)
     ImageView imgBack;
+
+    @BindView(R.id.bottom_parent)
+    RelativeLayout bottomParent;
 
     @Override
     protected void initRequest() {
@@ -115,6 +118,27 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
     @Override
     public boolean isUseLayoutRes() {
         return true;
+    }
+
+    @Override
+    protected void startToAdvert(boolean isScreenOn) {
+        Intent intent=new Intent(this,AdvertSplashActivity.class);
+        if(isScreenOn){
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_sceenon_advertId);
+        }else{
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_restart_advertId);
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    protected void screenOn() {
+
+    }
+
+    @Override
+    protected void screenOff() {
+
     }
 
     @Override
@@ -182,5 +206,28 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
                     .build().shown();
         }
 
+    }
+
+    AdvertUtil advertUtil;
+    private boolean isFirst;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // advertUtil  =new AdvertUtil(bottomParent,this);
+        MyLog.i("onResume: aaaaaaaaaaaa");
+        if(isFirst){
+            advertUtil=new AdvertUtil(bottomParent,this);
+            advertUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_bottom, bottomParent.getWidth(), bottomParent.getHeight());
+        }
+
+        isFirst=true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (advertUtil != null && advertUtil.getmTTAd() != null) {
+            advertUtil.getmTTAd().destroy();
+        }
     }
 }

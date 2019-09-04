@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 
@@ -15,10 +16,13 @@ import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
 import com.dudu.huodai.mvp.presenters.GameTreePresenter;
 import com.dudu.huodai.mvp.view.GameTreeImpl;
+import com.dudu.huodai.params.ApplicationPrams;
+import com.dudu.huodai.utils.AdvertUtil;
 import com.dudu.huodai.utils.SoundUtils;
 import com.dudu.huodai.widget.GameAdverBackDialog;
 import com.dudu.huodai.widget.GameWinDialog;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePresenter> implements GameTreeImpl {
@@ -36,26 +40,14 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
     private long currentTime=-1;
     private boolean isGo=true;
 
-
+    @BindView(R.id.bottom_parent)
+    RelativeLayout bottomParent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (sensorManager != null) {
-            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        }
-        if (sensor != null) {
-            sensorManager.registerListener(sensorEventListener,
-                    sensor,
-                    SensorManager.SENSOR_DELAY_GAME);//这里选择感应频率
-        }
     }
 
     private SensorEventListener sensorEventListener = new SensorEventListener() {
@@ -168,6 +160,27 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
     }
 
     @Override
+    protected void startToAdvert(boolean isScreenOn) {
+        Intent intent=new Intent(this,AdvertSplashActivity.class);
+        if(isScreenOn){
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_sceenon_advertId);
+        }else{
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_restart_advertId);
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    protected void screenOn() {
+
+    }
+
+    @Override
+    protected void screenOff() {
+
+    }
+
+    @Override
     public void showLoading() {
 
     }
@@ -208,5 +221,42 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
                     .build().shown();
         }
 
+    }
+
+
+    AdvertUtil advertUtil;
+    private boolean isFirst;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (sensorManager != null) {
+            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        }
+        if (sensor != null) {
+            sensorManager.registerListener(sensorEventListener,
+                    sensor,
+                    SensorManager.SENSOR_DELAY_GAME);//这里选择感应频率
+        }
+        // advertUtil  =new AdvertUtil(bottomParent,this);
+        if(isFirst){
+            advertUtil=new AdvertUtil(bottomParent,this);
+            advertUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_bottom, bottomParent.getWidth(), bottomParent.getHeight());
+        }
+
+        isFirst=true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (advertUtil != null && advertUtil.getmTTAd() != null) {
+            advertUtil.getmTTAd().destroy();
+        }
     }
 }

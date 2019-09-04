@@ -3,6 +3,7 @@ package com.dudu.baselib.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,6 +16,8 @@ import android.text.style.AbsoluteSizeSpan;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
+
+import androidx.core.content.ContextCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -213,6 +216,11 @@ public class Utils {
             return random.nextInt(endNum - startNum) + startNum;
         }
         return 0;
+    }
+
+    public static boolean lacksPermission(Context mContexts, String permission) {
+        return ContextCompat.checkSelfPermission(mContexts, permission) ==
+                PackageManager.PERMISSION_DENIED;
     }
 
 }

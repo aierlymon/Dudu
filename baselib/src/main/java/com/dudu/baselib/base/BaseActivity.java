@@ -1,7 +1,13 @@
 package com.dudu.baselib.base;
 
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,13 +17,22 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.TTAdDislike;
+import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTBannerAd;
 import com.dudu.baselib.myapplication.App;
+import com.dudu.baselib.otherpackage.TToast;
+import com.dudu.baselib.otherpackage.config.TTAdManagerHolder;
 import com.dudu.baselib.utils.CustomToast;
 import com.dudu.baselib.utils.KeyBoardUtil;
+import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.StatusBarUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 /*
  * create by hh
@@ -36,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private RxPermissions mRxPermissions;
     private final int duration = 2000;
+    private TTAdNative mTTAdNative;
 
 
     //初始化视图
@@ -51,6 +67,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract boolean isUseLayoutRes();
 
+    protected abstract void startToAdvert(boolean isScreenOn);
+
+    protected abstract void screenOn();
+
+    protected abstract void screenOff();
+
+
+    private  BroadcastReceiver mBatInfoReceiver;
+
+    private boolean isScreenOn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +98,45 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (isUseEventBus()) {
             EventBus.getDefault().register(this);
         }
+
+
+        final IntentFilter filter = new IntentFilter();
+        // 屏幕灭屏广播
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        // 屏幕亮屏广播
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+
+        mBatInfoReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(final Context context, final Intent intent) {
+                String action = intent.getAction();
+                if (Intent.ACTION_SCREEN_ON.equals(action)) {
+                    MyLog.i("isRunningForeground(): "+isCurrentRunningForeground);
+                    if(!isCurrentRunningForeground){
+                        MyLog.i("调用了屏幕,点亮屏幕的接口");
+                       // screenOn();
+                        isScreenOn=true;
+                    }
+                } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
+                    screenOff();
+                }
+            }
+        };
+
+        registerReceiver(mBatInfoReceiver, filter);
+
+        //step2:创建TTAdNative对象，createAdNative(Context context) banner广告context需要传入Activity对象
+        mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
+        //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
+        TTAdManagerHolder.get().requestPermissionIfNecessary(this);
+
         initView();
+
+
+    }
+
+    public TTAdNative getmTTAdNative() {
+        return mTTAdNative;
     }
 
     //获取RxPermissions,进行权限的动态设置
@@ -142,11 +206,70 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         ((App) getApplication()).getRefWatcher(this).watch(this);
 
+        if(mBatInfoReceiver!=null)
+        unregisterReceiver(mBatInfoReceiver);
 
     }
 
+
+
     public void showToast(String msg) {
-        CustomToast.showToast(this, msg, duration);
+        CustomToast.showToast(this.getApplicationContext(), msg, duration);
+    }
+
+
+    private boolean isCurrentRunningForeground = true;
+
+    private String advertId;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MyLog.i("调用了屏幕onStart");
+        if (!isCurrentRunningForeground) {
+            isCurrentRunningForeground=true;
+            //处理跳转到广告页逻辑
+            startToAdvert(isScreenOn);
+        }
+
+    }
+
+    public boolean isCurrentRunningForeground() {
+        return isCurrentRunningForeground;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isCurrentRunningForeground= isRunningForeground();
+        MyLog.i("onStop isRunningForeground(): "+isCurrentRunningForeground);
+    }
+
+    public boolean isRunningForeground() {
+        ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcessInfos = activityManager.getRunningAppProcesses();
+        // 枚举进程,查看该应用是否在运行
+        for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessInfos) {
+            if (appProcessInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                if (appProcessInfo.processName.equals(this.getApplicationInfo().processName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+    public AdSlot loadAd(String codeId,int width,int height) {
+        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
+        AdSlot adSlot = new AdSlot.Builder()
+                .setCodeId(codeId) //广告位id
+                .setSupportDeepLink(true)
+                .setImageAcceptedSize(width, height)
+                .build();
+
+        return adSlot;
     }
 
 }

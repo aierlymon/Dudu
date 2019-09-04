@@ -1,5 +1,6 @@
 package com.dudu.huodai;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import com.dudu.baselib.utils.StatusBarUtil;
 import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.mvp.presenters.LoginPresenter;
 import com.dudu.huodai.mvp.view.LoginViewimpl;
+import com.dudu.huodai.params.ApplicationPrams;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -54,6 +56,27 @@ public class LoginActivity extends BaseMvpActivity<LoginViewimpl, LoginPresenter
     @Override
     public boolean isUseLayoutRes() {
         return true;
+    }
+
+    @Override
+    protected void startToAdvert(boolean isScreenOn) {
+        Intent intent=new Intent(this,AdvertSplashActivity.class);
+        if(isScreenOn){
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_sceenon_advertId);
+        }else{
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_restart_advertId);
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    protected void screenOn() {
+
+    }
+
+    @Override
+    protected void screenOff() {
+
     }
 
     @Override

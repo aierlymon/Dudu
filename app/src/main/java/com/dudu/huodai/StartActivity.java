@@ -13,6 +13,7 @@ import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.StatusBarUtil;
 import com.dudu.huodai.mvp.presenters.StartActPresenter;
 import com.dudu.huodai.mvp.view.StartActImpl;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.widget.myGlide.GlideUtil;
 
 import java.io.File;
@@ -78,6 +79,27 @@ public class StartActivity extends BaseMvpActivity<StartActImpl, StartActPresent
     @Override
     public boolean isUseLayoutRes() {
         return true;
+    }
+
+    @Override
+    protected void startToAdvert(boolean isScreenOn) {
+        Intent intent=new Intent(this,AdvertSplashActivity.class);
+        if(isScreenOn){
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_sceenon_advertId);
+        }else{
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_restart_advertId);
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    protected void screenOn() {
+
+    }
+
+    @Override
+    protected void screenOff() {
+
     }
 
 

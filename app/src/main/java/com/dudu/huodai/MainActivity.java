@@ -9,28 +9,19 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.bytedance.sdk.openadsdk.AdSlot;
-import com.bytedance.sdk.openadsdk.TTAdConstant;
-import com.bytedance.sdk.openadsdk.TTAdManager;
-import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTFeedAd;
 import com.dudu.baselib.base.BaseMvpActivity;
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
 import com.dudu.baselib.myapplication.App;
@@ -39,23 +30,24 @@ import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.RxPermissionUtil;
 import com.dudu.baselib.utils.StatusBarUtil;
 import com.dudu.baselib.utils.UpdateUtil;
+import com.dudu.baselib.utils.Utils;
+import com.dudu.huodai.mvp.model.postbean.AdverdialogBean;
 import com.dudu.huodai.mvp.model.postbean.LoanFraTypeBean;
 import com.dudu.huodai.mvp.model.postbean.WebViewBean;
 import com.dudu.huodai.mvp.presenters.MainPrsenter;
 import com.dudu.huodai.mvp.view.MainViewImpl;
-import com.dudu.baselib.otherpackage.config.TTAdManagerHolder;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.ui.adapter.MainVPAdapter;
 import com.dudu.huodai.ui.fragments.HomeFragment;
 import com.dudu.huodai.ui.fragments.LoanFragment;
 import com.dudu.huodai.ui.fragments.MyFragment;
+import com.dudu.huodai.utils.AdvertUtil;
 import com.dudu.huodai.widget.CustomScrollViewPager;
 import com.dudu.huodai.widget.GameAdverBackDialog;
 import com.dudu.huodai.widget.GameWinDialog;
 import com.dudu.huodai.widget.MediaPlayManager;
-import com.dudu.huodai.widget.TimeRewardDialog;
 import com.dudu.model.bean.LoginCallBackBean;
 import com.google.gson.Gson;
-import com.squareup.haha.perflib.Main;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -75,18 +67,19 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     @BindView(R.id.group)
     RadioGroup mGroup;
 
+    @BindView(R.id.main_parent)
+    ConstraintLayout mainParent;
 
     private SharedPreferences preferences;
 
+
     private String[] permissions = {
-            Manifest.permission.REQUEST_INSTALL_PACKAGES,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+             android.Manifest.permission.REQUEST_INSTALL_PACKAGES,
+             android.Manifest.permission.READ_EXTERNAL_STORAGE,
+             android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+             android.Manifest.permission.READ_PHONE_STATE
     };
-
-
 
     @Override
     protected int getLayoutRes() {
@@ -108,10 +101,10 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
             //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
             //这样半透明+白=灰, 状态栏的文字能看得清
-            StatusBarUtil.setStatusBarColor(this,0x55000000);
+            StatusBarUtil.setStatusBarColor(this, 0x55000000);
         }
 
-             //这个就是设施沉浸式状态栏的主要方法了
+        //这个就是设施沉浸式状态栏的主要方法了
         StatusBarUtil.setRootViewFitsSystemWindows(this, false);
 
         //首次启动 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT 为 0，再次点击图标启动时就不为零了
@@ -127,7 +120,6 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     private void init() {
 
 
-        
         //拿取字体
         //ApplicationPrams.typeface=Typeface.createFromAsset(getAssets(),"PingFang_Bold.ttf");
 
@@ -163,9 +155,9 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             ApplicationPrams.isLogin = true;
         }
 
+
         //检查签到
         alertRegister();
-
 
         //butterknife的绑定
         ButterKnife.bind(this);
@@ -201,10 +193,11 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     }
 
 
-
+    private AdvertUtil advertUtil;
+    AdvertUtil mainadverUtil;
 
     private void alertRegister() {
-        if(!ApplicationPrams.isLogin){
+        if (!ApplicationPrams.isLogin) {
           /*  GameNewOneDialog.Builder(this)
                     .setMessage(getResources().getString(R.string.newone))
                     .setTitle("+90")
@@ -228,8 +221,8 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                         }
                     })
                     .build().shown();*/
-        }else{
-            GameWinDialog.Builder(this)
+
+            GameWinDialog gameWinDialog = GameWinDialog.Builder(this)
                     .setMessage("欢迎回来，送您")
                     .setTitle("+80")
                     .setIconId(R.mipmap.win)
@@ -245,11 +238,42 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
                     .setOnConfirmClickListener(new GameWinDialog.onConfirmClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent=new Intent(MainActivity.this,AdvertisementActivity.class);
-                            startActivityForResult(intent,1);
+                            mainadverUtil = new AdvertUtil(mainParent, MainActivity.this);
+                            mainadverUtil.setVideoType(ApplicationPrams.MainActvity);
+                            float[] WH = Utils.getScreenWH(MainActivity.this.getApplicationContext());
+                            mainadverUtil.loadVideo(getmTTAdNative(), ApplicationPrams.public_qiandao_jili, (int) WH[0], (int) WH[1]);
                         }
                     })
-                    .build().shown();
+                    .build();
+            gameWinDialog.shown();
+
+            if(Utils.lacksPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION)){
+                advertUtil = new AdvertUtil(gameWinDialog.getAdvertLayout(), this);
+                advertUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_qiandao_back,
+                        (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
+                        (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
+            }
+
+        } else {
+       /*     GameWinDialog.Builder(this)
+                    .setMessage("欢迎回来，送您")
+                    .setTitle("+80")
+                    .setIconId(R.mipmap.win)
+                    .setLeftButtonText("不翻倍")
+                    .setRightButtonText("金豆翻倍")
+                    .hasAdvert(true)
+                    .isWin(true)
+                    .setOnCancelClickListener(new GameWinDialog.onCancelClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                        }
+                    })
+                    .setOnConfirmClickListener(new GameWinDialog.onConfirmClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                        }
+                    })
+                    .build().shown();*/
         }
     }
 
@@ -260,7 +284,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
     }
 
 
-    @OnCheckedChanged({R.id.rb_home, R.id.rb_loan,R.id.rb_my})
+    @OnCheckedChanged({R.id.rb_home, R.id.rb_loan, R.id.rb_my})
     public void onCheckChange(CompoundButton view, boolean ischanged) {
         switch (view.getId()) {
             case R.id.rb_home:
@@ -321,6 +345,26 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         return true;
     }
 
+    @Override
+    protected void startToAdvert(boolean isScreenOn) {
+        Intent intent = new Intent(this, AdvertSplashActivity.class);
+        if (isScreenOn) {
+            intent.putExtra(ApplicationPrams.adverId, ApplicationPrams.public_sceenon_advertId);
+        } else {
+            intent.putExtra(ApplicationPrams.adverId, ApplicationPrams.public_restart_advertId);
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    protected void screenOn() {
+    }
+
+    @Override
+    protected void screenOff() {
+
+    }
+
 
     //这个事件总线是检测登录页面的操作，
     // false 跳转到登录页面，这个时候就要清空保存到本地的文件
@@ -332,7 +376,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             if (!TextUtils.isEmpty(preferences.getString("obj", null))) {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("obj", null);
-                editor.putString("token","");
+                editor.putString("token", "");
                 editor.apply();
                 editor.commit();
             }
@@ -348,7 +392,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             String obj = gson.toJson(ApplicationPrams.loginCallBackBean);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("obj", obj);
-            editor.putString("token",App.token);
+            editor.putString("token", App.token);
             editor.apply();
             editor.commit();
         }
@@ -372,6 +416,35 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         ((RadioButton) mGroup.getChildAt(1)).setChecked(true);
     }
 
+    AdvertUtil advertFanBeiUtil;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void checkAdverdialogBean(AdverdialogBean adverdialogBean) {
+        //选中LoanFragment页面
+        if (adverdialogBean.getType() == ApplicationPrams.MainActvity) {
+            GameAdverBackDialog adverBackDialog = GameAdverBackDialog.Builder(this)
+                    .setMessage("恭喜您,奖励您")
+                    .setTitle("+90")
+                    .setIconId(R.mipmap.win)
+                    .hasAdvert(true)
+                    .setRightButtonText("继续")
+                    .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(advertFanBeiUtil!=null&&advertFanBeiUtil.getmTTAd()!=null){
+                                advertFanBeiUtil.getmTTAd().destroy();
+                            }
+                        }
+                    })
+                    .build();
+            adverBackDialog.shown();
+            advertFanBeiUtil= new AdvertUtil(adverBackDialog.getAdvertLayout(), MainActivity.this);
+            advertFanBeiUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_qiandao_fanbei, (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
+                    (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
+
+        }
+
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -382,6 +455,11 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         //取消下载更新
         if (mPresenter != null)
             mPresenter.cancelIUpdate();
+
+        if (advertUtil != null && advertUtil.getmTTAd() != null) {
+            advertUtil.getmTTAd().destroy();
+        }
+
 
         MediaPlayManager.destoryMedaiPlay();
     }
@@ -456,26 +534,5 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
             overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
-        if (requestCode == 1/* && resultCode == 3*/) {
-            //弹窗
-            GameAdverBackDialog.Builder(this)
-                    .setMessage("恭喜您,奖励您")
-                    .setTitle("+90")
-                    .setIconId(R.mipmap.win)
-                    .setRightButtonText("继续")
-                    .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                        }
-                    })
-                    .build().shown();
-        }
-
-    }
 
 }

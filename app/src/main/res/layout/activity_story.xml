@@ -8,8 +8,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/left_right_marigin"
-        android:layout_marginRight="@dimen/left_right_marigin"
         android:scrollbars="none">
 
         <LinearLayout
@@ -19,6 +17,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/big_back_parent"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y190">
 
@@ -26,6 +25,8 @@
                     android:id="@+id/story_bigback"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/y160"
+                    android:layout_marginLeft="@dimen/left_right_marigin"
+                    android:layout_marginRight="@dimen/left_right_marigin"
                     android:scaleType="fitXY" />
 
 
@@ -36,6 +37,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:visibility="gone"
+                    android:layout_marginLeft="@dimen/left_right_marigin"
+                    android:layout_marginRight="@dimen/left_right_marigin"
                     android:src="@drawable/media_pause" />
             </RelativeLayout>
 
@@ -44,6 +47,8 @@
                 android:id="@+id/story_state"
                 layout="@layout/icon_title"
                 android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/left_right_marigin"
+                android:layout_marginRight="@dimen/left_right_marigin"
                 android:layout_height="@dimen/y30" />
 
             <TextView
@@ -52,6 +57,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_item_marigin"
                 android:lineSpacingExtra="@dimen/y5"
+                android:layout_marginLeft="@dimen/left_right_marigin"
+                android:layout_marginRight="@dimen/left_right_marigin"
                 android:textColor="@color/content_color"
                 android:textSize="@dimen/font_px12" />
 
@@ -60,6 +67,8 @@
                 layout="@layout/icon_title"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y30"
+                android:layout_marginLeft="@dimen/left_right_marigin"
+                android:layout_marginRight="@dimen/left_right_marigin"
                 android:layout_marginTop="@dimen/double_common_item_marigin" />
 
             <TextView
@@ -68,14 +77,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_item_marigin"
                 android:lineSpacingExtra="@dimen/y5"
+                android:layout_marginLeft="@dimen/left_right_marigin"
+                android:layout_marginRight="@dimen/left_right_marigin"
                 android:textColor="@color/content_color"
                 android:textSize="@dimen/font_px12" />
 
-            <ImageView
+            <RelativeLayout
+                android:id="@+id/story_info_parent"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y85"
-                android:layout_marginTop="@dimen/double_common_item_marigin"
-                android:background="#ff0" />
+                android:layout_marginTop="@dimen/double_left_right_marigin">
+
+            </RelativeLayout>
+
 
             <Button
                 android:id="@+id/button_showcontent"
@@ -93,6 +107,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginLeft="@dimen/left_right_marigin"
+                android:layout_marginRight="@dimen/left_right_marigin"
                 android:visibility="gone">
 
                 <include
@@ -148,6 +164,8 @@
                 android:background="@drawable/dudu_sharemoney_button"
                 android:text="分享赚现金"
                 android:textColor="@color/white"
+                android:layout_marginLeft="@dimen/left_right_marigin"
+                android:layout_marginRight="@dimen/left_right_marigin"
                 android:textSize="@dimen/font_px18" />
         </LinearLayout>
     </ScrollView>

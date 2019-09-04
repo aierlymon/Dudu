@@ -13,15 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.dudu.baselib.http.HttpConstant;
-import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
-import com.dudu.huodai.ApplicationPrams;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.LabelActivity;
 import com.dudu.huodai.R;
-import com.dudu.huodai.widget.CircleImageView;
-import com.dudu.model.bean.NewHomeBodyBean;
 import com.dudu.model.bean.StoryTable;
 
 import java.util.List;

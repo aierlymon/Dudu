@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dudu.baselib.utils.MyLog;
-import com.dudu.huodai.ApplicationPrams;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.LabelActivity;
 import com.dudu.huodai.R;
 import com.dudu.huodai.SubjectActivity;

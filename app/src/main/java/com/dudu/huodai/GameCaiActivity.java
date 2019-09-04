@@ -3,17 +3,22 @@ package com.dudu.huodai;
 import android.content.Intent;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dudu.baselib.utils.MyLog;
+import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
+import com.dudu.huodai.mvp.model.postbean.AdverdialogBean;
 import com.dudu.huodai.mvp.model.postbean.GameCaiSelectBean;
 import com.dudu.huodai.mvp.presenters.GameCaiPresenter;
 import com.dudu.huodai.mvp.view.GameCaiImpl;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.ui.adapter.GameItemAdapter;
+import com.dudu.huodai.utils.AdvertUtil;
 import com.dudu.huodai.widget.GameAdverBackDialog;
 import com.dudu.huodai.widget.GameFailDialog;
 import com.dudu.huodai.widget.GameWinDialog;
@@ -49,8 +54,16 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
     @BindView(R.id.ck_four)
     CheckBox ck4;
 
+    @BindView(R.id.bottom_parent)
+    RelativeLayout bottomParent;
+
+    @BindView(R.id.game_cai_big_parent)
+    RelativeLayout gameBigParent;
+
+
     private int currentIndex = 0;//当前要填写的ck索引
     List<Boolean> list;
+    private AdvertUtil gameCaiBackAdvert;
 
     @Override
     protected void initRequest() {
@@ -64,10 +77,10 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getGameBean(GameCaiSelectBean gameBean) {
-        MyLog.i("触发了这里： "+currentIndex);
+        MyLog.i("触发了这里： " + currentIndex);
         switch (currentIndex) {
             case 0:
-                refreshCK(ck1, gameBean,0);
+                refreshCK(ck1, gameBean, 0);
                 break;
             case 1:
                 refreshCK(ck2, gameBean, 1);
@@ -83,11 +96,12 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
         }
     }
 
+    AdvertUtil advertReultUtil;
 
     private void judegeResult() {
         String str = ck1.getText().toString() + ck2.getText().toString() + ck3.getText().toString() + ck4.getText().toString();
         if (str.equals("大吉大利")) {
-            GameWinDialog.Builder(this)
+            GameWinDialog gameWinDialog = GameWinDialog.Builder(this)
                     .setMessage("恭喜你答对了")
                     .setTitle("+45")
                     .setIconId(R.mipmap.win)
@@ -98,16 +112,27 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                     .setOnCancelClickListener(new GameWinDialog.onCancelClickListener() {
                         @Override
                         public void onClick(View view) {
-                            initCK();
+
                         }
                     })
                     .setOnConfirmClickListener(new GameWinDialog.onConfirmClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startToAdvertisement(1);
+                            gameCaiBackAdvert = new AdvertUtil(gameBigParent, GameCaiActivity.this);
+                            float[] WH = Utils.getScreenWH(GameCaiActivity.this.getApplicationContext());
+                            gameCaiBackAdvert.setVideoType(ApplicationPrams.GameCai);
+                            gameCaiBackAdvert.setSuccess(true);
+                            gameCaiBackAdvert.loadVideo(getmTTAdNative(), ApplicationPrams.public_game_cai_suceesee_jili, (int) WH[0], (int) WH[1]);
                         }
-                    })
-                    .build().shown();
+                    }).build();
+            gameWinDialog.shown();
+
+
+            advertReultUtil = new AdvertUtil(gameWinDialog.getAdvertLayout(), this);
+            advertReultUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_qiandao_back,
+                    (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
+                    (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
+
         } else {
             GameFailDialog.Builder(this)
                     .setMessage("很抱歉你答错了")
@@ -120,13 +145,17 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                     .setOnCancelClickListener(new GameFailDialog.onCancelClickListener() {
                         @Override
                         public void onClick(View view) {
-                            initCK();
+
                         }
                     })
                     .setOnConfirmClickListener(new GameFailDialog.onConfirmClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startToAdvertisement(2);
+                            gameCaiBackAdvert = new AdvertUtil(gameBigParent, GameCaiActivity.this);
+                            float[] WH = Utils.getScreenWH(GameCaiActivity.this.getApplicationContext());
+                            gameCaiBackAdvert.setVideoType(ApplicationPrams.GameCai);
+                            gameCaiBackAdvert.setSuccess(false);
+                            gameCaiBackAdvert.loadVideo(getmTTAdNative(), ApplicationPrams.public_game_cai_fail_jili, (int) WH[0], (int) WH[1]);
                         }
                     })
                     .build().shown();
@@ -141,7 +170,7 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
         view.setEnabled(true);
         view.setTag(gameBean.getCheckBox());
         view.setText(gameBean.getText());
-        list.set(currentIndex,true);
+        list.set(currentIndex, true);
         MyLog.i("更细CK----2");
         getCurrentIndex(4);
     }
@@ -149,8 +178,8 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
     @Override
     public void init() {
 
-        list =new ArrayList<>();
-        for(int i=0;i<4;i++){
+        list = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
             list.add(false);
         }
 
@@ -170,6 +199,7 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
         }
         GameItemAdapter gameItemAdapter = new GameItemAdapter(itemList, this);
         recyclerView.setAdapter(gameItemAdapter);
+
     }
 
     @Override
@@ -193,6 +223,27 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
     }
 
     @Override
+    protected void startToAdvert(boolean isScreenOn) {
+      /*  Intent intent=new Intent(this,AdvertSplashActivity.class);
+        if(isScreenOn){
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_sceenon_advertId);
+        }else{
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_restart_advertId);
+        }
+        startActivity(intent);*/
+    }
+
+    @Override
+    protected void screenOn() {
+
+    }
+
+    @Override
+    protected void screenOff() {
+
+    }
+
+    @Override
     public void showLoading() {
 
     }
@@ -212,17 +263,17 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
 
         switch (v.getId()) {
             case R.id.ck_first:
-                resetCK(v,0,1);
+                resetCK(v, 0, 1);
                 break;
             case R.id.ck_second:
 
-                resetCK(v,1,2);
+                resetCK(v, 1, 2);
                 break;
             case R.id.ck_third:
-                resetCK(v,2,3);
+                resetCK(v, 2, 3);
                 break;
             case R.id.ck_four:
-                resetCK(v,3,4);
+                resetCK(v, 3, 4);
                 break;
         }
     }
@@ -232,25 +283,25 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
             ((CheckBox) v.getTag()).setChecked(false);
             ((CheckBox) v.getTag()).setEnabled(true);
             v.setText("");
-            list.set(index,false);
+            list.set(index, false);
             v.setEnabled(false);
         }
         getCurrentIndex(size);
     }
 
     private void getCurrentIndex(int size) {
-        MyLog.i("我进了getCurrentIndex: "+size);
-        for(int i=0;i<size;i++){
-            MyLog.i("我进了getCurrentIndex list.get(i) "+i+" : "+list.get(i).booleanValue());
-          if(!list.get(i).booleanValue()){
-              MyLog.i("判断当前应该索引是: "+i);
-              currentIndex=i;
-              break;
-          }
+        MyLog.i("我进了getCurrentIndex: " + size);
+        for (int i = 0; i < size; i++) {
+            MyLog.i("我进了getCurrentIndex list.get(i) " + i + " : " + list.get(i).booleanValue());
+            if (!list.get(i).booleanValue()) {
+                MyLog.i("判断当前应该索引是: " + i);
+                currentIndex = i;
+                break;
+            }
         }
     }
 
-    public void initCK(){
+    public void initCK() {
 
         ((CheckBox) ck1.getTag()).setChecked(false);
         ((CheckBox) ck1.getTag()).setEnabled(true);
@@ -263,9 +314,9 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
 
         ((CheckBox) ck4.getTag()).setChecked(false);
         ((CheckBox) ck4.getTag()).setEnabled(true);
-        currentIndex=0;
-        for(int i=0;i<list.size();i++){
-            list.set(i,false);
+        currentIndex = 0;
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, false);
         }
         ck1.setEnabled(false);
         ck2.setEnabled(false);
@@ -281,49 +332,84 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
         ck4.setText("");
     }
 
-    public void startToAdvertisement(int requestCode){
-        Intent intent=new Intent(this,AdvertisementActivity.class);
-        startActivityForResult(intent,requestCode);
+    public void startToAdvertisement(int requestCode) {
+        Intent intent = new Intent(this, AdvertisementActivity.class);
+        startActivityForResult(intent, requestCode);
+    }
+
+
+    AdvertUtil advertUtil;
+    private boolean isFirst;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // advertUtil  =new AdvertUtil(bottomParent,this);
+        if (isFirst) {
+            advertUtil = new AdvertUtil(bottomParent, this);
+            advertUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_bottom, bottomParent.getWidth(), bottomParent.getHeight());
+        }
+
+        isFirst = true;
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        MyLog.i("onActivityResult我反悔了: "+requestCode+"  ;   "+resultCode);
-        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
-        if (requestCode == 1/* && resultCode == 3*/) {
-            //弹窗
-            GameAdverBackDialog.Builder(this)
-                    .setMessage("恭喜你,奖励您")
-                    .setTitle("+90")
-                    .setIconId(R.mipmap.win)
-                    .setRightButtonText("继续答题")
-                    .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            initCK();
-                        }
-                    })
-                    .build().shown();
-        }
+    protected void onStart() {
+        super.onStart();
 
-        if (requestCode == 2) {
-            //弹窗
-            //弹窗
-            GameAdverBackDialog.Builder(this)
-                    .setMessage("正确答案是")
-                    .setIconId(R.mipmap.answer)
-                    .setRightButtonText("继续答题")
-                    .setAnswer("大吉大利")
-                    .hasAdvert(true)
-                    .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            initCK();
-                        }
-                    })
-                    .build().shown();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (advertUtil != null && advertUtil.getmTTAd() != null) {
+            advertUtil.getmTTAd().destroy();
         }
     }
 
+    AdvertUtil advertFanBeiUtil;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void checkAdverdialogBean(AdverdialogBean adverdialogBean) {
+        //选中LoanFragment页面
+        if (adverdialogBean.getType() == ApplicationPrams.GameCai) {
+            if(adverdialogBean.isSuccess()){
+                GameAdverBackDialog adverBackDialog = GameAdverBackDialog.Builder(this)
+                        .setMessage("恭喜你,奖励您")
+                        .setTitle("+90")
+                        .setIconId(R.mipmap.win)
+                        .hasAdvert(true)
+                        .setRightButtonText("继续答题")
+                        .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                initCK();
+                            }
+                        }).build();
+                adverBackDialog.shown();
+                advertFanBeiUtil = new AdvertUtil(adverBackDialog.getAdvertLayout(), GameCaiActivity.this);
+                advertFanBeiUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_back_dialog_bottom, (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
+                        (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
+            }else{
+                GameAdverBackDialog gameAdverBackDialog=   GameAdverBackDialog.Builder(this)
+                        .setMessage("正确答案是")
+                        .setIconId(R.mipmap.answer)
+                        .setRightButtonText("继续答题")
+                        .setAnswer("大吉大利")
+                        .hasAdvert(true)
+                        .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                initCK();
+                            }
+                        })
+                        .build().shown();
+                advertFanBeiUtil = new AdvertUtil(gameAdverBackDialog.getAdvertLayout(), GameCaiActivity.this);
+                advertFanBeiUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_back_dialog_bottom, (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
+                        (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
+            }
+
+        }
+
+    }
 }

@@ -22,6 +22,7 @@ import com.dudu.huodai.mvp.model.postbean.RecomBean;
 import com.dudu.huodai.mvp.model.postbean.WebViewBean;
 import com.dudu.huodai.mvp.presenters.RecomMinePresenter;
 import com.dudu.huodai.mvp.view.RecomMineImpl;
+import com.dudu.huodai.params.ApplicationPrams;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -66,6 +67,26 @@ public class RecomMineActivity extends BaseMvpActivity<RecomMineImpl, RecomMineP
     @Override
     public boolean isUseLayoutRes() {
         return true;
+    }
+
+    @Override
+    protected void startToAdvert(boolean isScreenOn) {
+        Intent intent=new Intent(this,AdvertSplashActivity.class);
+        if(isScreenOn){
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_sceenon_advertId);
+        }else{
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_restart_advertId);
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    protected void screenOn() {
+    }
+
+    @Override
+    protected void screenOff() {
+
     }
 
     @Override

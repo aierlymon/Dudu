@@ -53,7 +53,7 @@ public class App extends Application {
         NetWorkStateBroadcast.isOnline.set(Utils.isNetworkConnected(this));
 
         //微博
-        WbSdk.install(this,new AuthInfo(this, APP_WB_KEY, "http://www.sina.com", SCOPE));
+      //  WbSdk.install(this,new AuthInfo(this, APP_WB_KEY, "http://www.sina.com", SCOPE));
 
       //  TTAdManager.requestPermissionIfNecessary(this);
         //穿山甲SDK初始化

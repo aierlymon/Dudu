@@ -109,6 +109,6 @@ dependencies {
     annotationProcessor rootProject.ext.annotationProcessorList["butterknife-compiler"]
     implementation project(':baselib')
     implementation project(path: ':model')
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    //implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 
 }

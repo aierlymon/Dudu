@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,8 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.dudu.baselib.utils.MyLog;
+import com.dudu.huodai.AdvertSplashActivity;
 import com.dudu.huodai.AllStoryActivity;
-import com.dudu.huodai.ApplicationPrams;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.GameCaiActivity;
 import com.dudu.huodai.GameCircleActivity;
 import com.dudu.huodai.GameSmashEggActivity;
@@ -186,11 +186,15 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     if (position1 > 3) {
                         switch (position1) {
                             case 4:
-                                Intent gameTree = new Intent(mContext, GameTreeActivity.class);
+                                Intent gameTree = new Intent(mContext, AdvertSplashActivity.class);
+                                gameTree.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_game_tree_kai);
+                                gameTree.putExtra(ApplicationPrams.key_tiaozhuan,ApplicationPrams.GameTree);
                                 mContext.startActivity(gameTree);
                                 break;
                             case 5:
-                                Intent gameSmash = new Intent(mContext, GameSmashEggActivity.class);
+                                Intent gameSmash = new Intent(mContext, AdvertSplashActivity.class);
+                                gameSmash.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_game_gold_kai);
+                                gameSmash.putExtra(ApplicationPrams.key_tiaozhuan,ApplicationPrams.GameGoldEgg);
                                 mContext.startActivity(gameSmash);
                                 break;
                             case 6:
@@ -198,7 +202,9 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                                 mContext.startActivity(gameCai);
                                 break;
                             case 7:
-                                Intent gammeCircle = new Intent(mContext, GameCircleActivity.class);
+                                Intent gammeCircle = new Intent(mContext, AdvertSplashActivity.class);
+                                gammeCircle.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_game_circle_kai);
+                                gammeCircle.putExtra(ApplicationPrams.key_tiaozhuan,ApplicationPrams.GameCiccle);
                                 mContext.startActivity(gammeCircle);
                                 break;
                         }

@@ -7,7 +7,7 @@ import com.dudu.baselib.http.myrxsubcribe.MySubscriber;
 import com.dudu.baselib.mvp.BasePresenter;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
-import com.dudu.huodai.ApplicationPrams;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.mvp.view.LoginViewimpl;
 import com.dudu.model.bean.LoginCallBackBean;
 import com.google.gson.JsonObject;

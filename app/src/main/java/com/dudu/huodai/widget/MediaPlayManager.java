@@ -3,7 +3,6 @@ package com.dudu.huodai.widget;
 import android.media.MediaPlayer;
 
 import com.dudu.baselib.utils.MyLog;
-import com.dudu.huodai.ApplicationPrams;
 
 import java.util.Timer;
 import java.util.concurrent.atomic.AtomicInteger;

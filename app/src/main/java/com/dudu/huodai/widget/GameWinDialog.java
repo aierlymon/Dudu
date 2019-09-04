@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,11 @@ public class GameWinDialog extends Dialog {
     private int IconId = -1;
     private boolean isWin;
     private boolean hasAdvert;
+    private  RelativeLayout advertLayout;
+
+    public RelativeLayout getAdvertLayout() {
+        return advertLayout;
+    }
 
     public interface onConfirmClickListener {
         void onClick(View view);
@@ -41,7 +47,7 @@ public class GameWinDialog extends Dialog {
         void onClick(View view);
     }
 
-    private GameWinDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId, boolean isWin,boolean hasAdvert,
+    private GameWinDialog(@NonNull Context context, String title, String message, String leftButtonString, String rightButtonString, int IconId, boolean isWin, boolean hasAdvert,
                           onConfirmClickListener onConfirmClickListener, onCancelClickListener onCancelClickListener) {
         super(context, R.style.UpdateDialog);
         this.TITLE = title;
@@ -50,7 +56,7 @@ public class GameWinDialog extends Dialog {
         this.rightButtonString = rightButtonString;
         this.IconId = IconId;
         this.isWin = isWin;
-        this.hasAdvert=hasAdvert;
+        this.hasAdvert = hasAdvert;
 
         this.ONCONFIRMCLICKLISTENER = onConfirmClickListener;
         this.ONCANCELCLICKLISTENER = onCancelClickListener;
@@ -68,6 +74,13 @@ public class GameWinDialog extends Dialog {
     public static Builder Builder(Context context) {
         return new Builder(context);
     }
+
+
+    public int getWidth(){
+        return dialog_parent.getWidth();
+    }
+
+    LinearLayout dialog_parent;
 
     private void initView() {
 
@@ -92,11 +105,11 @@ public class GameWinDialog extends Dialog {
         ImageView gife = ((ImageView) findViewById(R.id.gift));
         LinearLayout rightLayout = (LinearLayout) findViewById(R.id.right_layout);
         LinearLayout stateLayout = (LinearLayout) findViewById(R.id.state_layout);
-        LinearLayout dialog_parent = (LinearLayout) findViewById(R.id.dialog_parent);
-        LinearLayout advertLayout = (LinearLayout) findViewById(R.id.advert_parent);
+        dialog_parent = (LinearLayout) findViewById(R.id.dialog_parent);
+        advertLayout = (RelativeLayout) findViewById(R.id.advert_parent);
 
 
-        if(!hasAdvert){
+        if (!hasAdvert) {
             advertLayout.setVisibility(View.GONE);
         }
 
@@ -174,6 +187,7 @@ public class GameWinDialog extends Dialog {
         private int IconId;
         private boolean isWin;
         private boolean hasAdvert;
+        private View view;
 
         private onConfirmClickListener mOnConfirmClickListener;
         private onCancelClickListener mOnCcancelClickListener;
@@ -204,7 +218,7 @@ public class GameWinDialog extends Dialog {
         }
 
         public GameWinDialog build() {
-            return new GameWinDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId, isWin,hasAdvert,
+            return new GameWinDialog(mContext, mTitle, mMessage, leftButtonText, rightButtonText, IconId, isWin, hasAdvert,
                     mOnConfirmClickListener, mOnCcancelClickListener);
         }
 
@@ -230,6 +244,11 @@ public class GameWinDialog extends Dialog {
 
         public Builder isWin(boolean isWin) {
             this.isWin = isWin;
+            return this;
+        }
+
+        public Builder setView(View view) {
+            this.view = view;
             return this;
         }
     }

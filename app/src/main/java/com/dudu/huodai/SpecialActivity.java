@@ -1,34 +1,29 @@
 package com.dudu.huodai;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.dudu.baselib.base.BaseMvpActivity;
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
 import com.dudu.baselib.utils.CustomToast;
 import com.dudu.baselib.utils.MyLog;
-import com.dudu.baselib.utils.StatusBarUtil;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
 import com.dudu.huodai.mvp.presenters.SpecialPresenter;
 import com.dudu.huodai.mvp.view.SpecialImpl;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
-import com.dudu.huodai.ui.adapter.decoration.SpaceItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPresenter> implements SpecialImpl {
 
@@ -139,6 +134,27 @@ public class SpecialActivity extends BaseTitleActivity<SpecialImpl, SpecialPrese
     @Override
     public boolean isUseLayoutRes() {
         return true;
+    }
+
+    @Override
+    protected void startToAdvert(boolean isScreenOn) {
+        Intent intent=new Intent(this,AdvertSplashActivity.class);
+        if(isScreenOn){
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_sceenon_advertId);
+        }else{
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_restart_advertId);
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    protected void screenOn() {
+
+    }
+
+    @Override
+    protected void screenOff() {
+
     }
 
     @Override

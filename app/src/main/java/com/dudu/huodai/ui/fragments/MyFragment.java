@@ -2,18 +2,14 @@ package com.dudu.huodai.ui.fragments;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dudu.baselib.base.BaseMVPFragment;
 import com.dudu.baselib.http.HttpConstant;
-import com.dudu.baselib.utils.Utils;
-import com.dudu.huodai.ApplicationPrams;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.HistoryActivity;
 import com.dudu.huodai.R;
 import com.dudu.huodai.mvp.base.BaseTitleFragment;
@@ -23,8 +19,6 @@ import com.dudu.huodai.mvp.presenters.MyFrgPresenter;
 import com.dudu.huodai.mvp.view.MyViewImpl;
 import com.dudu.huodai.ui.adapter.MyRevAdapter;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
-import com.dudu.huodai.ui.adapter.decoration.SpaceItemDecoration;
-import com.dudu.huodai.widget.CircleImageView;
 
 import org.greenrobot.eventbus.EventBus;
 

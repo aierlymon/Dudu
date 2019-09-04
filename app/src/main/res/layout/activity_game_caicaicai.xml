@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/game_cai_big_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/left_right_marigin">
@@ -90,12 +91,12 @@
                 android:textSize="@dimen/font_px12"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/gg"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_parent"
                 android:text="@string/game_activity"
                 android:textColor="@color/game_huo_text"/>
 
-            <ImageView
-                android:id="@+id/gg"
+            <RelativeLayout
+                android:id="@+id/bottom_parent"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -103,8 +104,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="1.0"
-                app:layout_constraintHeight_percent="0.75"
-                android:background="#fe1"/>
+                app:layout_constraintHeight_percent="0.75" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 

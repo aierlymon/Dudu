@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.dudu.baselib.base.BaseMVPFragment;
 import com.dudu.baselib.utils.CustomToast;
-import com.dudu.huodai.ApplicationPrams;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.R;
 import com.dudu.huodai.RecomMineActivity;
 import com.dudu.huodai.mvp.model.postbean.RecomBean;

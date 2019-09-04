@@ -18,6 +18,7 @@ import com.dudu.baselib.utils.StatusBarUtil;
 import com.dudu.huodai.mvp.model.postbean.RecomBean;
 import com.dudu.huodai.mvp.presenters.FliterPresenter;
 import com.dudu.huodai.mvp.view.FliterImpl;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -62,6 +63,27 @@ public class FilterActivity extends BaseMvpActivity<FliterImpl, FliterPresenter>
     @Override
     public boolean isUseLayoutRes() {
         return true;
+    }
+
+    @Override
+    protected void startToAdvert(boolean isScreenOn) {
+        Intent intent=new Intent(this,AdvertSplashActivity.class);
+        if(isScreenOn){
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_sceenon_advertId);
+        }else{
+            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_restart_advertId);
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    protected void screenOn() {
+
+    }
+
+    @Override
+    protected void screenOff() {
+
     }
 
     @Override

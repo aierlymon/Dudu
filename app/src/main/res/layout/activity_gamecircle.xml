@@ -109,80 +109,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/x5"
-                android:layout_marginRight="@dimen/x20"
+                android:layout_marginStart="@dimen/x5"
+                android:layout_marginLeft="@dimen/x5"
+                android:layout_marginEnd="@dimen/x5"
+                android:layout_marginRight="@dimen/x5"
+                android:layout_marginBottom="@dimen/x5"
                 android:gravity="center"
                 android:text="活动规则"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_px12" />
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/bottom_parent"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/dudu_dialog_money_back"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.85"
+            app:layout_constraintHeight_percent="0.80"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guize"
             app:layout_constraintWidth_percent="1.0">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/y25"
-                android:layout_margin="@dimen/left_right_marigin">
 
-                <com.dudu.huodai.widget.CircleImageView
-                    android:id="@+id/dialog_icon"
-                    android:layout_width="@dimen/x16"
-                    android:layout_height="@dimen/x16"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_launcher" />
 
-                <TextView
-                    android:id="@+id/icon_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/x3"
-                    android:layout_toRightOf="@+id/dialog_icon"
-                    android:text="图标名称"
-                    android:textColor="@color/content_color"
-                    android:textSize="@dimen/font_px12" />
 
-                <Button
-                    android:id="@+id/understand"
-                    android:layout_width="@dimen/x70"
-                    android:layout_height="@dimen/y20"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/dudu_dialog_understand_button"
-                    android:padding="@dimen/x3"
-                    android:text="点击了解"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_px12" />
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="4"
-                android:background="#0f1" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/left_right_marigin"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="这个是标题文字"
-                android:textColor="@color/content_color"
-                android:textSize="@dimen/font_px14" />
-        </LinearLayout>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

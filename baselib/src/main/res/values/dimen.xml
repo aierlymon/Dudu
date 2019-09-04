@@ -40,4 +40,6 @@
     <dimen name="font_px40">@dimen/x38</dimen>
     <dimen name="media_button">@dimen/x30</dimen>
     <dimen name="float_button">@dimen/x70</dimen>
+
+    <dimen name="game_win_dialog_advert_height">@dimen/y140</dimen>
 </resources>

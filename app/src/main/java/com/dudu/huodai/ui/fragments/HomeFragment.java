@@ -16,11 +16,13 @@ import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
 import com.dudu.baselib.otherpackage.config.TTAdManagerHolder;
 import com.dudu.baselib.utils.CustomToast;
 import com.dudu.baselib.utils.MyLog;
+import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.R;
 import com.dudu.huodai.mvp.base.BaseTitleFragment;
 import com.dudu.huodai.mvp.model.HomeOtherAdvertHolder;
 import com.dudu.huodai.mvp.presenters.HomeFrgPresenter;
 import com.dudu.huodai.mvp.view.HomeFrgViewImpl;
+import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -49,6 +51,7 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
     private int pageCount;
 
     private int count=10;//请求数据个数
+    private TTNativeExpressAd mTTAD;
 
     public static HomeFragment newInstance(String info) {
         HomeFragment fragment = new HomeFragment();
@@ -209,12 +212,14 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
     private TTAdNative mTTAdNative;
     private void requesetOtherAdvert() {
 
+        float[] WH=Utils.getScreenWH(getContext());
+       int width= Utils.px2dip(getContext(),WH[0]);
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId("928300316") //广告位id
+                .setCodeId(ApplicationPrams.public_firstpage_advertId) //广告位id
                 .setSupportDeepLink(true)
                 .setAdCount(1) //请求广告数量为1到3条
-                .setExpressViewAcceptedSize(1920,1080) //期望个性化模板广告view的size,单位dp
-                .setImageAcceptedSize(640,320) //这个参数设置即可，不影响个性化模板广告的size
+                .setExpressViewAcceptedSize(width,1020) //期望个性化模板广告view的size,单位dp
+                .setImageAcceptedSize(100,200) //这个参数设置即可，不影响个性化模板广告的size
                 .build();
 
         mTTAdNative.loadNativeExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
@@ -228,8 +233,9 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
                 if (ads == null || ads.size() == 0){
                     return;
                 }
-                bindAdListener(ads.get(0));
-                ads.get(0).render();//调用render开始渲染广告
+                mTTAD=ads.get(0);
+                bindAdListener(mTTAD);
+                mTTAD.render();//调用render开始渲染广告
                 MyLog.i("ad是 广告信息: "+"  view: "+ads.get(0).getExpressAdView());
 
             }
@@ -263,4 +269,10 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mTTAD!=null)
+        mTTAD.destroy();
+    }
 }
