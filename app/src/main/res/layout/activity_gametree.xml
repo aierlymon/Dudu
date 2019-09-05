@@ -1,68 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/game_tree_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/game_tree_back"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@mipmap/game_tree_back">
-
-
-    </RelativeLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/left_right_marigin"
-        android:layout_marginRight="@dimen/left_right_marigin"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/guize"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginStart="@dimen/x5"
-                android:layout_marginLeft="@dimen/x5"
-                android:layout_marginTop="@dimen/x20"
-                android:layout_marginEnd="@dimen/x5"
-                android:layout_marginRight="@dimen/x5"
-                android:layout_marginBottom="@dimen/x5"
-                android:gravity="center"
-                android:text="活动规则"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font_px12" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/bottom_parent"
-            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/dudu_dialog_money_back"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.7"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="1.0">
+            android:layout_weight="1"
+            android:background="@mipmap/game_tree_back">
 
 
         </RelativeLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/left_right_marigin"
+            android:layout_marginRight="@dimen/left_right_marigin"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/guize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="@dimen/x5"
+                    android:layout_marginLeft="@dimen/x5"
+                    android:layout_marginTop="@dimen/x20"
+                    android:layout_marginEnd="@dimen/x5"
+                    android:layout_marginRight="@dimen/x5"
+                    android:layout_marginBottom="@dimen/x5"
+                    android:gravity="center"
+                    android:text="活动规则"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_px12" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/tree_bottom_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/dudu_dialog_money_back"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHeight_percent="0.7"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="1.0">
 
 
-</LinearLayout>
+            </RelativeLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

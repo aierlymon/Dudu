@@ -11,7 +11,9 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.dudu.baselib.utils.MyLog;
+import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
+import com.dudu.huodai.mvp.model.postbean.AdverdialogBean;
 import com.dudu.huodai.mvp.presenters.GameCirclePresenter;
 import com.dudu.huodai.mvp.view.GameCirclmpl;
 import com.dudu.huodai.params.ApplicationPrams;
@@ -20,6 +22,9 @@ import com.dudu.huodai.widget.CirclePanView;
 import com.dudu.huodai.widget.GameAdverBackDialog;
 import com.dudu.huodai.widget.GameProgressBar;
 import com.dudu.huodai.widget.GameWinDialog;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Random;
 
@@ -33,9 +38,6 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
     @BindView(R.id.game_circle_pan)
     CirclePanView circlePanView;
     private boolean isRunning;
-
-
-
 
 
     @BindView(R.id.game_progress)
@@ -53,8 +55,14 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
     @BindView(R.id.img_back)
     ImageView imgBack;
 
+    @BindView(R.id.game_circle_parent)
+    RelativeLayout gameCircleParent;
+
     @BindView(R.id.bottom_parent)
     RelativeLayout bottomParent;
+    private AdvertUtil circleDialogBottomAdvert;
+    private AdvertUtil circleFanBeiAdvert;
+    private AdvertUtil circlefbBackAdvert;
 
     @Override
     protected void initRequest() {
@@ -74,16 +82,17 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
             @Override
             public void value(String s) {
                 isRunning = false;
-                GameWinDialog.Builder(GameCircleActivity.this)
+                GameWinDialog gameWinDialog = GameWinDialog.Builder(GameCircleActivity.this)
                         .setMessage("恭喜您，奖励您")
                         .setTitle("+80")
                         .setIconId(R.mipmap.win)
                         .setLeftButtonText("继续摇")
                         .setRightButtonText("金豆翻倍")
+                        .hasAdvert(true)
                         .setOnCancelClickListener(new GameWinDialog.onCancelClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if(auToCheck.isChecked()){
+                                if (auToCheck.isChecked()) {
                                     Random random = new Random();
                                     circlePanView.rotate(random.nextInt(6));
                                 }
@@ -92,13 +101,23 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
                         .setOnConfirmClickListener(new GameWinDialog.onConfirmClickListener() {
                             @Override
                             public void onClick(View view) {
-                                startToAdvertisement(1);
+                                circleFanBeiAdvert = new AdvertUtil(gameCircleParent, GameCircleActivity.this);
+                                float[] WH = Utils.getScreenWH(GameCircleActivity.this.getApplicationContext());
+                                circleFanBeiAdvert.setVideoType(ApplicationPrams.GameCiccle);
+                                circleFanBeiAdvert.setSuccess(true);
+                                circleFanBeiAdvert.loadVideo(getmTTAdNative(), ApplicationPrams.public_game_circle_jili, (int) WH[0], (int) WH[1]);
                             }
                         })
                         .build().shown();
+
+                circleDialogBottomAdvert = new AdvertUtil(gameWinDialog.getAdvertLayout(), GameCircleActivity.this);
+                circleDialogBottomAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_circle_dialog_bottom,
+                        (int) ((Utils.getScreenWH(GameCircleActivity.this.getApplicationContext())[0]) * 0.9),
+                        (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
             }
         });
     }
+
 
     @Override
     protected int getBodyLayoutRes() {
@@ -122,11 +141,11 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
 
     @Override
     protected void startToAdvert(boolean isScreenOn) {
-        Intent intent=new Intent(this,AdvertSplashActivity.class);
-        if(isScreenOn){
-            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_sceenon_advertId);
-        }else{
-            intent.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_restart_advertId);
+        Intent intent = new Intent(this, AdvertSplashActivity.class);
+        if (isScreenOn) {
+            intent.putExtra(ApplicationPrams.adverId, ApplicationPrams.public_sceenon_advertId);
+        } else {
+            intent.putExtra(ApplicationPrams.adverId, ApplicationPrams.public_restart_advertId);
         }
         startActivity(intent);
     }
@@ -156,6 +175,10 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
 
     }
 
+    @Override
+    public boolean isUseEventBus() {
+        return true;
+    }
 
     @OnClick({R.id.game_circle_clock})
     public void onClick(View v) {
@@ -180,54 +203,67 @@ public class GameCircleActivity extends BaseTitleActivity<GameCirclmpl, GameCirc
         }
     }
 
-    public void startToAdvertisement(int requestCode) {
-        Intent intent = new Intent(this, AdvertisementActivity.class);
-        startActivityForResult(intent, requestCode);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        MyLog.i("onActivityResult我反悔了: "+requestCode+"  ;   "+resultCode);
-        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
-        if (requestCode == 1) {
-            //弹窗
-            GameAdverBackDialog.Builder(this)
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void checkAdverdialogBean(AdverdialogBean adverdialogBean) {
+        //选中LoanFragment页面
+        if (adverdialogBean.getType() == ApplicationPrams.GameCiccle) {
+
+            GameAdverBackDialog adverBackDialog = GameAdverBackDialog.Builder(this)
                     .setMessage("恭喜你,奖励您")
                     .setTitle("+160")
                     .setIconId(R.mipmap.win)
+                    .hasAdvert(true)
                     .setRightButtonText("继续摇")
-                    .setOnConfirmClickListener(view -> {
-                        if(auToCheck.isChecked()){
-                            Random random = new Random();
-                            circlePanView.rotate(random.nextInt(6));
+                    .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (auToCheck.isChecked()) {
+                                Random random = new Random();
+                                circlePanView.rotate(random.nextInt(6));
+                            }
                         }
-                    })
-                    .build().shown();
+                    }).build();
+            adverBackDialog.shown();
+            circlefbBackAdvert = new AdvertUtil(adverBackDialog.getAdvertLayout(), GameCircleActivity.this);
+            circlefbBackAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_back_dialog_bottom, (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
+                    (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
+
         }
-
     }
-
-    AdvertUtil advertUtil;
+    AdvertUtil circleBottomAdvert;
     private boolean isFirst;
+
     @Override
     protected void onResume() {
         super.onResume();
-        // advertUtil  =new AdvertUtil(bottomParent,this);
+        // caiBottomAdvert  =new AdvertUtil(bottomParent,this);
         MyLog.i("onResume: aaaaaaaaaaaa");
-        if(isFirst){
-            advertUtil=new AdvertUtil(bottomParent,this);
-            advertUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_bottom, bottomParent.getWidth(), bottomParent.getHeight());
+        if (isFirst) {
+            circleBottomAdvert = new AdvertUtil(bottomParent, this);
+            circleBottomAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_circle_bottom, bottomParent.getWidth(), bottomParent.getHeight());
         }
 
-        isFirst=true;
+        isFirst = true;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (advertUtil != null && advertUtil.getmTTAd() != null) {
-            advertUtil.getmTTAd().destroy();
+        if (circleBottomAdvert != null && circleBottomAdvert.getmTTAd() != null) {
+            circleBottomAdvert.getmTTAd().destroy();
+        }
+
+        if (circleDialogBottomAdvert != null && circleDialogBottomAdvert.getmTTAd() != null) {
+            circleDialogBottomAdvert.getmTTAd().destroy();
+        }
+
+        if (circleFanBeiAdvert != null && circleFanBeiAdvert.getmTTAd() != null) {
+            circleFanBeiAdvert.getmTTAd().destroy();
+        }
+
+        if (circlefbBackAdvert != null && circlefbBackAdvert.getmTTAd() != null) {
+            circlefbBackAdvert.getmTTAd().destroy();
         }
     }
 }

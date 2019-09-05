@@ -13,7 +13,9 @@ import android.widget.RelativeLayout;
 import androidx.annotation.Nullable;
 
 import com.dudu.baselib.utils.MyLog;
+import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
+import com.dudu.huodai.mvp.model.postbean.AdverdialogBean;
 import com.dudu.huodai.mvp.presenters.GameTreePresenter;
 import com.dudu.huodai.mvp.view.GameTreeImpl;
 import com.dudu.huodai.params.ApplicationPrams;
@@ -21,6 +23,9 @@ import com.dudu.huodai.utils.AdvertUtil;
 import com.dudu.huodai.utils.SoundUtils;
 import com.dudu.huodai.widget.GameAdverBackDialog;
 import com.dudu.huodai.widget.GameWinDialog;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,8 +45,15 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
     private long currentTime=-1;
     private boolean isGo=true;
 
-    @BindView(R.id.bottom_parent)
+    @BindView(R.id.tree_bottom_parent)
     RelativeLayout bottomParent;
+
+    @BindView(R.id.game_tree_parent)
+    RelativeLayout gameTreeParent;
+
+    private AdvertUtil gameTreeFanBeiAdvert;
+    private AdvertUtil gameTreeBackAdvert;
+    private AdvertUtil gameTreeDialogBottonAdvert;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,7 +115,7 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
             @Override
             public void run() {
                 SoundUtils.playSound(GameTreeActivity.this,R.raw.yao);
-                GameWinDialog.Builder(GameTreeActivity.this)
+              GameWinDialog gameWinDialog=  GameWinDialog.Builder(GameTreeActivity.this)
                         .setMessage("恭喜您，奖励您")
                         .setTitle("+80")
                         .setIconId(R.mipmap.win)
@@ -119,10 +131,19 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
                         .setOnConfirmClickListener(new GameWinDialog.onConfirmClickListener() {
                             @Override
                             public void onClick(View view) {
-                                startToAdvertisement(1);
+                                gameTreeBackAdvert = new AdvertUtil(gameTreeParent, GameTreeActivity.this);
+                                float[] WH = Utils.getScreenWH(GameTreeActivity.this.getApplicationContext());
+                                gameTreeBackAdvert.setVideoType(ApplicationPrams.GameTree);
+                                gameTreeBackAdvert.setSuccess(true);
+                                gameTreeBackAdvert.loadVideo(getmTTAdNative(), ApplicationPrams.public_game_tree_jili, (int) WH[0], (int) WH[1]);
                             }
                         })
                         .build().shown();
+
+                gameTreeDialogBottonAdvert = new AdvertUtil(gameWinDialog.getAdvertLayout(), GameTreeActivity.this);
+                gameTreeDialogBottonAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_tree_back_dialog_bottom,
+                        (int) ((Utils.getScreenWH(GameTreeActivity.this.getApplicationContext())[0]) * 0.9),
+                        (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
                 MyLog.i("执行完弹窗");
             }
         });
@@ -136,7 +157,7 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
     @Override
     public void init() {
         ButterKnife.bind(this);
-        setTitle(getResources().getString(R.string.game_caicai));
+        setTitle(getResources().getString(R.string.game_tree));
     }
 
     @Override
@@ -200,31 +221,33 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
         startActivityForResult(intent,requestCode);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        MyLog.i("onActivityResult我反悔了: "+requestCode+"  ;   "+resultCode);
-        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
-        if (requestCode == 1) {
-            //弹窗
-            GameAdverBackDialog.Builder(this)
-                    .setMessage("恭喜你,奖励您")
-                    .setTitle("+160")
-                    .setIconId(R.mipmap.win)
-                    .setRightButtonText("继续摇")
-                    .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            isGo=true;
-                        }
-                    })
-                    .build().shown();
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void checkAdverdialogBean(AdverdialogBean adverdialogBean) {
+        //选中LoanFragment页面
+        if (adverdialogBean.getType() == ApplicationPrams.GameTree) {
+                GameAdverBackDialog adverBackDialog = GameAdverBackDialog.Builder(this)
+                        .setMessage("恭喜你,奖励您")
+                        .setTitle("+160")
+                        .setIconId(R.mipmap.win)
+                        .hasAdvert(true)
+                        .setRightButtonText("继续摇")
+                        .setOnConfirmClickListener(new GameAdverBackDialog.onConfirmClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                isGo=true;
+                            }
+                        }).build();
+                adverBackDialog.shown();
+                gameTreeFanBeiAdvert = new AdvertUtil(adverBackDialog.getAdvertLayout(), GameTreeActivity.this);
+                gameTreeFanBeiAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_back_dialog_bottom, (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
+                        (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
         }
 
     }
 
 
-    AdvertUtil advertUtil;
+    AdvertUtil gameTreeFirstAdvert;
     private boolean isFirst;
     @Override
     protected void onResume() {
@@ -237,10 +260,10 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
                     sensor,
                     SensorManager.SENSOR_DELAY_GAME);//这里选择感应频率
         }
-        // advertUtil  =new AdvertUtil(bottomParent,this);
+        // caiBottomAdvert  =new AdvertUtil(bottomParent,this);
         if(isFirst){
-            advertUtil=new AdvertUtil(bottomParent,this);
-            advertUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_bottom, bottomParent.getWidth(), bottomParent.getHeight());
+            gameTreeFirstAdvert =new AdvertUtil(bottomParent,GameTreeActivity.this);
+            gameTreeFirstAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_tree_bottom, bottomParent.getWidth(), bottomParent.getHeight());
         }
 
         isFirst=true;
@@ -253,10 +276,28 @@ public class GameTreeActivity extends BaseTitleActivity<GameTreeImpl, GameTreePr
     }
 
     @Override
+    public boolean isUseEventBus() {
+        return true;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (advertUtil != null && advertUtil.getmTTAd() != null) {
-            advertUtil.getmTTAd().destroy();
+        if (gameTreeFirstAdvert != null && gameTreeFirstAdvert.getmTTAd() != null) {
+            gameTreeFirstAdvert.getmTTAd().destroy();
         }
+
+        if(gameTreeBackAdvert !=null&& gameTreeBackAdvert.getmTTAd()!=null){
+            gameTreeBackAdvert.getmTTAd().destroy();
+        }
+
+        if (gameTreeDialogBottonAdvert != null && gameTreeDialogBottonAdvert.getmTTAd() != null) {
+            gameTreeDialogBottonAdvert.getmTTAd().destroy();
+        }
+
+        if(gameTreeFanBeiAdvert !=null&& gameTreeFanBeiAdvert.getmTTAd()!=null){
+            gameTreeFanBeiAdvert.getmTTAd().destroy();
+        }
+
     }
 }

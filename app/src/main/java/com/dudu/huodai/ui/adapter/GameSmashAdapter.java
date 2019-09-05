@@ -111,26 +111,9 @@ public class GameSmashAdapter extends RecyclerView.Adapter<GameSmashAdapter.Game
                             options.override(size, size); //设置加载的图片大小
                             Glide.with(mContext).load(R.mipmap.badegg).apply(options).into(glodImage);
 
-                            //弹窗
-                            GameWinDialog.Builder(mContext)
-                                    .setMessage("恭喜您，奖励您")
-                                    .setTitle("+80")
-                                    .setIconId(R.mipmap.win)
-                                    .setLeftButtonText("继续砸")
-                                    .setRightButtonText("金豆翻倍")
-                                    .setOnCancelClickListener(new GameWinDialog.onCancelClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            notifyDataSetChanged();
-                                        }
-                                    })
-                                    .setOnConfirmClickListener(new GameWinDialog.onConfirmClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            EventBus.getDefault().post(new GameSmashBean());
-                                        }
-                                    })
-                                    .build().shown();
+                            EventBus.getDefault().post(new GameSmashBean());
+
+
                         }
                     });
                 }

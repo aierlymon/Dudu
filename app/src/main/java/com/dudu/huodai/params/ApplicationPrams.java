@@ -41,6 +41,12 @@ public class ApplicationPrams {
     public static final String public_game_gold_bottom="928300804";//签到额翻倍底部广告
     public static final String public_game_tree_bottom="928300403";//签到额翻倍底部广告
 
+    public static final String public_game_cai_dialog_bottom="928300758";//签到回归的底部广告
+    public static final String public_game_circle_dialog_bottom="928300208";//签到的激励视频
+    public static final String public_game_gold_dialog_bottom="928300087";//签到额翻倍底部广告
+    public static final String public_game_tree_dialog_bottom="928300329";//签到额翻倍底部广告
+
+
 
     public static final String public_game_cai_suceesee_jili="928300970";//签到回归的底部广告
     public static final String public_game_cai_fail_jili="928300970";//签到回归的底部广告
@@ -50,7 +56,7 @@ public class ApplicationPrams {
 
 
     public static final String public_game_cai_back_dialog_bottom="928300758";//签到回归的底部广告
-    public static final String public_game_circle_dialog_bottom="928300208";//签到的激励视频
-    public static final String public_game_gold_dialog_bottom="928300087";//签到额翻倍底部广告
-    public static final String public_game_tree_dialog_bottom="928300329";//签到额翻倍底部广告
+    public static final String public_game_circle_back_dialog_bottom="928300208";//签到的激励视频
+    public static final String public_game_gold_back_dialog_bottom="928300087";//签到额翻倍底部广告
+    public static final String public_game_tree_back_dialog_bottom="928300329";//签到额翻倍底部广告
 }

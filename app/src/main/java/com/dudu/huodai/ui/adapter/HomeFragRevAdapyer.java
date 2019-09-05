@@ -186,9 +186,12 @@ public class HomeFragRevAdapyer extends RecyclerView.Adapter<BaseMulViewHolder> 
                     if (position1 > 3) {
                         switch (position1) {
                             case 4:
-                                Intent gameTree = new Intent(mContext, AdvertSplashActivity.class);
+                            /*    Intent gameTree = new Intent(mContext, AdvertSplashActivity.class);
                                 gameTree.putExtra(ApplicationPrams.adverId,ApplicationPrams.public_game_tree_kai);
                                 gameTree.putExtra(ApplicationPrams.key_tiaozhuan,ApplicationPrams.GameTree);
+                                mContext.startActivity(gameTree);*/
+
+                                Intent gameTree = new Intent(mContext, GameTreeActivity.class);
                                 mContext.startActivity(gameTree);
                                 break;
                             case 5:

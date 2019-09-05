@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,7 +62,12 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
 
     private int currentIndex = 0;//当前要填写的ck索引
     List<Boolean> list;
+
     private AdvertUtil gameCaiBackAdvert;
+    AdvertUtil reesultAdvert;
+    AdvertUtil fanBeiAdvert;
+    AdvertUtil caiBottomAdvert;
+
 
     @Override
     protected void initRequest() {
@@ -96,7 +100,6 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
         }
     }
 
-    AdvertUtil advertReultUtil;
 
     private void judegeResult() {
         String str = ck1.getText().toString() + ck2.getText().toString() + ck3.getText().toString() + ck4.getText().toString();
@@ -112,7 +115,7 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                     .setOnCancelClickListener(new GameWinDialog.onCancelClickListener() {
                         @Override
                         public void onClick(View view) {
-
+                            initCK();
                         }
                     })
                     .setOnConfirmClickListener(new GameWinDialog.onConfirmClickListener() {
@@ -128,24 +131,24 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
             gameWinDialog.shown();
 
 
-            advertReultUtil = new AdvertUtil(gameWinDialog.getAdvertLayout(), this);
-            advertReultUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_qiandao_back,
+            reesultAdvert = new AdvertUtil(gameWinDialog.getAdvertLayout(), this);
+            reesultAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_dialog_bottom,
                     (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
                     (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
 
         } else {
-            GameFailDialog.Builder(this)
+          GameFailDialog failDialog=  GameFailDialog.Builder(this)
                     .setMessage("很抱歉你答错了")
                     .setTitle(null)
                     .setIconId(R.mipmap.fail)
                     .setLeftButtonText("重新尝试")
                     .setRightButtonText("我要提示")
-                    .hasAdvert(false)
+                    .hasAdvert(true)
                     .isWin(false)
                     .setOnCancelClickListener(new GameFailDialog.onCancelClickListener() {
                         @Override
                         public void onClick(View view) {
-
+                            initCK();
                         }
                     })
                     .setOnConfirmClickListener(new GameFailDialog.onConfirmClickListener() {
@@ -159,6 +162,10 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                         }
                     })
                     .build().shown();
+            reesultAdvert = new AdvertUtil(failDialog.getAdvertLayout(), this);
+            reesultAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_dialog_bottom,
+                    (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
+                    (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
         }
 
     }
@@ -338,16 +345,15 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
     }
 
 
-    AdvertUtil advertUtil;
     private boolean isFirst;
 
     @Override
     protected void onResume() {
         super.onResume();
-        // advertUtil  =new AdvertUtil(bottomParent,this);
+        // caiBottomAdvert  =new AdvertUtil(bottomParent,this);
         if (isFirst) {
-            advertUtil = new AdvertUtil(bottomParent, this);
-            advertUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_bottom, bottomParent.getWidth(), bottomParent.getHeight());
+            caiBottomAdvert = new AdvertUtil(bottomParent, this);
+            caiBottomAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_bottom, bottomParent.getWidth(), bottomParent.getHeight());
         }
 
         isFirst = true;
@@ -362,12 +368,23 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (advertUtil != null && advertUtil.getmTTAd() != null) {
-            advertUtil.getmTTAd().destroy();
+        if (caiBottomAdvert != null && caiBottomAdvert.getmTTAd() != null) {
+            caiBottomAdvert.getmTTAd().destroy();
+        }
+
+        if(gameCaiBackAdvert!=null&&gameCaiBackAdvert.getmTTAd()!=null){
+            gameCaiBackAdvert.getmTTAd().destroy();
+        }
+
+        if (reesultAdvert != null && reesultAdvert.getmTTAd() != null) {
+            reesultAdvert.getmTTAd().destroy();
+        }
+
+        if(fanBeiAdvert!=null&&fanBeiAdvert.getmTTAd()!=null){
+            fanBeiAdvert.getmTTAd().destroy();
         }
     }
 
-    AdvertUtil advertFanBeiUtil;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void checkAdverdialogBean(AdverdialogBean adverdialogBean) {
@@ -387,8 +404,8 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                             }
                         }).build();
                 adverBackDialog.shown();
-                advertFanBeiUtil = new AdvertUtil(adverBackDialog.getAdvertLayout(), GameCaiActivity.this);
-                advertFanBeiUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_back_dialog_bottom, (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
+                fanBeiAdvert = new AdvertUtil(adverBackDialog.getAdvertLayout(), GameCaiActivity.this);
+                fanBeiAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_back_dialog_bottom, (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
                         (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
             }else{
                 GameAdverBackDialog gameAdverBackDialog=   GameAdverBackDialog.Builder(this)
@@ -404,12 +421,14 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                             }
                         })
                         .build().shown();
-                advertFanBeiUtil = new AdvertUtil(gameAdverBackDialog.getAdvertLayout(), GameCaiActivity.this);
-                advertFanBeiUtil.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_back_dialog_bottom, (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
+                fanBeiAdvert = new AdvertUtil(gameAdverBackDialog.getAdvertLayout(), GameCaiActivity.this);
+                fanBeiAdvert.loadNativeExpressAd(getmTTAdNative(), ApplicationPrams.public_game_cai_back_dialog_bottom, (int) ((Utils.getScreenWH(this.getApplicationContext())[0]) * 0.9),
                         (int) getResources().getDimension(R.dimen.game_win_dialog_advert_height));
             }
 
         }
 
     }
+
+
 }

@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,11 @@ public class GameFailDialog extends Dialog {
     private int IconId = -1;
     private boolean isWin;
     private boolean hasAdvert;
+    RelativeLayout advertLayout;
+
+    public RelativeLayout getAdvertLayout() {
+        return advertLayout;
+    }
 
     public interface onConfirmClickListener {
         void onClick(View view);
@@ -93,7 +99,7 @@ public class GameFailDialog extends Dialog {
 
 
         LinearLayout dialog_parent = (LinearLayout) findViewById(R.id.dialog_parent);
-        LinearLayout advertLayout = (LinearLayout) findViewById(R.id.advert_parent);
+        advertLayout= (RelativeLayout) findViewById(R.id.advert_parent);
 
         if(!hasAdvert){
             advertLayout.setVisibility(View.GONE);
