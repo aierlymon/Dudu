@@ -9,10 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.FilterWord;
+import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.dudu.baselib.broadcast.NetWorkStateBroadcast;
+import com.dudu.baselib.otherpackage.TToast;
 import com.dudu.baselib.otherpackage.config.TTAdManagerHolder;
 import com.dudu.baselib.utils.CustomToast;
 import com.dudu.baselib.utils.MyLog;
@@ -25,6 +28,7 @@ import com.dudu.huodai.mvp.view.HomeFrgViewImpl;
 import com.dudu.huodai.params.ApplicationPrams;
 import com.dudu.huodai.ui.adapter.HomeFragRevAdapyer;
 import com.dudu.huodai.ui.adapter.base.BaseMulDataModel;
+import com.dudu.huodai.widget.DislikeDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
@@ -266,8 +270,46 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
                 fragRevAdapyer.notifyDataSetChanged();
             }
         });
-
+        bindDislike(ad,true);
     }
+
+    private void bindDislike(TTNativeExpressAd ad, boolean customStyle) {
+        if (customStyle) {
+            //使用自定义样式
+            List<FilterWord> words = ad.getFilterWords();
+            if (words == null || words.isEmpty()) {
+                return;
+            }
+
+            final DislikeDialog dislikeDialog = new DislikeDialog(getContext(), words);
+            dislikeDialog.setOnDislikeItemClick(new DislikeDialog.OnDislikeItemClick() {
+                @Override
+                public void onItemClick(FilterWord filterWord) {
+
+                    //用户选择不喜欢原因后，移除广告展示
+                    mPresenter.getList().remove(2);
+                    fragRevAdapyer.notifyDataSetChanged();
+                }
+            });
+            ad.setDislikeDialog(dislikeDialog);
+            return;
+        }
+        //使用默认模板中默认dislike弹出样式
+        ad.setDislikeCallback(getActivity(), new TTAdDislike.DislikeInteractionCallback() {
+            @Override
+            public void onSelected(int position, String value) {
+                //用户选择不喜欢原因后，移除广告展示
+                mPresenter.getList().remove(2);
+                fragRevAdapyer.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancel() {
+                TToast.show(getContext(), "点击取消 ");
+            }
+        });
+    }
+
 
     @Override
     public void onDestroy() {

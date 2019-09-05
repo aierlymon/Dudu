@@ -9,7 +9,9 @@ import android.widget.Toast;
 import androidx.annotation.MainThread;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.FilterWord;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
+import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
@@ -21,6 +23,7 @@ import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.mvp.model.postbean.AdverdialogBean;
 import com.dudu.huodai.mvp.model.postbean.AdvertSplashBean;
+import com.dudu.huodai.widget.DislikeDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -66,8 +69,6 @@ public class AdvertUtil implements TTAppDownloadListener {
         this.viewGroup = viewGroup;
         this.activity = activity;
     }
-
-
 
 
     public void loadBannerAd(TTAdNative mTTAdNative, String codeId, int width, int height) {
@@ -135,6 +136,7 @@ public class AdvertUtil implements TTAppDownloadListener {
     }
 
 
+    private View view;
     private void bindAdListener(TTNativeExpressAd ad) {
 
         ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
@@ -157,12 +159,13 @@ public class AdvertUtil implements TTAppDownloadListener {
             public void onRenderSuccess(View view, float width, float height) {
                 MyLog.i("onRenderSuccess: " + viewGroup + "  view.getWidth(): " + width + "  view.getHeight() " + height);
                 view.setBackgroundColor(Color.BLUE);
+                AdvertUtil.this.view=view;
                 viewGroup.removeView(view);
                 viewGroup.addView(view);
             }
         });
         //dislike设置
-        //  bindDislike(ad, false);
+        bindDislike(ad, false);
         if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
             return;
         }
@@ -232,9 +235,9 @@ public class AdvertUtil implements TTAppDownloadListener {
                         MyLog.i("rewardVideoAd complete");
                         AdverdialogBean adverdialogBean = new AdverdialogBean();
                         adverdialogBean.setType(videoType);
-                        if(isSuccess){
+                        if (isSuccess) {
                             adverdialogBean.setSuccess(true);
-                        }else{
+                        } else {
                             adverdialogBean.setSuccess(false);
                         }
                         EventBus.getDefault().post(adverdialogBean);
@@ -353,7 +356,7 @@ public class AdvertUtil implements TTAppDownloadListener {
             @Override
             @MainThread
             public void onError(int code, String message) {
-                MyLog.i("loadSplashAd onError "+code);
+                MyLog.i("loadSplashAd onError " + code);
             }
 
             @Override
@@ -407,7 +410,6 @@ public class AdvertUtil implements TTAppDownloadListener {
             }
         }, timeout);
     }
-
 
 
     private TTFullScreenVideoAd mttFullVideoAd;
@@ -479,6 +481,47 @@ public class AdvertUtil implements TTAppDownloadListener {
         });
     }
 
+
+    /**
+     * 设置广告的不喜欢, 注意：强烈建议设置该逻辑，如果不设置dislike处理逻辑，则模板广告中的 dislike区域不响应dislike事件。
+     *
+     * @param ad
+     * @param customStyle 是否自定义样式，true:样式自定义
+     */
+    private void bindDislike(TTNativeExpressAd ad, boolean customStyle) {
+        if (customStyle) {
+            //使用自定义样式
+            List<FilterWord> words = ad.getFilterWords();
+            if (words == null || words.isEmpty()) {
+                return;
+            }
+
+            final DislikeDialog dislikeDialog = new DislikeDialog(activity, words);
+            dislikeDialog.setOnDislikeItemClick(new DislikeDialog.OnDislikeItemClick() {
+                @Override
+                public void onItemClick(FilterWord filterWord) {
+
+                    //用户选择不喜欢原因后，移除广告展示
+                    viewGroup.removeView(view);
+                }
+            });
+            ad.setDislikeDialog(dislikeDialog);
+            return;
+        }
+        //使用默认模板中默认dislike弹出样式
+        ad.setDislikeCallback(activity, new TTAdDislike.DislikeInteractionCallback() {
+            @Override
+            public void onSelected(int position, String value) {
+                //用户选择不喜欢原因后，移除广告展示
+                viewGroup.removeView(view);
+            }
+
+            @Override
+            public void onCancel() {
+                TToast.show(activity, "点击取消 ");
+            }
+        });
+    }
 
 
 }
