@@ -122,7 +122,7 @@
 
         <activity
             android:name="com.dudu.huodai.MainActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTop">
             <!--   <intent-filter>
                    <action android:name="android.intent.action.MAIN" />
 

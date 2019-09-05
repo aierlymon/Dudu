@@ -12,6 +12,7 @@ import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
+import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
@@ -406,6 +407,78 @@ public class AdvertUtil implements TTAppDownloadListener {
             }
         }, timeout);
     }
+
+
+
+    private TTFullScreenVideoAd mttFullVideoAd;
+
+    public void loadFullVideo(TTAdNative mTTAdNative, String codeId, int width, int height, int orientataion) {
+        AdSlot adSlot = new AdSlot.Builder()
+                .setCodeId(codeId)
+                .setSupportDeepLink(true)
+                .setImageAcceptedSize(1080, 1920)
+                .setOrientation(orientataion)
+                .build();
+
+        mTTAdNative.loadFullScreenVideoAd(adSlot, new TTAdNative.FullScreenVideoAdListener() {
+
+            @Override
+            public void onError(int code, String message) {
+                TToast.show(activity, message);
+
+            }
+
+            @Override
+            public void onFullScreenVideoAdLoad(TTFullScreenVideoAd ad) {
+                TToast.show(activity, "FullVideoAd loaded");
+                MyLog.i("FullVideoAd loaded");
+                mttFullVideoAd = ad;
+                mttFullVideoAd.setFullScreenVideoAdInteractionListener(new TTFullScreenVideoAd.FullScreenVideoAdInteractionListener() {
+
+                    @Override
+                    public void onAdShow() {
+                        TToast.show(activity, "FullVideoAd show");
+                        MyLog.i("FullVideoAd show");
+                    }
+
+                    @Override
+                    public void onAdVideoBarClick() {
+                        TToast.show(activity, "FullVideoAd bar click");
+                    }
+
+                    @Override
+                    public void onAdClose() {
+                        TToast.show(activity, "FullVideoAd close");
+                        AdverdialogBean adverdialogBean = new AdverdialogBean();
+                        adverdialogBean.setType(videoType);
+                        adverdialogBean.setSuccess(isSuccess);
+                        EventBus.getDefault().post(adverdialogBean);
+                    }
+
+                    @Override
+                    public void onVideoComplete() {
+                        TToast.show(activity, "FullVideoAd complete");
+                    }
+
+                    @Override
+                    public void onSkippedVideo() {
+                        TToast.show(activity, "FullVideoAd skipped");
+
+                    }
+
+                });
+            }
+
+            @Override
+            public void onFullScreenVideoCached() {
+                TToast.show(activity, "FullVideoAd video cached");
+                MyLog.i("FullVideoAd video cached");
+                mttFullVideoAd.showFullScreenVideoAd(activity);
+
+            }
+        });
+    }
+
 
 
 }

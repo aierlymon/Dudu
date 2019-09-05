@@ -220,19 +220,44 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private boolean isCurrentRunningForeground = true;
 
-    private String advertId;
+
+
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        MyLog.i("调用了屏幕onStart");
+    protected void onRestart() {
+        super.onRestart();
+      //  isCurrentRunningForeground=isRunningForeground();
+        MyLog.i("startToAdvert 我进入了onRestart: 是否运行在前台: "+isCurrentRunningForeground+"  是否运行在后台: "+isRunBackground(this));
         if (!isCurrentRunningForeground) {
             isCurrentRunningForeground=true;
             //处理跳转到广告页逻辑
             startToAdvert(isScreenOn);
+            isCurrentRunningForeground=true;
         }
-
     }
+
+
+
+
+    public static boolean isRunBackground(Context context) {
+        ActivityManager activityManager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+                .getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.processName.equals(context.getPackageName())) {
+                if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
+                    // 表明程序在后台运行
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+
 
     public boolean isCurrentRunningForeground() {
         return isCurrentRunningForeground;
@@ -242,7 +267,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         isCurrentRunningForeground= isRunningForeground();
-        MyLog.i("onStop isRunningForeground(): "+isCurrentRunningForeground);
+        MyLog.i("startToAdvert onStop isRunningForeground(): "+isCurrentRunningForeground);
     }
 
     public boolean isRunningForeground() {

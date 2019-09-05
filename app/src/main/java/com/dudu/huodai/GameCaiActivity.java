@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
@@ -100,8 +101,10 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
         }
     }
 
+    private int count=0;
 
     private void judegeResult() {
+        count++;
         String str = ck1.getText().toString() + ck2.getText().toString() + ck3.getText().toString() + ck4.getText().toString();
         if (str.equals("大吉大利")) {
             GameWinDialog gameWinDialog = GameWinDialog.Builder(this)
@@ -115,6 +118,9 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                     .setOnCancelClickListener(new GameWinDialog.onCancelClickListener() {
                         @Override
                         public void onClick(View view) {
+
+                                full(true);
+
                             initCK();
                         }
                     })
@@ -148,6 +154,7 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
                     .setOnCancelClickListener(new GameFailDialog.onCancelClickListener() {
                         @Override
                         public void onClick(View view) {
+                            full(false);
                             initCK();
                         }
                     })
@@ -430,5 +437,17 @@ public class GameCaiActivity extends BaseTitleActivity<GameCaiImpl, GameCaiPrese
 
     }
 
+
+    //全屏视频
+    private void full(boolean isSuccess) {
+        if(count==5||count==9){
+            MyLog.i("进来了全屏加载");
+            AdvertUtil advertUtil = new AdvertUtil(gameBigParent, GameCaiActivity.this);
+            advertUtil.setVideoType(ApplicationPrams.GameCai);
+            float[] WH = Utils.getScreenWH(GameCaiActivity.this.getApplicationContext());
+            advertUtil.loadFullVideo(getmTTAdNative(), ApplicationPrams.public_game_cai_full_video, (int) WH[0], (int) WH[1], TTAdConstant.VERTICAL);
+        }
+
+    }
 
 }

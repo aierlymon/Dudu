@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.mvp.base.BaseTitleActivity;
@@ -63,6 +64,9 @@ public class GameSmashEggActivity extends BaseTitleActivity<GameSmashImpl, GameS
     @BindView(R.id.game_egg_parent)
     RelativeLayout gameEggParent;
 
+    private int count;
+
+
     @Override
     protected void initRequest() {
 
@@ -112,6 +116,7 @@ public class GameSmashEggActivity extends BaseTitleActivity<GameSmashImpl, GameS
 
     @Override
     protected void startToAdvert(boolean isScreenOn) {
+        MyLog.i("startToAdvert smash 我到了跳转加载也面对这里");
         Intent intent = new Intent(this, AdvertSplashActivity.class);
         if (isScreenOn) {
             intent.putExtra(ApplicationPrams.adverId, ApplicationPrams.public_sceenon_advertId);
@@ -160,6 +165,7 @@ public class GameSmashEggActivity extends BaseTitleActivity<GameSmashImpl, GameS
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void SmashEvent(GameSmashBean smashBean) {
+        count++;
         //弹窗
         GameWinDialog gameWinDialog = GameWinDialog.Builder(this)
                 .setMessage("恭喜您，奖励您")
@@ -171,6 +177,7 @@ public class GameSmashEggActivity extends BaseTitleActivity<GameSmashImpl, GameS
                     @Override
                     public void onClick(View view) {
                         gameSmashAdapter.notifyDataSetChanged();
+                        full(true);
                     }
                 })
                 .setOnConfirmClickListener(new GameWinDialog.onConfirmClickListener() {
@@ -272,6 +279,18 @@ public class GameSmashEggActivity extends BaseTitleActivity<GameSmashImpl, GameS
         if (eggfbBackAdvert != null && eggfbBackAdvert.getmTTAd() != null) {
             eggfbBackAdvert.getmTTAd().destroy();
         }
+    }
+
+    //全屏视频
+    private void full(boolean isSuccess) {
+        if(count==5||count==9){
+            MyLog.i("进来了全屏加载");
+            AdvertUtil advertUtil = new AdvertUtil(bottomParent, GameSmashEggActivity.this);
+            advertUtil.setVideoType(ApplicationPrams.GameGoldEgg);
+            float[] WH = Utils.getScreenWH(GameSmashEggActivity.this.getApplicationContext());
+            advertUtil.loadFullVideo(getmTTAdNative(), ApplicationPrams.public_game_gold_full_video, (int) WH[0], (int) WH[1], TTAdConstant.VERTICAL);
+        }
+
     }
 
 }

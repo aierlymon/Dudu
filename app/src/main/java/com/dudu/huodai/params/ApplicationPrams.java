@@ -59,4 +59,10 @@ public class ApplicationPrams {
     public static final String public_game_circle_back_dialog_bottom="928300208";//签到的激励视频
     public static final String public_game_gold_back_dialog_bottom="928300087";//签到额翻倍底部广告
     public static final String public_game_tree_back_dialog_bottom="928300329";//签到额翻倍底部广告
+
+
+    public static final String public_game_cai_full_video="928300535";//签到回归的底部广告
+    public static final String public_game_circle_full_video="928300595";//签到的激励视频
+    public static final String public_game_gold_full_video="928300885";//签到额翻倍底部广告
+    public static final String public_game_tree_full_video="928300218";//签到额翻倍底部广告
 }

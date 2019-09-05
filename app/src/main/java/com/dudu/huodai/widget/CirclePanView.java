@@ -21,6 +21,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.Nullable;
 
+import com.dudu.baselib.utils.MyLog;
 import com.dudu.huodai.R;
 
 import java.util.Arrays;
@@ -194,6 +195,7 @@ public class CirclePanView extends View {
             //     drawTexts(canvas, mStrings[i]);
             //4.绘制图片
             //     drawIcons(canvas, mBitmaps[i],i);
+            MyLog.i("角度值: "+  angles[i]);
             angles[i] = startAngle;
             startAngle += sweepAngle;
         }
@@ -317,7 +319,10 @@ public class CirclePanView extends View {
                 if (listener != null) {
 
                     position = Arrays.binarySearch(angles, rotateToPosition);
+                    MyLog.i(" rotateToPosition: "+rotateToPosition);
+                    MyLog.i(" rotateToPosition: "+rotateToPosition+"  mString pos: "+mStrings[Math.abs(position)]+"  pos: "+position);
                     listener.value(mStrings[Math.abs(position)]);
+
                 }
             }
 

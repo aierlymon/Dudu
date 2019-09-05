@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,12 +34,14 @@
             android:textSize="@dimen/x22"
             android:textStyle="bold" />
 
-        <View
+        <RelativeLayout
+            android:id="@+id/time_reward_parent"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y159"
             android:layout_below="@+id/tx_time_reward"
-            android:layout_margin="@dimen/double_left_right_marigin"
-            android:background="#0f0" />
+            android:layout_marginTop="@dimen/double_left_right_marigin"
+            android:layout_marginBottom="@dimen/double_left_right_marigin"
+            android:layout_marginRight="1px"/>
 
         <TextView
             android:id="@+id/tx_getit"
@@ -46,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/y75"
+            android:layout_marginBottom="@dimen/y68"
+            android:paddingRight="@dimen/x6"
             android:text="领"
             android:textColor="@color/dialog_time_reward"
             android:textSize="@dimen/x40"
@@ -60,6 +64,7 @@
         android:layout_height="@dimen/x26"
         android:layout_marginBottom="@dimen/left_right_marigin"
         android:background="@mipmap/close"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/dialog_parent"
         app:layout_constraintRight_toRightOf="@+id/dialog_parent" />
 

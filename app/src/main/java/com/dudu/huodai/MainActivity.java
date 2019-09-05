@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -345,8 +346,16 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
         return true;
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+        MyLog.i("startToAdvert mainActivity oncreate");
+    }
+
     @Override
     protected void startToAdvert(boolean isScreenOn) {
+        MyLog.i("startToAdvert mainActivity 我到了跳转加载也面对这里");
         Intent intent = new Intent(this, AdvertSplashActivity.class);
         if (isScreenOn) {
             intent.putExtra(ApplicationPrams.adverId, ApplicationPrams.public_sceenon_advertId);

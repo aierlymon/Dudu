@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,16 @@ public class TimeRewardDialog extends Dialog {
     private final onCancelClickListener ONCANCELCLICKLISTENER;
 
     private TextView tvMessage;
+    private RelativeLayout timerRewardParent;
+    private Button close;
+
+    public Button getClose() {
+        return close;
+    }
+
+    public RelativeLayout getTimerRewardParent() {
+        return timerRewardParent;
+    }
 
     public interface onConfirmClickListener {
         void onClick(View view);
@@ -73,7 +84,7 @@ public class TimeRewardDialog extends Dialog {
         getWindow().setAttributes(params);
 
 
-        Button close = (Button) findViewById(R.id.close);
+        close = (Button) findViewById(R.id.close);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +93,8 @@ public class TimeRewardDialog extends Dialog {
         });
 
         tvMessage = ((TextView) findViewById(R.id.tx_time_reward));
+        timerRewardParent = ((RelativeLayout) findViewById(R.id.time_reward_parent));
+
 
         if (!TextUtils.isEmpty(MESSAGE)) {
             tvMessage.setText(MESSAGE);
@@ -90,14 +103,14 @@ public class TimeRewardDialog extends Dialog {
         TextView tx_reward = (TextView) findViewById(R.id.tx_getit);
 
 
-        tx_reward.setOnClickListener(view -> {
+      /*  tx_reward.setOnClickListener(view -> {
             if (ONCONFIRMCLICKLISTENER == null) {
                 throw new NullPointerException("clicklistener is not null");
             } else {
                 ONCONFIRMCLICKLISTENER.onClick(view);
                 dismiss();
             }
-        });
+        });*/
       /*  notDoubling.setOnClickListener(view -> {
             if (ONCANCELCLICKLISTENER == null) {
                 throw new NullPointerException("clicklistener is not null");

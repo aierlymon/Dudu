@@ -105,43 +105,33 @@
             android:layout_marginRight="@dimen/left_right_marigin"
             android:layout_weight="3.5">
 
-            <RelativeLayout
-                android:id="@+id/guize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginStart="@dimen/x5"
-                    android:layout_marginLeft="@dimen/x5"
-                    android:layout_marginEnd="@dimen/x5"
-                    android:layout_marginRight="@dimen/x5"
-                    android:layout_marginBottom="@dimen/x5"
-                    android:gravity="center"
-                    android:text="活动规则"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_px12" />
-            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="活动规则"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_px12"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_parent"/>
 
             <RelativeLayout
                 android:id="@+id/bottom_parent"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginBottom="28dp"
                 android:background="@drawable/dudu_dialog_money_back"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHeight_percent="0.80"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/guize"
+                app:layout_constraintVertical_bias="0.5"
                 app:layout_constraintWidth_percent="1.0">
-
-
 
 
             </RelativeLayout>

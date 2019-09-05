@@ -8,13 +8,24 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
+import com.dudu.baselib.utils.MyLog;
 import com.dudu.baselib.utils.Utils;
 import com.dudu.huodai.R;
+import com.dudu.huodai.mvp.model.postbean.GameCircleBoxBean;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GameProgressBar extends View {
 
@@ -65,6 +76,12 @@ public class GameProgressBar extends View {
     private int rx = 40, ry = 40;
     private int commomIndex;
 
+    private Map<Integer,Boolean> map=new HashMap();
+    private Map<Integer,Boolean> hasDomap=new HashMap();
+
+    private int[] drawBitmaps = {R.mipmap.circlegame15, R.mipmap.circlegame30, R.mipmap.circlegame60, R.mipmap.circlegame75, R.mipmap.box_open};
+
+
     private void init() {
 
         // radis=getHeight()/4;
@@ -96,6 +113,11 @@ public class GameProgressBar extends View {
         textPaint.setAntiAlias(true);
         textPaint.setColor(Color.parseColor("#FFFFFF"));
         textPaint.setTextSize(textSize);
+
+        for(int i=0;i<drawBitmaps.length-1;i++){
+            map.put(i,false);
+            hasDomap.put(i,false);
+        }
     }
 
     private int textSize = 30;
@@ -124,11 +146,12 @@ public class GameProgressBar extends View {
         textPaint.setTextSize(textSize);
         canvas.drawText(getResources().getString(R.string.numberofdraws), 10, (radis * 1.8f) + commomIndex, textPaint);
         textPaint.setTextSize(textSize * 3 / 2);
-        String extra=getResources().getString(R.string.extradraw);
+        String extra = getResources().getString(R.string.extradraw);
         canvas.drawText(extra, getWidth() / 2 - textPaint.measureText(extra) / 2, radis - 10, textPaint);
     }
 
-    private int[] drawBitmaps = {R.mipmap.circlegame15, R.mipmap.circlegame30, R.mipmap.circlegame60, R.mipmap.circlegame75, R.mipmap.circlegame15};
+
+    private List<RectF> list=new ArrayList<>();
 
     private void drawCircle(Canvas canvas, int... index) {
         //其实这个4是按比例的，不过这里只用这样
@@ -141,18 +164,52 @@ public class GameProgressBar extends View {
 
 
             canvas.drawText(text, 0 + (getWidth() / max) * index[i] + radis / 3 - defalutPaint.measureText(text) / 2 + 10, (radis * 1.8f) + commomIndex, defalutPaint);
-
+            Bitmap bitmap=null;
             if (currentPorgress >= index[i]) {
                 RectF rectF2 = new RectF((float) (0 + (getWidth() / max) * index[i] + StrokeWidth / 2), 0 + StrokeWidth / 2f + commomIndex, radis + (getWidth() / max) * index[i] - StrokeWidth / 2f, radis - StrokeWidth / 2f + commomIndex);
                 canvas.drawArc(rectF2, 0, 360, true, selectCirclePaint);
                 rectF = new RectF(0 + (getWidth() / max) * index[i] + StrokeWidth, 0 + StrokeWidth + commomIndex, radis + (getWidth() / max) * index[i] - StrokeWidth, radis - StrokeWidth + commomIndex);
                 canvas.drawArc(rectF, 0, 360, true, selectCircleStrokePaint);
+                bitmap = resize(BitmapFactory.decodeResource(getResources(), drawBitmaps[4]), (int) (radis * 1.5), (int) (radis * 1.5));
+                canvas.drawBitmap(bitmap, 0 + (getWidth() / max) * index[i] + radis / 3 - bitmap.getWidth() / 3, commomIndex - (radis * 1.7f), null);
+                map.put(i,true);
             } else {
                 canvas.drawArc(rectF, 0, 360, true, defalutPaint);
+                bitmap = resize(BitmapFactory.decodeResource(getResources(), drawBitmaps[i]), (int) (radis * 1.5), (int) (radis * 1.5));
+                canvas.drawBitmap(bitmap, 0 + (getWidth() / max) * index[i] + radis / 3 - bitmap.getWidth() / 3, commomIndex - (radis * 1.7f), null);
             }
-            Bitmap bitmap = resize(BitmapFactory.decodeResource(getResources(), drawBitmaps[i]), (int) (radis * 1.5), (int) (radis * 1.5));
-            canvas.drawBitmap(bitmap, 0 + (getWidth() / max) * index[i] + radis / 3 - bitmap.getWidth() / 3, commomIndex - (radis * 1.7f), null);
+
+            if(list.size()<4){
+                list.add(new RectF(0 + (getWidth() / max) * index[i] + radis / 3 - bitmap.getWidth() / 3, commomIndex - (radis * 1.7f),  0 + (getWidth() / max) * index[i] + radis / 3 - bitmap.getWidth() / 3+radis * 1.5f, commomIndex - (radis * 1.7f)+radis * 1.5f));
+            }
+
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                MyLog.i("我触发了点击事件");
+                for(int i=0;i<list.size();i++){
+                    MyLog.i("宝箱: "+i+"   state: "+map.get(i)+"    坐标X: "+event.getX()+"  Y: "+event.getY()+"   容器: "+i+"   x: "+list.get(i).left+"  width: "+list.get(i).width()
+                    +"   y: "+list.get(i).top+"   height: "+list.get(i).height());
+                    if(map.get(i)&&list.get(i).contains(event.getX(),event.getY())){
+                        if(!hasDomap.get(i)){
+                            GameCircleBoxBean gameCircleBoxBean=new GameCircleBoxBean();
+                            gameCircleBoxBean.setType(i);
+                            EventBus.getDefault().post(gameCircleBoxBean);
+                        }
+                        break;
+                    }
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    public Map<Integer, Boolean> getHasDomap() {
+        return hasDomap;
     }
 
     private void refreshProgress(Canvas canvas, float x, float y) {
@@ -162,11 +219,11 @@ public class GameProgressBar extends View {
         }
         //画进度的进度条，方形的
 
-        float imageWidth = (((getWidth() - radis) / max) * currentPorgress)+radis;
-        if(imageWidth>getWidth() - radis){
-            imageWidth=getWidth() - radis;
+        float imageWidth = (((getWidth() - radis) / max) * currentPorgress) + radis;
+        if (imageWidth > getWidth() - radis) {
+            imageWidth = getWidth() - radis;
         }
-        RectF rectSelect = new RectF(radis, x, imageWidth ,y);
+        RectF rectSelect = new RectF(radis, x, imageWidth, y);
         canvas.drawRoundRect(rectSelect, rx, ry, selectBGPaint);
     }
 
