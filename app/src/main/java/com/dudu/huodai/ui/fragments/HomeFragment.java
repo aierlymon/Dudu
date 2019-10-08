@@ -107,8 +107,11 @@ public class HomeFragment extends BaseTitleFragment<HomeFrgViewImpl, HomeFrgPres
         mTTAdNative = ttAdManager.createAdNative(getContext().getApplicationContext());
         //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
         TTAdManagerHolder.get().requestPermissionIfNecessary(getContext());
+
+
+
         //初始化第三方库
-        requesetOtherAdvert();
+        //requesetOtherAdvert();
 
         setTitleText(R.string.home);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());

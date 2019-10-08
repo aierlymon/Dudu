@@ -117,7 +117,9 @@ public class AdvertSplashActivity extends BaseMvpActivity<AdvertiseImpl, Adverti
         //定时，AD_TIME_OUT时间到时执行，如果开屏广告没有加载则跳转到主页面
         mHandler.sendEmptyMessageDelayed(MSG_GO_MAIN, AD_TIME_OUT);
 
-        loadSplashAd();
+
+       // loadSplashAd();
+        goToMainActivity();
 
     }
 

@@ -158,7 +158,7 @@ public class MainActivity extends BaseMvpActivity<MainViewImpl, MainPrsenter> im
 
 
         //检查签到
-        alertRegister();
+        //alertRegister();
 
         //butterknife的绑定
         ButterKnife.bind(this);
